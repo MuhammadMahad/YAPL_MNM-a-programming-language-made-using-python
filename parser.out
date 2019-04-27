@@ -1,0 +1,74 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ANDAND
+    COMMA
+    EQUALEQUAL
+    FALSE
+    GE
+    GT
+    LBRACE
+    LE
+    LPAREN
+    LT
+    NOT
+    OROR
+    RBRACE
+    RPAREN
+    SEMICOLON
+    STRING
+    TRUE
+
+Grammar
+
+Rule 0     S' -> yapl_mnm
+Rule 1     yapl_mnm -> exp
+Rule 2     yapl_mnm -> assign_identifier
+Rule 3     yapl_mnm -> empty
+Rule 4     empty -> <empty>
+Rule 5     assign_identifier -> SUPPOSE IDENTIFIER EQUAL exp
+Rule 6     exp -> exp TIMES exp
+Rule 7     exp -> exp DIVIDE exp
+Rule 8     exp -> exp PLUS exp
+Rule 9     exp -> exp MINUS exp
+Rule 10    exp -> MINUS exp
+Rule 11    exp -> NUMBER
+Rule 12    exp -> IDENTIFIER
+
+Terminals, with rules where they appear
+
+ANDAND               : 
+COMMA                : 
+DIVIDE               : 7
+EQUAL                : 5
+EQUALEQUAL           : 
+FALSE                : 
+GE                   : 
+GT                   : 
+IDENTIFIER           : 5 12
+LBRACE               : 
+LE                   : 
+LPAREN               : 
+LT                   : 
+MINUS                : 9 10
+NOT                  : 
+NUMBER               : 11
+OROR                 : 
+PLUS                 : 8
+RBRACE               : 
+RPAREN               : 
+SEMICOLON            : 
+STRING               : 
+TIMES                : 6
+TRUE                 : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+SUPPOSE              : 5
+assign_identifier    : 2
+empty                : 3
+exp                  : 1 5 6 6 7 7 8 8 9 9 10
+yapl_mnm             : 0
+
