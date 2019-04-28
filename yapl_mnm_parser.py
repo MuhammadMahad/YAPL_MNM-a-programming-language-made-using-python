@@ -83,10 +83,28 @@ def p_yapl_mnm(p):
 
 def p_maybe(p):
     '''
-    conditional : MAYBE rel_exp exp
+    conditional : MAYBE rel_exp statements
     '''
+    p[0] = (p[1], p[2], p[3])
 
-def p_
+def p_or_maybe(p):
+    '''
+    conditional : MAYBE rel_exp statements OR statements
+    '''
+    p[0] = (p[1], p[4], p[2], p[3], p[5])
+
+def p_statements(p):
+    '''
+    statements :  LBRACE exps LBRACE
+    '''
+    p[0] = (p[2])
+
+def p_exps(p):
+    '''
+    exps : exp exps
+         | empty
+    '''
+    p[0] = (p[1], p[2])
 
 def p_intialize_snake(p):
     '''
