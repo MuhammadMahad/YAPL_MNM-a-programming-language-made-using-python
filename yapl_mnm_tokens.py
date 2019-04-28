@@ -3,30 +3,34 @@ import ply.lex as lex
 
 tokens = (
     # BASIC LANG STUFF
-    'ANDAND',  # &&
+
     'COMMA',  # ,
     'DIVIDE',  # /
     'EQUAL',  # =
-    'EQUALEQUAL',  # ==
-    'FALSE',  # false
-    'GE',  # >=
-    'GT',  # >
     'IDENTIFIER',  #
     'LBRACE',  # {
-    'LE',  # <=
     'LPAREN',  # (
-    'LT',  # <
     'MINUS',  # -
-    'NOT',  # !
     'NUMBER',  #
-    'OROR',  # ||
     'PLUS',  # +
     'RBRACE',  # }
     'RPAREN',  # )
     'SEMICOLON',  # ;
     'STRING',  #### Not used in this problem.
     'TIMES',  # *
-    'TRUE',  # true
+    'MOD', # %
+    'PLUSPLUS', # ++
+    'MINUSMINUS', # --
+    'LSQUAREPAREN',  # [
+    'RSQUAREPAREN',  # ]
+    'GE',  # >=
+    'GT',  # >
+    'LE',  # <=
+    'LT',  # <
+    'NOT',  # !
+    'EQUALEQUAL',  # ==
+    'OROR',  # ||
+    'ANDAND',  # &&
 
 )
 
@@ -41,7 +45,10 @@ reserved = {
     'machine': 'MACHINE',
     'fire': 'FIRE',
     'complex': 'COMPLEX',
-    'snake': 'SNAKE'
+    'snake': 'SNAKE',
+    'True': 'TRUE',
+    'False': 'FALSE',
+    'access': 'ACCESS',
 
 }
 
@@ -89,7 +96,6 @@ t_COMMA = r','
 t_DIVIDE = r'/'
 t_EQUALEQUAL = r'=='
 t_EQUAL = r'='
-t_FALSE = r'false'
 t_GE = r'>='
 t_GT = r'>'
 t_LBRACE = r'\{'
@@ -104,8 +110,11 @@ t_RBRACE = r'\}'
 t_RPAREN = r'\)'
 t_SEMICOLON = r';'
 t_TIMES = r'\*'
-t_TRUE = r'true'
-
+t_MOD = r'%'
+t_PLUSPLUS = r'\+\+'
+t_MINUSMINUS = r'--'
+t_LSQUAREPAREN = r'\['
+t_RSQUAREPAREN = r'\]'
 
 def t_IDENTIFIER(token):
     r'[a-zA-Z_][a-zA-Z_0-9]*'

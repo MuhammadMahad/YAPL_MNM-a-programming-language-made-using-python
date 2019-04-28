@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'yapl_mnmleftORORleftANDANDleftEQUALEQUALleftLTLEGTGEleftPLUSMINUSleftTIMESDIVIDErightUMINUSrightNOTANDAND COMMA DIVIDE EQUAL EQUALEQUAL FALSE GE GT IDENTIFIER LBRACE LE LPAREN LT MINUS NOT NUMBER OROR PLUS RBRACE RPAREN SEMICOLON STRING TIMES TRUE\n    yapl_mnm : exp\n             | assign_identifier\n             | empty\n\n    empty :\n    assign_identifier : IDENTIFIER EQUAL exp\n    \n    exp : exp TIMES exp\n        | exp DIVIDE exp\n        | exp PLUS exp\n        | exp MINUS exp\n    exp : MINUS exp %prec UMINUS\n    exp : NUMBER\n    \n    exp : IDENTIFIER\n    '
+_lr_signature = 'yapl_mnmleftORORleftANDANDleftEQUALEQUALleftLTLEGTGEleftLPARENRPARENleftPLUSMINUSleftTIMESDIVIDEMODrightUMINUSrightNOTACCESS ANDAND COMMA COMPLEX DIVIDE EQUAL EQUALEQUAL FALSE FIRE GE GT IDENTIFIER LBRACE LE LPAREN LSQUAREPAREN LT MACHINE MAYBE MINUS MINUSMINUS MOD NOT NUMBER OR OROR PLUS PLUSPLUS RBRACE RPAREN RSQUAREPAREN SEMICOLON SNAKE STRING SUPPOSE TIL TIMES TRUE UNTIL WORK\n    yapl_mnm : exp\n             | assign_identifier\n             | snake_list\n             | snake_list_access\n             | rel_exp\n             | empty\n    \n    snake_list : SNAKE IDENTIFIER EQUAL num_snake\n               | SNAKE IDENTIFIER EQUAL string_snake\n               | SNAKE IDENTIFIER EQUAL bool_snake\n    \n    snake_list_access : ACCESS IDENTIFIER NUMBER\n    \n    num_snake : num_snake COMMA NUMBER\n              | NUMBER\n              | empty\n    \n    string_snake : string_snake COMMA STRING\n                 | STRING\n                 | empty\n    \n    bool_snake : bool_snake COMMA bool\n               | bool\n    empty :\n    assign_identifier : SUPPOSE IDENTIFIER EQUAL exp\n    \n    assign_identifier : IDENTIFIER EQUAL exp\n    \n    exp : exp TIMES exp\n        | exp DIVIDE exp\n        | exp PLUS exp\n        | exp MINUS exp\n        | exp MOD exp\n    \n    exp : LPAREN exp RPAREN\n    \n    exp : exp PLUSPLUS\n        | exp MINUSMINUS\n    exp : MINUS exp %prec UMINUS\n    exp : NUMBER\n    \n    exp : STRING\n    \n    exp : bool\n    bool : TRUE\n         | FALSE\n    \n    exp : IDENTIFIER\n    \n\n    rel_exp : exp GE exp\n            | exp GT exp\n            | exp LE exp\n            | exp LT exp\n            | exp EQUALEQUAL exp\n\n    \n    rel_exp : exp NOT EQUAL exp\n    '
     
-_lr_action_items = {'MINUS':([0,2,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,],[5,11,5,-11,-12,5,5,5,5,-10,-12,5,-6,-7,-8,-9,11,]),'NUMBER':([0,5,8,9,10,11,14,],[6,6,6,6,6,6,6,]),'IDENTIFIER':([0,5,8,9,10,11,14,],[7,13,13,13,13,13,13,]),'$end':([0,1,2,3,4,6,7,12,13,15,16,17,18,19,],[-4,0,-1,-2,-3,-11,-12,-10,-12,-6,-7,-8,-9,-5,]),'TIMES':([2,6,7,12,13,15,16,17,18,19,],[8,-11,-12,-10,-12,-6,-7,8,8,8,]),'DIVIDE':([2,6,7,12,13,15,16,17,18,19,],[9,-11,-12,-10,-12,-6,-7,9,9,9,]),'PLUS':([2,6,7,12,13,15,16,17,18,19,],[10,-11,-12,-10,-12,-6,-7,-8,-9,10,]),'EQUAL':([7,],[14,]),}
+_lr_action_items = {'LPAREN':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,],[9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,]),'MINUS':([0,2,8,9,10,11,12,13,17,18,19,20,21,22,23,24,25,26,27,28,29,30,32,33,34,35,39,40,41,42,43,44,45,46,47,48,49,50,51,52,55,56,],[8,22,8,8,-31,-32,-33,-36,-34,-35,8,8,8,8,8,-28,-29,8,8,8,8,8,-30,-36,22,8,-22,-23,-24,-25,-26,22,22,22,22,22,8,-27,22,8,22,22,]),'NUMBER':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,38,49,52,53,64,],[10,10,10,10,10,10,10,10,10,10,10,10,10,10,54,10,10,60,67,]),'STRING':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,53,65,],[11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,62,68,]),'IDENTIFIER':([0,8,9,14,15,16,19,20,21,22,23,26,27,28,29,30,35,49,52,],[13,33,33,36,37,38,33,33,33,33,33,33,33,33,33,33,33,33,33,]),'SUPPOSE':([0,],[14,]),'SNAKE':([0,],[15,]),'ACCESS':([0,],[16,]),'$end':([0,1,2,3,4,5,6,7,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,44,45,46,47,48,50,51,53,54,55,56,57,58,59,60,61,62,63,67,68,69,],[-19,0,-1,-2,-3,-4,-5,-6,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-37,-38,-39,-40,-41,-27,-21,-19,-10,-42,-20,-7,-8,-9,-12,-13,-15,-18,-11,-14,-17,]),'TRUE':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,53,66,],[17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,]),'FALSE':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,53,66,],[18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,]),'TIMES':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[19,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,19,-22,-23,19,19,-26,19,19,19,19,19,-27,19,19,19,]),'DIVIDE':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[20,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,20,-22,-23,20,20,-26,20,20,20,20,20,-27,20,20,20,]),'PLUS':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[21,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,21,-22,-23,-24,-25,-26,21,21,21,21,21,-27,21,21,21,]),'MOD':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[23,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,23,-22,-23,23,23,-26,23,23,23,23,23,-27,23,23,23,]),'PLUSPLUS':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[24,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,24,-22,-23,-24,-25,-26,24,24,24,24,24,-27,24,24,24,]),'MINUSMINUS':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[25,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,25,-22,-23,-24,-25,-26,25,25,25,25,25,-27,25,25,25,]),'GE':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[26,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'GT':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[27,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'LE':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[28,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'LT':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[29,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'EQUALEQUAL':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[30,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'NOT':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[31,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'RPAREN':([10,11,12,17,18,24,25,32,33,34,39,40,41,42,43,50,],[-31,-32,-33,-34,-35,-28,-29,-30,-36,50,-22,-23,-24,-25,-26,-27,]),'EQUAL':([13,31,36,37,],[35,49,52,53,]),'COMMA':([17,18,53,57,58,59,60,61,62,63,67,68,69,],[-34,-35,-19,64,65,66,-12,-13,-15,-18,-11,-14,-17,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'yapl_mnm':([0,],[1,]),'exp':([0,5,8,9,10,11,14,],[2,12,15,16,17,18,19,]),'assign_identifier':([0,],[3,]),'empty':([0,],[4,]),}
+_lr_goto_items = {'yapl_mnm':([0,],[1,]),'exp':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,],[2,32,34,39,40,41,42,43,44,45,46,47,48,51,55,56,]),'assign_identifier':([0,],[3,]),'snake_list':([0,],[4,]),'snake_list_access':([0,],[5,]),'rel_exp':([0,],[6,]),'empty':([0,53,],[7,61,]),'bool':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,53,66,],[12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,63,69,]),'num_snake':([53,],[57,]),'string_snake':([53,],[58,]),'bool_snake':([53,],[59,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,16 +27,46 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> yapl_mnm","S'",1,None,None,None),
-  ('yapl_mnm -> exp','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',49),
-  ('yapl_mnm -> assign_identifier','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',50),
-  ('yapl_mnm -> empty','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',51),
-  ('empty -> <empty>','empty',0,'p_empty','yapl_mnm_parser.py',57),
-  ('assign_identifier -> IDENTIFIER EQUAL exp','assign_identifier',3,'p_assign_identifier','yapl_mnm_parser.py',64),
-  ('exp -> exp TIMES exp','exp',3,'p_exp','yapl_mnm_parser.py',70),
-  ('exp -> exp DIVIDE exp','exp',3,'p_exp','yapl_mnm_parser.py',71),
-  ('exp -> exp PLUS exp','exp',3,'p_exp','yapl_mnm_parser.py',72),
-  ('exp -> exp MINUS exp','exp',3,'p_exp','yapl_mnm_parser.py',73),
-  ('exp -> MINUS exp','exp',2,'p_exp_uminus','yapl_mnm_parser.py',78),
-  ('exp -> NUMBER','exp',1,'p_exp_number','yapl_mnm_parser.py',83),
-  ('exp -> IDENTIFIER','exp',1,'p_exp_identifier','yapl_mnm_parser.py',89),
+  ('yapl_mnm -> exp','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',74),
+  ('yapl_mnm -> assign_identifier','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',75),
+  ('yapl_mnm -> snake_list','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',76),
+  ('yapl_mnm -> snake_list_access','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',77),
+  ('yapl_mnm -> rel_exp','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',78),
+  ('yapl_mnm -> empty','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',79),
+  ('snake_list -> SNAKE IDENTIFIER EQUAL num_snake','snake_list',4,'p_intialize_snake','yapl_mnm_parser.py',86),
+  ('snake_list -> SNAKE IDENTIFIER EQUAL string_snake','snake_list',4,'p_intialize_snake','yapl_mnm_parser.py',87),
+  ('snake_list -> SNAKE IDENTIFIER EQUAL bool_snake','snake_list',4,'p_intialize_snake','yapl_mnm_parser.py',88),
+  ('snake_list_access -> ACCESS IDENTIFIER NUMBER','snake_list_access',3,'p_access_snake','yapl_mnm_parser.py',94),
+  ('num_snake -> num_snake COMMA NUMBER','num_snake',3,'p_num_snake','yapl_mnm_parser.py',100),
+  ('num_snake -> NUMBER','num_snake',1,'p_num_snake','yapl_mnm_parser.py',101),
+  ('num_snake -> empty','num_snake',1,'p_num_snake','yapl_mnm_parser.py',102),
+  ('string_snake -> string_snake COMMA STRING','string_snake',3,'p_string_snake','yapl_mnm_parser.py',113),
+  ('string_snake -> STRING','string_snake',1,'p_string_snake','yapl_mnm_parser.py',114),
+  ('string_snake -> empty','string_snake',1,'p_string_snake','yapl_mnm_parser.py',115),
+  ('bool_snake -> bool_snake COMMA bool','bool_snake',3,'p_bool_snake','yapl_mnm_parser.py',125),
+  ('bool_snake -> bool','bool_snake',1,'p_bool_snake','yapl_mnm_parser.py',126),
+  ('empty -> <empty>','empty',0,'p_empty','yapl_mnm_parser.py',135),
+  ('assign_identifier -> SUPPOSE IDENTIFIER EQUAL exp','assign_identifier',4,'p_initialize_identifier','yapl_mnm_parser.py',141),
+  ('assign_identifier -> IDENTIFIER EQUAL exp','assign_identifier',3,'p_assign_identifier','yapl_mnm_parser.py',148),
+  ('exp -> exp TIMES exp','exp',3,'p_exp','yapl_mnm_parser.py',159),
+  ('exp -> exp DIVIDE exp','exp',3,'p_exp','yapl_mnm_parser.py',160),
+  ('exp -> exp PLUS exp','exp',3,'p_exp','yapl_mnm_parser.py',161),
+  ('exp -> exp MINUS exp','exp',3,'p_exp','yapl_mnm_parser.py',162),
+  ('exp -> exp MOD exp','exp',3,'p_exp','yapl_mnm_parser.py',163),
+  ('exp -> LPAREN exp RPAREN','exp',3,'p_parentheses','yapl_mnm_parser.py',169),
+  ('exp -> exp PLUSPLUS','exp',2,'p_exp_increment_decrement','yapl_mnm_parser.py',175),
+  ('exp -> exp MINUSMINUS','exp',2,'p_exp_increment_decrement','yapl_mnm_parser.py',176),
+  ('exp -> MINUS exp','exp',2,'p_exp_uminus','yapl_mnm_parser.py',181),
+  ('exp -> NUMBER','exp',1,'p_exp_number','yapl_mnm_parser.py',187),
+  ('exp -> STRING','exp',1,'p_exp_string','yapl_mnm_parser.py',194),
+  ('exp -> bool','exp',1,'p_exp_bool','yapl_mnm_parser.py',201),
+  ('bool -> TRUE','bool',1,'p_exp_bool','yapl_mnm_parser.py',202),
+  ('bool -> FALSE','bool',1,'p_exp_bool','yapl_mnm_parser.py',203),
+  ('exp -> IDENTIFIER','exp',1,'p_exp_identifier','yapl_mnm_parser.py',209),
+  ('rel_exp -> exp GE exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',216),
+  ('rel_exp -> exp GT exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',217),
+  ('rel_exp -> exp LE exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',218),
+  ('rel_exp -> exp LT exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',219),
+  ('rel_exp -> exp EQUALEQUAL exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',220),
+  ('rel_exp -> exp NOT EQUAL exp','rel_exp',4,'p_rel_exp_not_equal','yapl_mnm_parser.py',228),
 ]
