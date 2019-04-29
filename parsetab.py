@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'yapl_mnmleftORORleftANDANDleftEQUALEQUALleftLTLEGTGEleftLPARENRPARENleftPLUSMINUSleftTIMESDIVIDEMODrightUMINUSrightNOTACCESS ANDAND COMMA COMPLEX DIVIDE EQUAL EQUALEQUAL FALSE FIRE GE GT IDENTIFIER LBRACE LE LPAREN LSQUAREPAREN LT MACHINE MAYBE MINUS MINUSMINUS MOD NOT NUMBER OR OROR PLUS PLUSPLUS RBRACE RPAREN RSQUAREPAREN SEMICOLON SNAKE STRING SUPPOSE TIL TIMES TRUE UNTIL WORK\n    yapl_mnm : exp\n             | assign_identifier\n             | snake_list\n             | snake_list_access\n             | rel_exp\n             | empty\n    \n    snake_list : SNAKE IDENTIFIER EQUAL num_snake\n               | SNAKE IDENTIFIER EQUAL string_snake\n               | SNAKE IDENTIFIER EQUAL bool_snake\n    \n    snake_list_access : ACCESS IDENTIFIER NUMBER\n    \n    num_snake : num_snake COMMA NUMBER\n              | NUMBER\n              | empty\n    \n    string_snake : string_snake COMMA STRING\n                 | STRING\n                 | empty\n    \n    bool_snake : bool_snake COMMA bool\n               | bool\n    empty :\n    assign_identifier : SUPPOSE IDENTIFIER EQUAL exp\n    \n    assign_identifier : IDENTIFIER EQUAL exp\n    \n    exp : exp TIMES exp\n        | exp DIVIDE exp\n        | exp PLUS exp\n        | exp MINUS exp\n        | exp MOD exp\n    \n    exp : LPAREN exp RPAREN\n    \n    exp : exp PLUSPLUS\n        | exp MINUSMINUS\n    exp : MINUS exp %prec UMINUS\n    exp : NUMBER\n    \n    exp : STRING\n    \n    exp : bool\n    bool : TRUE\n         | FALSE\n    \n    exp : IDENTIFIER\n    \n\n    rel_exp : exp GE exp\n            | exp GT exp\n            | exp LE exp\n            | exp LT exp\n            | exp EQUALEQUAL exp\n\n    \n    rel_exp : exp NOT EQUAL exp\n    '
+_lr_signature = 'yapl_mnmleftORORleftANDANDleftEQUALEQUALleftLTLEGTGEleftLPARENRPARENleftPLUSMINUSleftTIMESDIVIDEMODrightUMINUSrightNOTACCESS ANDAND COMMA COMPLEX DIVIDE EQUAL EQUALEQUAL EXPS FALSE FIRE G1 GE GT IDENTIFIER LBRACE LE LPAREN LSQUAREPAREN LT MACHINE MAYBE MINUS MINUSMINUS MOD NOT NUMBER OR OROR PLUS PLUSPLUS RBRACE RPAREN RSQUAREPAREN SEMICOLON SNAKE STRING SUPPOSE TIL TIMES TRUE UNTIL WORK\n    yapl_mnm : exp\n             | assign_identifier\n             | snake_list\n             | snake_list_access\n             | rel_exp\n             | conditional\n             | empty\n    \n    statement : exp\n              | assign_identifier\n              | snake_list\n              | snake_list_access\n              | rel_exp\n              | conditional\n              | statement\n              | empty\n        \n    exp : LPAREN exp RPAREN\n    \n    conditional : MAYBE rel_exp statement\n    \n    conditional : MAYBE rel_exp statement OR statement\n    \n    snake_list : SNAKE IDENTIFIER EQUAL num_snake\n               | SNAKE IDENTIFIER EQUAL string_snake\n               | SNAKE IDENTIFIER EQUAL bool_snake\n    \n    snake_list_access : ACCESS IDENTIFIER NUMBER\n    \n    num_snake : num_snake COMMA NUMBER\n              | NUMBER\n              | empty\n    \n    string_snake : string_snake COMMA STRING\n                 | STRING\n                 | empty\n    \n    bool_snake : bool_snake COMMA bool\n               | bool\n    empty :\n    assign_identifier : SUPPOSE IDENTIFIER EQUAL exp\n    \n    assign_identifier : IDENTIFIER EQUAL exp\n    \n    exp : exp TIMES exp\n        | exp DIVIDE exp\n        | exp PLUS exp\n        | exp MINUS exp\n        | exp MOD exp\n    \n    exp : exp PLUSPLUS\n        | exp MINUSMINUS\n    exp : MINUS exp %prec UMINUS\n    exp : NUMBER\n    \n    exp : STRING\n    \n    exp : bool\n    bool : TRUE\n         | FALSE\n    \n    exp : IDENTIFIER\n    \n\n    rel_exp : exp GE exp\n            | exp GT exp\n            | exp LE exp\n            | exp LT exp\n            | exp EQUALEQUAL exp\n\n    \n    rel_exp : exp NOT EQUAL exp\n    '
     
-_lr_action_items = {'LPAREN':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,],[9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,]),'MINUS':([0,2,8,9,10,11,12,13,17,18,19,20,21,22,23,24,25,26,27,28,29,30,32,33,34,35,39,40,41,42,43,44,45,46,47,48,49,50,51,52,55,56,],[8,22,8,8,-31,-32,-33,-36,-34,-35,8,8,8,8,8,-28,-29,8,8,8,8,8,-30,-36,22,8,-22,-23,-24,-25,-26,22,22,22,22,22,8,-27,22,8,22,22,]),'NUMBER':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,38,49,52,53,64,],[10,10,10,10,10,10,10,10,10,10,10,10,10,10,54,10,10,60,67,]),'STRING':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,53,65,],[11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,62,68,]),'IDENTIFIER':([0,8,9,14,15,16,19,20,21,22,23,26,27,28,29,30,35,49,52,],[13,33,33,36,37,38,33,33,33,33,33,33,33,33,33,33,33,33,33,]),'SUPPOSE':([0,],[14,]),'SNAKE':([0,],[15,]),'ACCESS':([0,],[16,]),'$end':([0,1,2,3,4,5,6,7,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,44,45,46,47,48,50,51,53,54,55,56,57,58,59,60,61,62,63,67,68,69,],[-19,0,-1,-2,-3,-4,-5,-6,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-37,-38,-39,-40,-41,-27,-21,-19,-10,-42,-20,-7,-8,-9,-12,-13,-15,-18,-11,-14,-17,]),'TRUE':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,53,66,],[17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,]),'FALSE':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,53,66,],[18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,]),'TIMES':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[19,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,19,-22,-23,19,19,-26,19,19,19,19,19,-27,19,19,19,]),'DIVIDE':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[20,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,20,-22,-23,20,20,-26,20,20,20,20,20,-27,20,20,20,]),'PLUS':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[21,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,21,-22,-23,-24,-25,-26,21,21,21,21,21,-27,21,21,21,]),'MOD':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[23,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,23,-22,-23,23,23,-26,23,23,23,23,23,-27,23,23,23,]),'PLUSPLUS':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[24,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,24,-22,-23,-24,-25,-26,24,24,24,24,24,-27,24,24,24,]),'MINUSMINUS':([2,10,11,12,13,17,18,24,25,32,33,34,39,40,41,42,43,44,45,46,47,48,50,51,55,56,],[25,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,25,-22,-23,-24,-25,-26,25,25,25,25,25,-27,25,25,25,]),'GE':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[26,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'GT':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[27,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'LE':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[28,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'LT':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[29,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'EQUALEQUAL':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[30,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'NOT':([2,10,11,12,13,17,18,24,25,32,33,39,40,41,42,43,50,],[31,-31,-32,-33,-36,-34,-35,-28,-29,-30,-36,-22,-23,-24,-25,-26,-27,]),'RPAREN':([10,11,12,17,18,24,25,32,33,34,39,40,41,42,43,50,],[-31,-32,-33,-34,-35,-28,-29,-30,-36,50,-22,-23,-24,-25,-26,-27,]),'EQUAL':([13,31,36,37,],[35,49,52,53,]),'COMMA':([17,18,53,57,58,59,60,61,62,63,67,68,69,],[-34,-35,-19,64,65,66,-12,-13,-15,-18,-11,-14,-17,]),}
+_lr_action_items = {'LPAREN':([0,9,10,11,12,13,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,35,36,37,41,43,44,45,46,47,48,49,50,51,52,53,54,56,67,76,],[9,9,9,-42,-43,-44,9,-45,-46,9,9,9,9,9,-39,-40,9,9,9,9,9,-47,-41,9,9,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,9,-16,9,-53,9,]),'MINUS':([0,2,9,10,11,12,13,14,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,35,36,37,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,61,67,68,76,],[10,24,10,10,-42,-43,-44,-47,10,-45,-46,10,10,10,10,10,-39,-40,10,10,10,10,10,24,-47,-41,10,10,24,-34,-35,-36,-37,-38,24,24,24,24,24,10,-16,24,10,24,24,24,10,]),'NUMBER':([0,9,10,11,12,13,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,35,36,37,40,41,43,44,45,46,47,48,49,50,51,52,53,54,56,57,67,76,77,],[11,11,11,-42,-43,-44,11,-45,-46,11,11,11,11,11,-39,-40,11,11,11,11,11,-47,-41,11,58,11,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,11,-16,11,72,-53,11,81,]),'STRING':([0,9,10,11,12,13,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,35,36,37,41,43,44,45,46,47,48,49,50,51,52,53,54,56,57,67,76,78,],[12,12,12,-42,-43,-44,12,-45,-46,12,12,12,12,12,-39,-40,12,12,12,12,12,-47,-41,12,12,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,12,-16,12,74,-53,12,82,]),'IDENTIFIER':([0,9,10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,35,36,37,41,43,44,45,46,47,48,49,50,51,52,53,54,56,67,76,],[14,35,35,-42,-43,-44,38,39,40,35,-45,-46,35,35,35,35,35,-39,-40,35,35,35,35,35,-47,-41,35,14,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,35,-16,35,-53,14,]),'SUPPOSE':([0,11,12,13,19,20,26,27,35,36,41,43,44,45,46,47,48,49,50,51,52,54,67,76,],[15,-42,-43,-44,-45,-46,-39,-40,-47,-41,15,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,-16,-53,15,]),'SNAKE':([0,11,12,13,19,20,26,27,35,36,41,43,44,45,46,47,48,49,50,51,52,54,67,76,],[16,-42,-43,-44,-45,-46,-39,-40,-47,-41,16,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,-16,-53,16,]),'ACCESS':([0,11,12,13,19,20,26,27,35,36,41,43,44,45,46,47,48,49,50,51,52,54,67,76,],[17,-42,-43,-44,-45,-46,-39,-40,-47,-41,17,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,-16,-53,17,]),'MAYBE':([0,11,12,13,19,20,26,27,35,36,41,43,44,45,46,47,48,49,50,51,52,54,67,76,],[18,-42,-43,-44,-45,-46,-39,-40,-47,-41,18,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,-16,-53,18,]),'$end':([0,1,2,3,4,5,6,7,8,11,12,13,14,19,20,26,27,35,36,41,43,44,45,46,47,48,49,50,51,52,54,55,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,80,81,82,83,],[-31,0,-1,-2,-3,-4,-5,-6,-7,-42,-43,-44,-47,-45,-46,-39,-40,-47,-41,-31,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,-16,-33,-31,-22,-12,-14,-8,-9,-10,-11,-13,-15,-53,-32,-19,-20,-21,-24,-25,-27,-30,-31,-14,-23,-26,-29,]),'TRUE':([0,9,10,11,12,13,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,35,36,37,41,43,44,45,46,47,48,49,50,51,52,53,54,56,57,67,76,79,],[19,19,19,-42,-43,-44,19,-45,-46,19,19,19,19,19,-39,-40,19,19,19,19,19,-47,-41,19,19,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,19,-16,19,19,-53,19,19,]),'FALSE':([0,9,10,11,12,13,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,35,36,37,41,43,44,45,46,47,48,49,50,51,52,53,54,56,57,67,76,79,],[20,20,20,-42,-43,-44,20,-45,-46,20,20,20,20,20,-39,-40,20,20,20,20,20,-47,-41,20,20,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,20,-16,20,20,-53,20,20,]),'TIMES':([2,11,12,13,14,19,20,26,27,34,35,36,42,43,44,45,46,47,48,49,50,51,52,54,55,61,67,68,],[21,-42,-43,-44,-47,-45,-46,-39,-40,21,-47,-41,21,-34,-35,21,21,-38,21,21,21,21,21,-16,21,21,21,21,]),'DIVIDE':([2,11,12,13,14,19,20,26,27,34,35,36,42,43,44,45,46,47,48,49,50,51,52,54,55,61,67,68,],[22,-42,-43,-44,-47,-45,-46,-39,-40,22,-47,-41,22,-34,-35,22,22,-38,22,22,22,22,22,-16,22,22,22,22,]),'PLUS':([2,11,12,13,14,19,20,26,27,34,35,36,42,43,44,45,46,47,48,49,50,51,52,54,55,61,67,68,],[23,-42,-43,-44,-47,-45,-46,-39,-40,23,-47,-41,23,-34,-35,-36,-37,-38,23,23,23,23,23,-16,23,23,23,23,]),'MOD':([2,11,12,13,14,19,20,26,27,34,35,36,42,43,44,45,46,47,48,49,50,51,52,54,55,61,67,68,],[25,-42,-43,-44,-47,-45,-46,-39,-40,25,-47,-41,25,-34,-35,25,25,-38,25,25,25,25,25,-16,25,25,25,25,]),'PLUSPLUS':([2,11,12,13,14,19,20,26,27,34,35,36,42,43,44,45,46,47,48,49,50,51,52,54,55,61,67,68,],[26,-42,-43,-44,-47,-45,-46,-39,-40,26,-47,-41,26,-34,-35,-36,-37,-38,26,26,26,26,26,-16,26,26,26,26,]),'MINUSMINUS':([2,11,12,13,14,19,20,26,27,34,35,36,42,43,44,45,46,47,48,49,50,51,52,54,55,61,67,68,],[27,-42,-43,-44,-47,-45,-46,-39,-40,27,-47,-41,27,-34,-35,-36,-37,-38,27,27,27,27,27,-16,27,27,27,27,]),'GE':([2,11,12,13,14,19,20,26,27,35,36,42,43,44,45,46,47,54,61,],[28,-42,-43,-44,-47,-45,-46,-39,-40,-47,-41,28,-34,-35,-36,-37,-38,-16,28,]),'GT':([2,11,12,13,14,19,20,26,27,35,36,42,43,44,45,46,47,54,61,],[29,-42,-43,-44,-47,-45,-46,-39,-40,-47,-41,29,-34,-35,-36,-37,-38,-16,29,]),'LE':([2,11,12,13,14,19,20,26,27,35,36,42,43,44,45,46,47,54,61,],[30,-42,-43,-44,-47,-45,-46,-39,-40,-47,-41,30,-34,-35,-36,-37,-38,-16,30,]),'LT':([2,11,12,13,14,19,20,26,27,35,36,42,43,44,45,46,47,54,61,],[31,-42,-43,-44,-47,-45,-46,-39,-40,-47,-41,31,-34,-35,-36,-37,-38,-16,31,]),'EQUALEQUAL':([2,11,12,13,14,19,20,26,27,35,36,42,43,44,45,46,47,54,61,],[32,-42,-43,-44,-47,-45,-46,-39,-40,-47,-41,32,-34,-35,-36,-37,-38,-16,32,]),'NOT':([2,11,12,13,14,19,20,26,27,35,36,42,43,44,45,46,47,54,61,],[33,-42,-43,-44,-47,-45,-46,-39,-40,-47,-41,33,-34,-35,-36,-37,-38,-16,33,]),'RPAREN':([11,12,13,19,20,26,27,34,35,36,43,44,45,46,47,54,],[-42,-43,-44,-45,-46,-39,-40,54,-47,-41,-34,-35,-36,-37,-38,-16,]),'OR':([11,12,13,14,19,20,26,27,35,36,41,43,44,45,46,47,48,49,50,51,52,54,55,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,80,81,82,83,],[-42,-43,-44,-47,-45,-46,-39,-40,-47,-41,-31,-34,-35,-36,-37,-38,-48,-49,-50,-51,-52,-16,-33,-31,-22,-12,76,-8,-9,-10,-11,-13,-15,-53,-32,-19,-20,-21,-24,-25,-27,-30,-31,-14,-23,-26,-29,]),'EQUAL':([14,33,38,39,],[37,53,56,57,]),'COMMA':([19,20,57,69,70,71,72,73,74,75,81,82,83,],[-45,-46,-31,77,78,79,-24,-25,-27,-30,-23,-26,-29,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'yapl_mnm':([0,],[1,]),'exp':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,],[2,32,34,39,40,41,42,43,44,45,46,47,48,51,55,56,]),'assign_identifier':([0,],[3,]),'snake_list':([0,],[4,]),'snake_list_access':([0,],[5,]),'rel_exp':([0,],[6,]),'empty':([0,53,],[7,61,]),'bool':([0,8,9,19,20,21,22,23,26,27,28,29,30,35,49,52,53,66,],[12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,63,69,]),'num_snake':([53,],[57,]),'string_snake':([53,],[58,]),'bool_snake':([53,],[59,]),}
+_lr_goto_items = {'yapl_mnm':([0,],[1,]),'exp':([0,9,10,18,21,22,23,24,25,28,29,30,31,32,37,41,53,56,76,],[2,34,36,42,43,44,45,46,47,48,49,50,51,52,55,61,67,68,61,]),'assign_identifier':([0,41,76,],[3,62,62,]),'snake_list':([0,41,76,],[4,63,63,]),'snake_list_access':([0,41,76,],[5,64,64,]),'rel_exp':([0,18,41,76,],[6,41,59,59,]),'conditional':([0,41,76,],[7,65,65,]),'empty':([0,41,57,76,],[8,66,73,66,]),'bool':([0,9,10,18,21,22,23,24,25,28,29,30,31,32,37,41,53,56,57,76,79,],[13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,75,13,83,]),'statement':([41,76,],[60,80,]),'num_snake':([57,],[69,]),'string_snake':([57,],[70,]),'bool_snake':([57,],[71,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,46 +27,57 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> yapl_mnm","S'",1,None,None,None),
-  ('yapl_mnm -> exp','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',74),
-  ('yapl_mnm -> assign_identifier','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',75),
-  ('yapl_mnm -> snake_list','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',76),
-  ('yapl_mnm -> snake_list_access','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',77),
-  ('yapl_mnm -> rel_exp','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',78),
-  ('yapl_mnm -> empty','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',79),
-  ('snake_list -> SNAKE IDENTIFIER EQUAL num_snake','snake_list',4,'p_intialize_snake','yapl_mnm_parser.py',86),
-  ('snake_list -> SNAKE IDENTIFIER EQUAL string_snake','snake_list',4,'p_intialize_snake','yapl_mnm_parser.py',87),
-  ('snake_list -> SNAKE IDENTIFIER EQUAL bool_snake','snake_list',4,'p_intialize_snake','yapl_mnm_parser.py',88),
-  ('snake_list_access -> ACCESS IDENTIFIER NUMBER','snake_list_access',3,'p_access_snake','yapl_mnm_parser.py',94),
-  ('num_snake -> num_snake COMMA NUMBER','num_snake',3,'p_num_snake','yapl_mnm_parser.py',100),
-  ('num_snake -> NUMBER','num_snake',1,'p_num_snake','yapl_mnm_parser.py',101),
-  ('num_snake -> empty','num_snake',1,'p_num_snake','yapl_mnm_parser.py',102),
-  ('string_snake -> string_snake COMMA STRING','string_snake',3,'p_string_snake','yapl_mnm_parser.py',113),
-  ('string_snake -> STRING','string_snake',1,'p_string_snake','yapl_mnm_parser.py',114),
-  ('string_snake -> empty','string_snake',1,'p_string_snake','yapl_mnm_parser.py',115),
-  ('bool_snake -> bool_snake COMMA bool','bool_snake',3,'p_bool_snake','yapl_mnm_parser.py',125),
-  ('bool_snake -> bool','bool_snake',1,'p_bool_snake','yapl_mnm_parser.py',126),
-  ('empty -> <empty>','empty',0,'p_empty','yapl_mnm_parser.py',135),
-  ('assign_identifier -> SUPPOSE IDENTIFIER EQUAL exp','assign_identifier',4,'p_initialize_identifier','yapl_mnm_parser.py',141),
-  ('assign_identifier -> IDENTIFIER EQUAL exp','assign_identifier',3,'p_assign_identifier','yapl_mnm_parser.py',148),
-  ('exp -> exp TIMES exp','exp',3,'p_exp','yapl_mnm_parser.py',159),
-  ('exp -> exp DIVIDE exp','exp',3,'p_exp','yapl_mnm_parser.py',160),
-  ('exp -> exp PLUS exp','exp',3,'p_exp','yapl_mnm_parser.py',161),
-  ('exp -> exp MINUS exp','exp',3,'p_exp','yapl_mnm_parser.py',162),
-  ('exp -> exp MOD exp','exp',3,'p_exp','yapl_mnm_parser.py',163),
-  ('exp -> LPAREN exp RPAREN','exp',3,'p_parentheses','yapl_mnm_parser.py',169),
-  ('exp -> exp PLUSPLUS','exp',2,'p_exp_increment_decrement','yapl_mnm_parser.py',175),
-  ('exp -> exp MINUSMINUS','exp',2,'p_exp_increment_decrement','yapl_mnm_parser.py',176),
-  ('exp -> MINUS exp','exp',2,'p_exp_uminus','yapl_mnm_parser.py',181),
-  ('exp -> NUMBER','exp',1,'p_exp_number','yapl_mnm_parser.py',187),
-  ('exp -> STRING','exp',1,'p_exp_string','yapl_mnm_parser.py',194),
-  ('exp -> bool','exp',1,'p_exp_bool','yapl_mnm_parser.py',201),
-  ('bool -> TRUE','bool',1,'p_exp_bool','yapl_mnm_parser.py',202),
-  ('bool -> FALSE','bool',1,'p_exp_bool','yapl_mnm_parser.py',203),
-  ('exp -> IDENTIFIER','exp',1,'p_exp_identifier','yapl_mnm_parser.py',209),
-  ('rel_exp -> exp GE exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',216),
-  ('rel_exp -> exp GT exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',217),
-  ('rel_exp -> exp LE exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',218),
-  ('rel_exp -> exp LT exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',219),
-  ('rel_exp -> exp EQUALEQUAL exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',220),
-  ('rel_exp -> exp NOT EQUAL exp','rel_exp',4,'p_rel_exp_not_equal','yapl_mnm_parser.py',228),
+  ('yapl_mnm -> exp','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',78),
+  ('yapl_mnm -> assign_identifier','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',79),
+  ('yapl_mnm -> snake_list','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',80),
+  ('yapl_mnm -> snake_list_access','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',81),
+  ('yapl_mnm -> rel_exp','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',82),
+  ('yapl_mnm -> conditional','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',83),
+  ('yapl_mnm -> empty','yapl_mnm',1,'p_yapl_mnm','yapl_mnm_parser.py',84),
+  ('statement -> exp','statement',1,'p_statement','yapl_mnm_parser.py',90),
+  ('statement -> assign_identifier','statement',1,'p_statement','yapl_mnm_parser.py',91),
+  ('statement -> snake_list','statement',1,'p_statement','yapl_mnm_parser.py',92),
+  ('statement -> snake_list_access','statement',1,'p_statement','yapl_mnm_parser.py',93),
+  ('statement -> rel_exp','statement',1,'p_statement','yapl_mnm_parser.py',94),
+  ('statement -> conditional','statement',1,'p_statement','yapl_mnm_parser.py',95),
+  ('statement -> statement','statement',1,'p_statement','yapl_mnm_parser.py',96),
+  ('statement -> empty','statement',1,'p_statement','yapl_mnm_parser.py',97),
+  ('exp -> LPAREN exp RPAREN','exp',3,'p_nested_parentheses','yapl_mnm_parser.py',111),
+  ('conditional -> MAYBE rel_exp statement','conditional',3,'p_maybe','yapl_mnm_parser.py',117),
+  ('conditional -> MAYBE rel_exp statement OR statement','conditional',5,'p_maybe_or','yapl_mnm_parser.py',123),
+  ('snake_list -> SNAKE IDENTIFIER EQUAL num_snake','snake_list',4,'p_intialize_snake','yapl_mnm_parser.py',163),
+  ('snake_list -> SNAKE IDENTIFIER EQUAL string_snake','snake_list',4,'p_intialize_snake','yapl_mnm_parser.py',164),
+  ('snake_list -> SNAKE IDENTIFIER EQUAL bool_snake','snake_list',4,'p_intialize_snake','yapl_mnm_parser.py',165),
+  ('snake_list_access -> ACCESS IDENTIFIER NUMBER','snake_list_access',3,'p_access_snake','yapl_mnm_parser.py',171),
+  ('num_snake -> num_snake COMMA NUMBER','num_snake',3,'p_num_snake','yapl_mnm_parser.py',177),
+  ('num_snake -> NUMBER','num_snake',1,'p_num_snake','yapl_mnm_parser.py',178),
+  ('num_snake -> empty','num_snake',1,'p_num_snake','yapl_mnm_parser.py',179),
+  ('string_snake -> string_snake COMMA STRING','string_snake',3,'p_string_snake','yapl_mnm_parser.py',190),
+  ('string_snake -> STRING','string_snake',1,'p_string_snake','yapl_mnm_parser.py',191),
+  ('string_snake -> empty','string_snake',1,'p_string_snake','yapl_mnm_parser.py',192),
+  ('bool_snake -> bool_snake COMMA bool','bool_snake',3,'p_bool_snake','yapl_mnm_parser.py',202),
+  ('bool_snake -> bool','bool_snake',1,'p_bool_snake','yapl_mnm_parser.py',203),
+  ('empty -> <empty>','empty',0,'p_empty','yapl_mnm_parser.py',212),
+  ('assign_identifier -> SUPPOSE IDENTIFIER EQUAL exp','assign_identifier',4,'p_initialize_identifier','yapl_mnm_parser.py',218),
+  ('assign_identifier -> IDENTIFIER EQUAL exp','assign_identifier',3,'p_assign_identifier','yapl_mnm_parser.py',225),
+  ('exp -> exp TIMES exp','exp',3,'p_exp','yapl_mnm_parser.py',236),
+  ('exp -> exp DIVIDE exp','exp',3,'p_exp','yapl_mnm_parser.py',237),
+  ('exp -> exp PLUS exp','exp',3,'p_exp','yapl_mnm_parser.py',238),
+  ('exp -> exp MINUS exp','exp',3,'p_exp','yapl_mnm_parser.py',239),
+  ('exp -> exp MOD exp','exp',3,'p_exp','yapl_mnm_parser.py',240),
+  ('exp -> exp PLUSPLUS','exp',2,'p_exp_increment_decrement','yapl_mnm_parser.py',246),
+  ('exp -> exp MINUSMINUS','exp',2,'p_exp_increment_decrement','yapl_mnm_parser.py',247),
+  ('exp -> MINUS exp','exp',2,'p_exp_uminus','yapl_mnm_parser.py',252),
+  ('exp -> NUMBER','exp',1,'p_exp_number','yapl_mnm_parser.py',258),
+  ('exp -> STRING','exp',1,'p_exp_string','yapl_mnm_parser.py',265),
+  ('exp -> bool','exp',1,'p_exp_bool','yapl_mnm_parser.py',272),
+  ('bool -> TRUE','bool',1,'p_exp_bool','yapl_mnm_parser.py',273),
+  ('bool -> FALSE','bool',1,'p_exp_bool','yapl_mnm_parser.py',274),
+  ('exp -> IDENTIFIER','exp',1,'p_exp_identifier','yapl_mnm_parser.py',280),
+  ('rel_exp -> exp GE exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',287),
+  ('rel_exp -> exp GT exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',288),
+  ('rel_exp -> exp LE exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',289),
+  ('rel_exp -> exp LT exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',290),
+  ('rel_exp -> exp EQUALEQUAL exp','rel_exp',3,'p_rel_exp','yapl_mnm_parser.py',291),
+  ('rel_exp -> exp NOT EQUAL exp','rel_exp',4,'p_rel_exp_not_equal','yapl_mnm_parser.py',299),
 ]

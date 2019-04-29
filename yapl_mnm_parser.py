@@ -28,7 +28,7 @@ tokens = (
     'IDENTIFIER',  #
     'LBRACE',  # {
     'LE',  # <=
-    'LPAREN',  # (
+
     'LT',  # <
     'MINUS',  # -
     'NOT',  # !
@@ -36,7 +36,7 @@ tokens = (
     'OROR',  # ||
     'PLUS',  # +
     'RBRACE',  # }
-    'RPAREN',  # )
+
     'SEMICOLON',  # ;
     'STRING',  #### Not used in this problem.
     'TIMES',  # *
@@ -45,6 +45,8 @@ tokens = (
     'MINUSMINUS', # --
     'LSQUAREPAREN', # [
     'RSQUAREPAREN', # ]
+    'LPAREN',  # (
+    'RPAREN',  # )
 
 )
 
@@ -63,6 +65,10 @@ reserved = {
     'True': 'TRUE',
     'False': 'FALSE',
     'access': 'ACCESS',
+    'exps': 'EXPS',
+    'g1' : 'G1',
+    'perform': 'PERFORM',
+    'end': 'END'
 
 }
 
@@ -76,35 +82,98 @@ def p_yapl_mnm(p):
              | snake_list
              | snake_list_access
              | rel_exp
-             | maybe
+             | conditional
              | empty
     '''
     print(interpret(p[1]))
 
+# def p_exp_rel_exp(p):
+#     '''
+#     exp : rel_exp
+#     '''
+#     p[0] = (p[1])
+
+
+def p_statement(p):
+        '''
+    statement : exp
+              | assign_identifier
+              | snake_list
+              | snake_list_access
+              | rel_exp
+              | conditional
+              | statement
+              | empty
+        '''
+        p[0] = (p[1])
+
+# def p_statements(p):
+#     '''
+#     statements : LBRACE statement statements RBRACE
+#                | empty
+#
+#     '''
+#     p[0] = (p[1], p[2])
+
+def p_nested_parentheses(p):
+    '''
+    exp : LPAREN exp RPAREN
+    '''
+    p[0] = (p[1], p[3], p[2])
+
 def p_maybe(p):
     '''
-    conditional : MAYBE rel_exp statements
+    maybe_statement : MAYBE rel_exp perform_statement or_statement END
     '''
     p[0] = (p[1], p[2], p[3])
 
-def p_or_maybe(p):
+def p_perform(p):
     '''
-    conditional : MAYBE rel_exp statements OR statements
+    perform_statement : PERFORM maybe_statement
+                      | PERFORM statement
     '''
-    p[0] = (p[1], p[4], p[2], p[3], p[5])
 
-def p_statements(p):
+def p_or(p):
     '''
-    statements :  LBRACE exps LBRACE
+    or_statement : OR statement
+                 | OR maybe_statement
+                 | empty
     '''
-    p[0] = (p[2])
+    p[0] = (p[1], p[2], p[3], p[4], p[5])
 
-def p_exps(p):
-    '''
-    exps : exp exps
-         | empty
-    '''
-    p[0] = (p[1], p[2])
+
+# def p_maybe(p):
+#     '''
+#     conditional : MAYBE rel_exp statements
+#
+#     '''
+#     p[0] = (p[1], p[2], p[3])
+#
+# def p_or_maybe(p):
+#     '''
+#     conditional : MAYBE rel_exp statements OR statements
+#
+#     '''
+#     p[0] = (p[1], p[4], p[2], p[3], p[5])
+#
+# def p_statements(p):
+#     '''
+#     statements :  LBRACE exps RBRACE
+#     '''
+#     p[0] = (p[2])
+#
+# def p_exps(p):
+#     '''
+#     exps : EXPS exp exps
+#          | EXPS assign_identifier exps
+#          | EXPS snake_list exps
+#          | EXPS snake_list_access exps
+#          | EXPS rel_exp exps
+#          | EXPS conditional exps
+#          | EXPS empty exps
+#          | EXPS empty
+#     '''
+#     p[0] = ('exps', p[1], p[2])
 
 def p_intialize_snake(p):
     '''
@@ -175,8 +244,8 @@ def p_assign_identifier(p):
     p[0] = ('=', p[1], p[3])
 
 
-def p_assign_identifier_error(p):
-    print('duplicate identifier detected')
+# def p_assign_identifier_error(p):
+#     print('duplicate identifier detected')
 
 
 def p_exp(p):
@@ -188,12 +257,6 @@ def p_exp(p):
         | exp MOD exp
     '''
     p[0] = (p[2], p[1], p[3])
-
-def p_parentheses(p):
-    '''
-    exp : LPAREN exp RPAREN
-    '''
-    p[0] = (p[1],p[2], p[3])
 
 def p_exp_increment_decrement(p):
     '''
@@ -255,6 +318,7 @@ def p_rel_exp_not_equal(p):
     p[0] = (p[2],p[3],p[1],p[4])
 
 def p_error(p):
+
     print('Syntax Error found in input!')
 
 
@@ -294,6 +358,24 @@ def interpret(p):
             return interpret(p[1]) == interpret(p[2])
         elif p[0] == '!' and p[1] == '=':
             return interpret(p[1]) != interpret(p[2])
+        elif p[0] == '(' and p[1] == ')':
+            return interpret(p[2])
+        elif p[0] == 'maybe':
+               exp = interpret(p[2])
+               if p[1] == True:
+                   return exp
+
+        elif p[0] == 'maybe' and p[3] == 'or':
+            pass
+        # elif p[0] == 'exps':
+        #     interpret(p[1])
+        # elif p[0] == 'maybe':
+        #     if(interpret(p[1]) == True):
+        #         interpret(p[2])
+        #     else:
+        #         return ''
+        # elif p[0] == 'maybe' and p[1] == 'or':
+        #     pass
         elif p[0] == 'suppose':
             if p[1] in env:
                 print('duplicate identifier detected')
@@ -337,6 +419,8 @@ while True:
         input_string = input('>> ')
     except EOFError:
         break
+    if not input_string:
+        continue
     yapl_mnm_ast = yapl_mnm_parser.parse(input_string, lexer=yapl_mnm_lexer)
     print(yapl_mnm_ast)
 

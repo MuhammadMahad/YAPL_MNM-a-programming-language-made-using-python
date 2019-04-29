@@ -4,12 +4,12 @@ Unused terminals:
 
     ANDAND
     COMPLEX
+    EXPS
     FIRE
+    G1
     LBRACE
     LSQUAREPAREN
     MACHINE
-    MAYBE
-    OR
     OROR
     RBRACE
     RSQUAREPAREN
@@ -26,100 +26,115 @@ Rule 2     yapl_mnm -> assign_identifier
 Rule 3     yapl_mnm -> snake_list
 Rule 4     yapl_mnm -> snake_list_access
 Rule 5     yapl_mnm -> rel_exp
-Rule 6     yapl_mnm -> empty
-Rule 7     snake_list -> SNAKE IDENTIFIER EQUAL num_snake
-Rule 8     snake_list -> SNAKE IDENTIFIER EQUAL string_snake
-Rule 9     snake_list -> SNAKE IDENTIFIER EQUAL bool_snake
-Rule 10    snake_list_access -> ACCESS IDENTIFIER NUMBER
-Rule 11    num_snake -> num_snake COMMA NUMBER
-Rule 12    num_snake -> NUMBER
-Rule 13    num_snake -> empty
-Rule 14    string_snake -> string_snake COMMA STRING
-Rule 15    string_snake -> STRING
-Rule 16    string_snake -> empty
-Rule 17    bool_snake -> bool_snake COMMA bool
-Rule 18    bool_snake -> bool
-Rule 19    empty -> <empty>
-Rule 20    assign_identifier -> SUPPOSE IDENTIFIER EQUAL exp
-Rule 21    assign_identifier -> IDENTIFIER EQUAL exp
-Rule 22    exp -> exp TIMES exp
-Rule 23    exp -> exp DIVIDE exp
-Rule 24    exp -> exp PLUS exp
-Rule 25    exp -> exp MINUS exp
-Rule 26    exp -> exp MOD exp
-Rule 27    exp -> LPAREN exp RPAREN
-Rule 28    exp -> exp PLUSPLUS
-Rule 29    exp -> exp MINUSMINUS
-Rule 30    exp -> MINUS exp
-Rule 31    exp -> NUMBER
-Rule 32    exp -> STRING
-Rule 33    exp -> bool
-Rule 34    bool -> TRUE
-Rule 35    bool -> FALSE
-Rule 36    exp -> IDENTIFIER
-Rule 37    rel_exp -> exp GE exp
-Rule 38    rel_exp -> exp GT exp
-Rule 39    rel_exp -> exp LE exp
-Rule 40    rel_exp -> exp LT exp
-Rule 41    rel_exp -> exp EQUALEQUAL exp
-Rule 42    rel_exp -> exp NOT EQUAL exp
+Rule 6     yapl_mnm -> conditional
+Rule 7     yapl_mnm -> empty
+Rule 8     statement -> exp
+Rule 9     statement -> assign_identifier
+Rule 10    statement -> snake_list
+Rule 11    statement -> snake_list_access
+Rule 12    statement -> rel_exp
+Rule 13    statement -> conditional
+Rule 14    statement -> statement
+Rule 15    statement -> empty
+Rule 16    exp -> LPAREN exp RPAREN
+Rule 17    conditional -> MAYBE rel_exp statement
+Rule 18    conditional -> MAYBE rel_exp statement OR statement
+Rule 19    snake_list -> SNAKE IDENTIFIER EQUAL num_snake
+Rule 20    snake_list -> SNAKE IDENTIFIER EQUAL string_snake
+Rule 21    snake_list -> SNAKE IDENTIFIER EQUAL bool_snake
+Rule 22    snake_list_access -> ACCESS IDENTIFIER NUMBER
+Rule 23    num_snake -> num_snake COMMA NUMBER
+Rule 24    num_snake -> NUMBER
+Rule 25    num_snake -> empty
+Rule 26    string_snake -> string_snake COMMA STRING
+Rule 27    string_snake -> STRING
+Rule 28    string_snake -> empty
+Rule 29    bool_snake -> bool_snake COMMA bool
+Rule 30    bool_snake -> bool
+Rule 31    empty -> <empty>
+Rule 32    assign_identifier -> SUPPOSE IDENTIFIER EQUAL exp
+Rule 33    assign_identifier -> IDENTIFIER EQUAL exp
+Rule 34    exp -> exp TIMES exp
+Rule 35    exp -> exp DIVIDE exp
+Rule 36    exp -> exp PLUS exp
+Rule 37    exp -> exp MINUS exp
+Rule 38    exp -> exp MOD exp
+Rule 39    exp -> exp PLUSPLUS
+Rule 40    exp -> exp MINUSMINUS
+Rule 41    exp -> MINUS exp
+Rule 42    exp -> NUMBER
+Rule 43    exp -> STRING
+Rule 44    exp -> bool
+Rule 45    bool -> TRUE
+Rule 46    bool -> FALSE
+Rule 47    exp -> IDENTIFIER
+Rule 48    rel_exp -> exp GE exp
+Rule 49    rel_exp -> exp GT exp
+Rule 50    rel_exp -> exp LE exp
+Rule 51    rel_exp -> exp LT exp
+Rule 52    rel_exp -> exp EQUALEQUAL exp
+Rule 53    rel_exp -> exp NOT EQUAL exp
 
 Terminals, with rules where they appear
 
-ACCESS               : 10
+ACCESS               : 22
 ANDAND               : 
-COMMA                : 11 14 17
+COMMA                : 23 26 29
 COMPLEX              : 
-DIVIDE               : 23
-EQUAL                : 7 8 9 20 21 42
-EQUALEQUAL           : 41
-FALSE                : 35
+DIVIDE               : 35
+EQUAL                : 19 20 21 32 33 53
+EQUALEQUAL           : 52
+EXPS                 : 
+FALSE                : 46
 FIRE                 : 
-GE                   : 37
-GT                   : 38
-IDENTIFIER           : 7 8 9 10 20 21 36
+G1                   : 
+GE                   : 48
+GT                   : 49
+IDENTIFIER           : 19 20 21 22 32 33 47
 LBRACE               : 
-LE                   : 39
-LPAREN               : 27
+LE                   : 50
+LPAREN               : 16
 LSQUAREPAREN         : 
-LT                   : 40
+LT                   : 51
 MACHINE              : 
-MAYBE                : 
-MINUS                : 25 30
-MINUSMINUS           : 29
-MOD                  : 26
-NOT                  : 42
-NUMBER               : 10 11 12 31
-OR                   : 
+MAYBE                : 17 18
+MINUS                : 37 41
+MINUSMINUS           : 40
+MOD                  : 38
+NOT                  : 53
+NUMBER               : 22 23 24 42
+OR                   : 18
 OROR                 : 
-PLUS                 : 24
-PLUSPLUS             : 28
+PLUS                 : 36
+PLUSPLUS             : 39
 RBRACE               : 
-RPAREN               : 27
+RPAREN               : 16
 RSQUAREPAREN         : 
 SEMICOLON            : 
-SNAKE                : 7 8 9
-STRING               : 14 15 32
-SUPPOSE              : 20
+SNAKE                : 19 20 21
+STRING               : 26 27 43
+SUPPOSE              : 32
 TIL                  : 
-TIMES                : 22
-TRUE                 : 34
+TIMES                : 34
+TRUE                 : 45
 UNTIL                : 
 WORK                 : 
 error                : 
 
 Nonterminals, with rules where they appear
 
-assign_identifier    : 2
-bool                 : 17 18 33
-bool_snake           : 9 17
-empty                : 6 13 16
-exp                  : 1 20 21 22 22 23 23 24 24 25 25 26 26 27 28 29 30 37 37 38 38 39 39 40 40 41 41 42 42
-num_snake            : 7 11
-rel_exp              : 5
-snake_list           : 3
-snake_list_access    : 4
-string_snake         : 8 14
+assign_identifier    : 2 9
+bool                 : 29 30 44
+bool_snake           : 21 29
+conditional          : 6 13
+empty                : 7 15 25 28
+exp                  : 1 8 16 32 33 34 34 35 35 36 36 37 37 38 38 39 40 41 48 48 49 49 50 50 51 51 52 52 53 53
+num_snake            : 19 23
+rel_exp              : 5 12 17 18
+snake_list           : 3 10
+snake_list_access    : 4 11
+statement            : 14 17 18 18
+string_snake         : 20 26
 yapl_mnm             : 0
 
 Parsing method: LALR
@@ -132,47 +147,51 @@ state 0
     (3) yapl_mnm -> . snake_list
     (4) yapl_mnm -> . snake_list_access
     (5) yapl_mnm -> . rel_exp
-    (6) yapl_mnm -> . empty
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (20) assign_identifier -> . SUPPOSE IDENTIFIER EQUAL exp
-    (21) assign_identifier -> . IDENTIFIER EQUAL exp
-    (7) snake_list -> . SNAKE IDENTIFIER EQUAL num_snake
-    (8) snake_list -> . SNAKE IDENTIFIER EQUAL string_snake
-    (9) snake_list -> . SNAKE IDENTIFIER EQUAL bool_snake
-    (10) snake_list_access -> . ACCESS IDENTIFIER NUMBER
-    (37) rel_exp -> . exp GE exp
-    (38) rel_exp -> . exp GT exp
-    (39) rel_exp -> . exp LE exp
-    (40) rel_exp -> . exp LT exp
-    (41) rel_exp -> . exp EQUALEQUAL exp
-    (42) rel_exp -> . exp NOT EQUAL exp
-    (19) empty -> .
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (6) yapl_mnm -> . conditional
+    (7) yapl_mnm -> . empty
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (32) assign_identifier -> . SUPPOSE IDENTIFIER EQUAL exp
+    (33) assign_identifier -> . IDENTIFIER EQUAL exp
+    (19) snake_list -> . SNAKE IDENTIFIER EQUAL num_snake
+    (20) snake_list -> . SNAKE IDENTIFIER EQUAL string_snake
+    (21) snake_list -> . SNAKE IDENTIFIER EQUAL bool_snake
+    (22) snake_list_access -> . ACCESS IDENTIFIER NUMBER
+    (48) rel_exp -> . exp GE exp
+    (49) rel_exp -> . exp GT exp
+    (50) rel_exp -> . exp LE exp
+    (51) rel_exp -> . exp LT exp
+    (52) rel_exp -> . exp EQUALEQUAL exp
+    (53) rel_exp -> . exp NOT EQUAL exp
+    (17) conditional -> . MAYBE rel_exp statement
+    (18) conditional -> . MAYBE rel_exp statement OR statement
+    (31) empty -> .
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
     LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 13
-    SUPPOSE         shift and go to state 14
-    SNAKE           shift and go to state 15
-    ACCESS          shift and go to state 16
-    $end            reduce using rule 19 (empty -> .)
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 14
+    SUPPOSE         shift and go to state 15
+    SNAKE           shift and go to state 16
+    ACCESS          shift and go to state 17
+    MAYBE           shift and go to state 18
+    $end            reduce using rule 31 (empty -> .)
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
     yapl_mnm                       shift and go to state 1
     exp                            shift and go to state 2
@@ -180,8 +199,9 @@ state 0
     snake_list                     shift and go to state 4
     snake_list_access              shift and go to state 5
     rel_exp                        shift and go to state 6
-    empty                          shift and go to state 7
-    bool                           shift and go to state 12
+    conditional                    shift and go to state 7
+    empty                          shift and go to state 8
+    bool                           shift and go to state 13
 
 state 1
 
@@ -192,34 +212,34 @@ state 1
 state 2
 
     (1) yapl_mnm -> exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
-    (37) rel_exp -> exp . GE exp
-    (38) rel_exp -> exp . GT exp
-    (39) rel_exp -> exp . LE exp
-    (40) rel_exp -> exp . LT exp
-    (41) rel_exp -> exp . EQUALEQUAL exp
-    (42) rel_exp -> exp . NOT EQUAL exp
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
+    (48) rel_exp -> exp . GE exp
+    (49) rel_exp -> exp . GT exp
+    (50) rel_exp -> exp . LE exp
+    (51) rel_exp -> exp . LT exp
+    (52) rel_exp -> exp . EQUALEQUAL exp
+    (53) rel_exp -> exp . NOT EQUAL exp
 
     $end            reduce using rule 1 (yapl_mnm -> exp .)
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    MOD             shift and go to state 23
-    PLUSPLUS        shift and go to state 24
-    MINUSMINUS      shift and go to state 25
-    GE              shift and go to state 26
-    GT              shift and go to state 27
-    LE              shift and go to state 28
-    LT              shift and go to state 29
-    EQUALEQUAL      shift and go to state 30
-    NOT             shift and go to state 31
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
+    GE              shift and go to state 28
+    GT              shift and go to state 29
+    LE              shift and go to state 30
+    LT              shift and go to state 31
+    EQUALEQUAL      shift and go to state 32
+    NOT             shift and go to state 33
 
 
 state 3
@@ -252,1285 +272,1877 @@ state 6
 
 state 7
 
-    (6) yapl_mnm -> empty .
+    (6) yapl_mnm -> conditional .
 
-    $end            reduce using rule 6 (yapl_mnm -> empty .)
+    $end            reduce using rule 6 (yapl_mnm -> conditional .)
 
 
 state 8
 
-    (30) exp -> MINUS . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (7) yapl_mnm -> empty .
 
-    LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    $end            reduce using rule 7 (yapl_mnm -> empty .)
 
-    exp                            shift and go to state 32
-    bool                           shift and go to state 12
 
 state 9
 
-    (27) exp -> LPAREN . exp RPAREN
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (16) exp -> LPAREN . exp RPAREN
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
     LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
     exp                            shift and go to state 34
-    bool                           shift and go to state 12
+    bool                           shift and go to state 13
 
 state 10
 
-    (31) exp -> NUMBER .
+    (41) exp -> MINUS . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
-    TIMES           reduce using rule 31 (exp -> NUMBER .)
-    DIVIDE          reduce using rule 31 (exp -> NUMBER .)
-    PLUS            reduce using rule 31 (exp -> NUMBER .)
-    MINUS           reduce using rule 31 (exp -> NUMBER .)
-    MOD             reduce using rule 31 (exp -> NUMBER .)
-    PLUSPLUS        reduce using rule 31 (exp -> NUMBER .)
-    MINUSMINUS      reduce using rule 31 (exp -> NUMBER .)
-    GE              reduce using rule 31 (exp -> NUMBER .)
-    GT              reduce using rule 31 (exp -> NUMBER .)
-    LE              reduce using rule 31 (exp -> NUMBER .)
-    LT              reduce using rule 31 (exp -> NUMBER .)
-    EQUALEQUAL      reduce using rule 31 (exp -> NUMBER .)
-    NOT             reduce using rule 31 (exp -> NUMBER .)
-    $end            reduce using rule 31 (exp -> NUMBER .)
-    RPAREN          reduce using rule 31 (exp -> NUMBER .)
+    LPAREN          shift and go to state 9
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
+    exp                            shift and go to state 36
+    bool                           shift and go to state 13
 
 state 11
 
-    (32) exp -> STRING .
+    (42) exp -> NUMBER .
 
-    TIMES           reduce using rule 32 (exp -> STRING .)
-    DIVIDE          reduce using rule 32 (exp -> STRING .)
-    PLUS            reduce using rule 32 (exp -> STRING .)
-    MINUS           reduce using rule 32 (exp -> STRING .)
-    MOD             reduce using rule 32 (exp -> STRING .)
-    PLUSPLUS        reduce using rule 32 (exp -> STRING .)
-    MINUSMINUS      reduce using rule 32 (exp -> STRING .)
-    GE              reduce using rule 32 (exp -> STRING .)
-    GT              reduce using rule 32 (exp -> STRING .)
-    LE              reduce using rule 32 (exp -> STRING .)
-    LT              reduce using rule 32 (exp -> STRING .)
-    EQUALEQUAL      reduce using rule 32 (exp -> STRING .)
-    NOT             reduce using rule 32 (exp -> STRING .)
-    $end            reduce using rule 32 (exp -> STRING .)
-    RPAREN          reduce using rule 32 (exp -> STRING .)
+    TIMES           reduce using rule 42 (exp -> NUMBER .)
+    DIVIDE          reduce using rule 42 (exp -> NUMBER .)
+    PLUS            reduce using rule 42 (exp -> NUMBER .)
+    MINUS           reduce using rule 42 (exp -> NUMBER .)
+    MOD             reduce using rule 42 (exp -> NUMBER .)
+    PLUSPLUS        reduce using rule 42 (exp -> NUMBER .)
+    MINUSMINUS      reduce using rule 42 (exp -> NUMBER .)
+    GE              reduce using rule 42 (exp -> NUMBER .)
+    GT              reduce using rule 42 (exp -> NUMBER .)
+    LE              reduce using rule 42 (exp -> NUMBER .)
+    LT              reduce using rule 42 (exp -> NUMBER .)
+    EQUALEQUAL      reduce using rule 42 (exp -> NUMBER .)
+    NOT             reduce using rule 42 (exp -> NUMBER .)
+    $end            reduce using rule 42 (exp -> NUMBER .)
+    RPAREN          reduce using rule 42 (exp -> NUMBER .)
+    LPAREN          reduce using rule 42 (exp -> NUMBER .)
+    NUMBER          reduce using rule 42 (exp -> NUMBER .)
+    STRING          reduce using rule 42 (exp -> NUMBER .)
+    IDENTIFIER      reduce using rule 42 (exp -> NUMBER .)
+    SUPPOSE         reduce using rule 42 (exp -> NUMBER .)
+    SNAKE           reduce using rule 42 (exp -> NUMBER .)
+    ACCESS          reduce using rule 42 (exp -> NUMBER .)
+    MAYBE           reduce using rule 42 (exp -> NUMBER .)
+    TRUE            reduce using rule 42 (exp -> NUMBER .)
+    FALSE           reduce using rule 42 (exp -> NUMBER .)
+    OR              reduce using rule 42 (exp -> NUMBER .)
 
 
 state 12
 
-    (33) exp -> bool .
+    (43) exp -> STRING .
 
-    TIMES           reduce using rule 33 (exp -> bool .)
-    DIVIDE          reduce using rule 33 (exp -> bool .)
-    PLUS            reduce using rule 33 (exp -> bool .)
-    MINUS           reduce using rule 33 (exp -> bool .)
-    MOD             reduce using rule 33 (exp -> bool .)
-    PLUSPLUS        reduce using rule 33 (exp -> bool .)
-    MINUSMINUS      reduce using rule 33 (exp -> bool .)
-    GE              reduce using rule 33 (exp -> bool .)
-    GT              reduce using rule 33 (exp -> bool .)
-    LE              reduce using rule 33 (exp -> bool .)
-    LT              reduce using rule 33 (exp -> bool .)
-    EQUALEQUAL      reduce using rule 33 (exp -> bool .)
-    NOT             reduce using rule 33 (exp -> bool .)
-    $end            reduce using rule 33 (exp -> bool .)
-    RPAREN          reduce using rule 33 (exp -> bool .)
+    TIMES           reduce using rule 43 (exp -> STRING .)
+    DIVIDE          reduce using rule 43 (exp -> STRING .)
+    PLUS            reduce using rule 43 (exp -> STRING .)
+    MINUS           reduce using rule 43 (exp -> STRING .)
+    MOD             reduce using rule 43 (exp -> STRING .)
+    PLUSPLUS        reduce using rule 43 (exp -> STRING .)
+    MINUSMINUS      reduce using rule 43 (exp -> STRING .)
+    GE              reduce using rule 43 (exp -> STRING .)
+    GT              reduce using rule 43 (exp -> STRING .)
+    LE              reduce using rule 43 (exp -> STRING .)
+    LT              reduce using rule 43 (exp -> STRING .)
+    EQUALEQUAL      reduce using rule 43 (exp -> STRING .)
+    NOT             reduce using rule 43 (exp -> STRING .)
+    $end            reduce using rule 43 (exp -> STRING .)
+    RPAREN          reduce using rule 43 (exp -> STRING .)
+    LPAREN          reduce using rule 43 (exp -> STRING .)
+    NUMBER          reduce using rule 43 (exp -> STRING .)
+    STRING          reduce using rule 43 (exp -> STRING .)
+    IDENTIFIER      reduce using rule 43 (exp -> STRING .)
+    SUPPOSE         reduce using rule 43 (exp -> STRING .)
+    SNAKE           reduce using rule 43 (exp -> STRING .)
+    ACCESS          reduce using rule 43 (exp -> STRING .)
+    MAYBE           reduce using rule 43 (exp -> STRING .)
+    TRUE            reduce using rule 43 (exp -> STRING .)
+    FALSE           reduce using rule 43 (exp -> STRING .)
+    OR              reduce using rule 43 (exp -> STRING .)
 
 
 state 13
 
-    (36) exp -> IDENTIFIER .
-    (21) assign_identifier -> IDENTIFIER . EQUAL exp
+    (44) exp -> bool .
 
-    TIMES           reduce using rule 36 (exp -> IDENTIFIER .)
-    DIVIDE          reduce using rule 36 (exp -> IDENTIFIER .)
-    PLUS            reduce using rule 36 (exp -> IDENTIFIER .)
-    MINUS           reduce using rule 36 (exp -> IDENTIFIER .)
-    MOD             reduce using rule 36 (exp -> IDENTIFIER .)
-    PLUSPLUS        reduce using rule 36 (exp -> IDENTIFIER .)
-    MINUSMINUS      reduce using rule 36 (exp -> IDENTIFIER .)
-    GE              reduce using rule 36 (exp -> IDENTIFIER .)
-    GT              reduce using rule 36 (exp -> IDENTIFIER .)
-    LE              reduce using rule 36 (exp -> IDENTIFIER .)
-    LT              reduce using rule 36 (exp -> IDENTIFIER .)
-    EQUALEQUAL      reduce using rule 36 (exp -> IDENTIFIER .)
-    NOT             reduce using rule 36 (exp -> IDENTIFIER .)
-    $end            reduce using rule 36 (exp -> IDENTIFIER .)
-    EQUAL           shift and go to state 35
+    TIMES           reduce using rule 44 (exp -> bool .)
+    DIVIDE          reduce using rule 44 (exp -> bool .)
+    PLUS            reduce using rule 44 (exp -> bool .)
+    MINUS           reduce using rule 44 (exp -> bool .)
+    MOD             reduce using rule 44 (exp -> bool .)
+    PLUSPLUS        reduce using rule 44 (exp -> bool .)
+    MINUSMINUS      reduce using rule 44 (exp -> bool .)
+    GE              reduce using rule 44 (exp -> bool .)
+    GT              reduce using rule 44 (exp -> bool .)
+    LE              reduce using rule 44 (exp -> bool .)
+    LT              reduce using rule 44 (exp -> bool .)
+    EQUALEQUAL      reduce using rule 44 (exp -> bool .)
+    NOT             reduce using rule 44 (exp -> bool .)
+    $end            reduce using rule 44 (exp -> bool .)
+    RPAREN          reduce using rule 44 (exp -> bool .)
+    LPAREN          reduce using rule 44 (exp -> bool .)
+    NUMBER          reduce using rule 44 (exp -> bool .)
+    STRING          reduce using rule 44 (exp -> bool .)
+    IDENTIFIER      reduce using rule 44 (exp -> bool .)
+    SUPPOSE         reduce using rule 44 (exp -> bool .)
+    SNAKE           reduce using rule 44 (exp -> bool .)
+    ACCESS          reduce using rule 44 (exp -> bool .)
+    MAYBE           reduce using rule 44 (exp -> bool .)
+    TRUE            reduce using rule 44 (exp -> bool .)
+    FALSE           reduce using rule 44 (exp -> bool .)
+    OR              reduce using rule 44 (exp -> bool .)
 
 
 state 14
 
-    (20) assign_identifier -> SUPPOSE . IDENTIFIER EQUAL exp
+    (47) exp -> IDENTIFIER .
+    (33) assign_identifier -> IDENTIFIER . EQUAL exp
 
-    IDENTIFIER      shift and go to state 36
+    TIMES           reduce using rule 47 (exp -> IDENTIFIER .)
+    DIVIDE          reduce using rule 47 (exp -> IDENTIFIER .)
+    PLUS            reduce using rule 47 (exp -> IDENTIFIER .)
+    MINUS           reduce using rule 47 (exp -> IDENTIFIER .)
+    MOD             reduce using rule 47 (exp -> IDENTIFIER .)
+    PLUSPLUS        reduce using rule 47 (exp -> IDENTIFIER .)
+    MINUSMINUS      reduce using rule 47 (exp -> IDENTIFIER .)
+    GE              reduce using rule 47 (exp -> IDENTIFIER .)
+    GT              reduce using rule 47 (exp -> IDENTIFIER .)
+    LE              reduce using rule 47 (exp -> IDENTIFIER .)
+    LT              reduce using rule 47 (exp -> IDENTIFIER .)
+    EQUALEQUAL      reduce using rule 47 (exp -> IDENTIFIER .)
+    NOT             reduce using rule 47 (exp -> IDENTIFIER .)
+    $end            reduce using rule 47 (exp -> IDENTIFIER .)
+    OR              reduce using rule 47 (exp -> IDENTIFIER .)
+    EQUAL           shift and go to state 37
 
 
 state 15
 
-    (7) snake_list -> SNAKE . IDENTIFIER EQUAL num_snake
-    (8) snake_list -> SNAKE . IDENTIFIER EQUAL string_snake
-    (9) snake_list -> SNAKE . IDENTIFIER EQUAL bool_snake
-
-    IDENTIFIER      shift and go to state 37
-
-
-state 16
-
-    (10) snake_list_access -> ACCESS . IDENTIFIER NUMBER
+    (32) assign_identifier -> SUPPOSE . IDENTIFIER EQUAL exp
 
     IDENTIFIER      shift and go to state 38
 
 
+state 16
+
+    (19) snake_list -> SNAKE . IDENTIFIER EQUAL num_snake
+    (20) snake_list -> SNAKE . IDENTIFIER EQUAL string_snake
+    (21) snake_list -> SNAKE . IDENTIFIER EQUAL bool_snake
+
+    IDENTIFIER      shift and go to state 39
+
+
 state 17
 
-    (34) bool -> TRUE .
+    (22) snake_list_access -> ACCESS . IDENTIFIER NUMBER
 
-    TIMES           reduce using rule 34 (bool -> TRUE .)
-    DIVIDE          reduce using rule 34 (bool -> TRUE .)
-    PLUS            reduce using rule 34 (bool -> TRUE .)
-    MINUS           reduce using rule 34 (bool -> TRUE .)
-    MOD             reduce using rule 34 (bool -> TRUE .)
-    PLUSPLUS        reduce using rule 34 (bool -> TRUE .)
-    MINUSMINUS      reduce using rule 34 (bool -> TRUE .)
-    GE              reduce using rule 34 (bool -> TRUE .)
-    GT              reduce using rule 34 (bool -> TRUE .)
-    LE              reduce using rule 34 (bool -> TRUE .)
-    LT              reduce using rule 34 (bool -> TRUE .)
-    EQUALEQUAL      reduce using rule 34 (bool -> TRUE .)
-    NOT             reduce using rule 34 (bool -> TRUE .)
-    $end            reduce using rule 34 (bool -> TRUE .)
-    RPAREN          reduce using rule 34 (bool -> TRUE .)
-    COMMA           reduce using rule 34 (bool -> TRUE .)
+    IDENTIFIER      shift and go to state 40
 
 
 state 18
 
-    (35) bool -> FALSE .
+    (17) conditional -> MAYBE . rel_exp statement
+    (18) conditional -> MAYBE . rel_exp statement OR statement
+    (48) rel_exp -> . exp GE exp
+    (49) rel_exp -> . exp GT exp
+    (50) rel_exp -> . exp LE exp
+    (51) rel_exp -> . exp LT exp
+    (52) rel_exp -> . exp EQUALEQUAL exp
+    (53) rel_exp -> . exp NOT EQUAL exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
-    TIMES           reduce using rule 35 (bool -> FALSE .)
-    DIVIDE          reduce using rule 35 (bool -> FALSE .)
-    PLUS            reduce using rule 35 (bool -> FALSE .)
-    MINUS           reduce using rule 35 (bool -> FALSE .)
-    MOD             reduce using rule 35 (bool -> FALSE .)
-    PLUSPLUS        reduce using rule 35 (bool -> FALSE .)
-    MINUSMINUS      reduce using rule 35 (bool -> FALSE .)
-    GE              reduce using rule 35 (bool -> FALSE .)
-    GT              reduce using rule 35 (bool -> FALSE .)
-    LE              reduce using rule 35 (bool -> FALSE .)
-    LT              reduce using rule 35 (bool -> FALSE .)
-    EQUALEQUAL      reduce using rule 35 (bool -> FALSE .)
-    NOT             reduce using rule 35 (bool -> FALSE .)
-    $end            reduce using rule 35 (bool -> FALSE .)
-    RPAREN          reduce using rule 35 (bool -> FALSE .)
-    COMMA           reduce using rule 35 (bool -> FALSE .)
+    LPAREN          shift and go to state 9
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
+    rel_exp                        shift and go to state 41
+    exp                            shift and go to state 42
+    bool                           shift and go to state 13
 
 state 19
 
-    (22) exp -> exp TIMES . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (45) bool -> TRUE .
 
-    LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    TIMES           reduce using rule 45 (bool -> TRUE .)
+    DIVIDE          reduce using rule 45 (bool -> TRUE .)
+    PLUS            reduce using rule 45 (bool -> TRUE .)
+    MINUS           reduce using rule 45 (bool -> TRUE .)
+    MOD             reduce using rule 45 (bool -> TRUE .)
+    PLUSPLUS        reduce using rule 45 (bool -> TRUE .)
+    MINUSMINUS      reduce using rule 45 (bool -> TRUE .)
+    GE              reduce using rule 45 (bool -> TRUE .)
+    GT              reduce using rule 45 (bool -> TRUE .)
+    LE              reduce using rule 45 (bool -> TRUE .)
+    LT              reduce using rule 45 (bool -> TRUE .)
+    EQUALEQUAL      reduce using rule 45 (bool -> TRUE .)
+    NOT             reduce using rule 45 (bool -> TRUE .)
+    $end            reduce using rule 45 (bool -> TRUE .)
+    RPAREN          reduce using rule 45 (bool -> TRUE .)
+    LPAREN          reduce using rule 45 (bool -> TRUE .)
+    NUMBER          reduce using rule 45 (bool -> TRUE .)
+    STRING          reduce using rule 45 (bool -> TRUE .)
+    IDENTIFIER      reduce using rule 45 (bool -> TRUE .)
+    SUPPOSE         reduce using rule 45 (bool -> TRUE .)
+    SNAKE           reduce using rule 45 (bool -> TRUE .)
+    ACCESS          reduce using rule 45 (bool -> TRUE .)
+    MAYBE           reduce using rule 45 (bool -> TRUE .)
+    TRUE            reduce using rule 45 (bool -> TRUE .)
+    FALSE           reduce using rule 45 (bool -> TRUE .)
+    OR              reduce using rule 45 (bool -> TRUE .)
+    COMMA           reduce using rule 45 (bool -> TRUE .)
 
-    exp                            shift and go to state 39
-    bool                           shift and go to state 12
 
 state 20
 
-    (23) exp -> exp DIVIDE . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (46) bool -> FALSE .
 
-    LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    TIMES           reduce using rule 46 (bool -> FALSE .)
+    DIVIDE          reduce using rule 46 (bool -> FALSE .)
+    PLUS            reduce using rule 46 (bool -> FALSE .)
+    MINUS           reduce using rule 46 (bool -> FALSE .)
+    MOD             reduce using rule 46 (bool -> FALSE .)
+    PLUSPLUS        reduce using rule 46 (bool -> FALSE .)
+    MINUSMINUS      reduce using rule 46 (bool -> FALSE .)
+    GE              reduce using rule 46 (bool -> FALSE .)
+    GT              reduce using rule 46 (bool -> FALSE .)
+    LE              reduce using rule 46 (bool -> FALSE .)
+    LT              reduce using rule 46 (bool -> FALSE .)
+    EQUALEQUAL      reduce using rule 46 (bool -> FALSE .)
+    NOT             reduce using rule 46 (bool -> FALSE .)
+    $end            reduce using rule 46 (bool -> FALSE .)
+    RPAREN          reduce using rule 46 (bool -> FALSE .)
+    LPAREN          reduce using rule 46 (bool -> FALSE .)
+    NUMBER          reduce using rule 46 (bool -> FALSE .)
+    STRING          reduce using rule 46 (bool -> FALSE .)
+    IDENTIFIER      reduce using rule 46 (bool -> FALSE .)
+    SUPPOSE         reduce using rule 46 (bool -> FALSE .)
+    SNAKE           reduce using rule 46 (bool -> FALSE .)
+    ACCESS          reduce using rule 46 (bool -> FALSE .)
+    MAYBE           reduce using rule 46 (bool -> FALSE .)
+    TRUE            reduce using rule 46 (bool -> FALSE .)
+    FALSE           reduce using rule 46 (bool -> FALSE .)
+    OR              reduce using rule 46 (bool -> FALSE .)
+    COMMA           reduce using rule 46 (bool -> FALSE .)
 
-    exp                            shift and go to state 40
-    bool                           shift and go to state 12
 
 state 21
 
-    (24) exp -> exp PLUS . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (34) exp -> exp TIMES . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
     LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
-    exp                            shift and go to state 41
-    bool                           shift and go to state 12
+    exp                            shift and go to state 43
+    bool                           shift and go to state 13
 
 state 22
 
-    (25) exp -> exp MINUS . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (35) exp -> exp DIVIDE . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
     LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
-    exp                            shift and go to state 42
-    bool                           shift and go to state 12
+    exp                            shift and go to state 44
+    bool                           shift and go to state 13
 
 state 23
 
-    (26) exp -> exp MOD . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (36) exp -> exp PLUS . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
     LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
-    exp                            shift and go to state 43
-    bool                           shift and go to state 12
+    exp                            shift and go to state 45
+    bool                           shift and go to state 13
 
 state 24
 
-    (28) exp -> exp PLUSPLUS .
+    (37) exp -> exp MINUS . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
-    TIMES           reduce using rule 28 (exp -> exp PLUSPLUS .)
-    DIVIDE          reduce using rule 28 (exp -> exp PLUSPLUS .)
-    PLUS            reduce using rule 28 (exp -> exp PLUSPLUS .)
-    MINUS           reduce using rule 28 (exp -> exp PLUSPLUS .)
-    MOD             reduce using rule 28 (exp -> exp PLUSPLUS .)
-    PLUSPLUS        reduce using rule 28 (exp -> exp PLUSPLUS .)
-    MINUSMINUS      reduce using rule 28 (exp -> exp PLUSPLUS .)
-    GE              reduce using rule 28 (exp -> exp PLUSPLUS .)
-    GT              reduce using rule 28 (exp -> exp PLUSPLUS .)
-    LE              reduce using rule 28 (exp -> exp PLUSPLUS .)
-    LT              reduce using rule 28 (exp -> exp PLUSPLUS .)
-    EQUALEQUAL      reduce using rule 28 (exp -> exp PLUSPLUS .)
-    NOT             reduce using rule 28 (exp -> exp PLUSPLUS .)
-    $end            reduce using rule 28 (exp -> exp PLUSPLUS .)
-    RPAREN          reduce using rule 28 (exp -> exp PLUSPLUS .)
+    LPAREN          shift and go to state 9
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
+    exp                            shift and go to state 46
+    bool                           shift and go to state 13
 
 state 25
 
-    (29) exp -> exp MINUSMINUS .
+    (38) exp -> exp MOD . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
-    TIMES           reduce using rule 29 (exp -> exp MINUSMINUS .)
-    DIVIDE          reduce using rule 29 (exp -> exp MINUSMINUS .)
-    PLUS            reduce using rule 29 (exp -> exp MINUSMINUS .)
-    MINUS           reduce using rule 29 (exp -> exp MINUSMINUS .)
-    MOD             reduce using rule 29 (exp -> exp MINUSMINUS .)
-    PLUSPLUS        reduce using rule 29 (exp -> exp MINUSMINUS .)
-    MINUSMINUS      reduce using rule 29 (exp -> exp MINUSMINUS .)
-    GE              reduce using rule 29 (exp -> exp MINUSMINUS .)
-    GT              reduce using rule 29 (exp -> exp MINUSMINUS .)
-    LE              reduce using rule 29 (exp -> exp MINUSMINUS .)
-    LT              reduce using rule 29 (exp -> exp MINUSMINUS .)
-    EQUALEQUAL      reduce using rule 29 (exp -> exp MINUSMINUS .)
-    NOT             reduce using rule 29 (exp -> exp MINUSMINUS .)
-    $end            reduce using rule 29 (exp -> exp MINUSMINUS .)
-    RPAREN          reduce using rule 29 (exp -> exp MINUSMINUS .)
+    LPAREN          shift and go to state 9
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
+    exp                            shift and go to state 47
+    bool                           shift and go to state 13
 
 state 26
 
-    (37) rel_exp -> exp GE . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (39) exp -> exp PLUSPLUS .
 
-    LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    TIMES           reduce using rule 39 (exp -> exp PLUSPLUS .)
+    DIVIDE          reduce using rule 39 (exp -> exp PLUSPLUS .)
+    PLUS            reduce using rule 39 (exp -> exp PLUSPLUS .)
+    MINUS           reduce using rule 39 (exp -> exp PLUSPLUS .)
+    MOD             reduce using rule 39 (exp -> exp PLUSPLUS .)
+    PLUSPLUS        reduce using rule 39 (exp -> exp PLUSPLUS .)
+    MINUSMINUS      reduce using rule 39 (exp -> exp PLUSPLUS .)
+    GE              reduce using rule 39 (exp -> exp PLUSPLUS .)
+    GT              reduce using rule 39 (exp -> exp PLUSPLUS .)
+    LE              reduce using rule 39 (exp -> exp PLUSPLUS .)
+    LT              reduce using rule 39 (exp -> exp PLUSPLUS .)
+    EQUALEQUAL      reduce using rule 39 (exp -> exp PLUSPLUS .)
+    NOT             reduce using rule 39 (exp -> exp PLUSPLUS .)
+    $end            reduce using rule 39 (exp -> exp PLUSPLUS .)
+    RPAREN          reduce using rule 39 (exp -> exp PLUSPLUS .)
+    LPAREN          reduce using rule 39 (exp -> exp PLUSPLUS .)
+    NUMBER          reduce using rule 39 (exp -> exp PLUSPLUS .)
+    STRING          reduce using rule 39 (exp -> exp PLUSPLUS .)
+    IDENTIFIER      reduce using rule 39 (exp -> exp PLUSPLUS .)
+    SUPPOSE         reduce using rule 39 (exp -> exp PLUSPLUS .)
+    SNAKE           reduce using rule 39 (exp -> exp PLUSPLUS .)
+    ACCESS          reduce using rule 39 (exp -> exp PLUSPLUS .)
+    MAYBE           reduce using rule 39 (exp -> exp PLUSPLUS .)
+    TRUE            reduce using rule 39 (exp -> exp PLUSPLUS .)
+    FALSE           reduce using rule 39 (exp -> exp PLUSPLUS .)
+    OR              reduce using rule 39 (exp -> exp PLUSPLUS .)
 
-    exp                            shift and go to state 44
-    bool                           shift and go to state 12
 
 state 27
 
-    (38) rel_exp -> exp GT . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (40) exp -> exp MINUSMINUS .
 
-    LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    TIMES           reduce using rule 40 (exp -> exp MINUSMINUS .)
+    DIVIDE          reduce using rule 40 (exp -> exp MINUSMINUS .)
+    PLUS            reduce using rule 40 (exp -> exp MINUSMINUS .)
+    MINUS           reduce using rule 40 (exp -> exp MINUSMINUS .)
+    MOD             reduce using rule 40 (exp -> exp MINUSMINUS .)
+    PLUSPLUS        reduce using rule 40 (exp -> exp MINUSMINUS .)
+    MINUSMINUS      reduce using rule 40 (exp -> exp MINUSMINUS .)
+    GE              reduce using rule 40 (exp -> exp MINUSMINUS .)
+    GT              reduce using rule 40 (exp -> exp MINUSMINUS .)
+    LE              reduce using rule 40 (exp -> exp MINUSMINUS .)
+    LT              reduce using rule 40 (exp -> exp MINUSMINUS .)
+    EQUALEQUAL      reduce using rule 40 (exp -> exp MINUSMINUS .)
+    NOT             reduce using rule 40 (exp -> exp MINUSMINUS .)
+    $end            reduce using rule 40 (exp -> exp MINUSMINUS .)
+    RPAREN          reduce using rule 40 (exp -> exp MINUSMINUS .)
+    LPAREN          reduce using rule 40 (exp -> exp MINUSMINUS .)
+    NUMBER          reduce using rule 40 (exp -> exp MINUSMINUS .)
+    STRING          reduce using rule 40 (exp -> exp MINUSMINUS .)
+    IDENTIFIER      reduce using rule 40 (exp -> exp MINUSMINUS .)
+    SUPPOSE         reduce using rule 40 (exp -> exp MINUSMINUS .)
+    SNAKE           reduce using rule 40 (exp -> exp MINUSMINUS .)
+    ACCESS          reduce using rule 40 (exp -> exp MINUSMINUS .)
+    MAYBE           reduce using rule 40 (exp -> exp MINUSMINUS .)
+    TRUE            reduce using rule 40 (exp -> exp MINUSMINUS .)
+    FALSE           reduce using rule 40 (exp -> exp MINUSMINUS .)
+    OR              reduce using rule 40 (exp -> exp MINUSMINUS .)
 
-    exp                            shift and go to state 45
-    bool                           shift and go to state 12
 
 state 28
 
-    (39) rel_exp -> exp LE . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (48) rel_exp -> exp GE . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
     LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
-    exp                            shift and go to state 46
-    bool                           shift and go to state 12
+    exp                            shift and go to state 48
+    bool                           shift and go to state 13
 
 state 29
 
-    (40) rel_exp -> exp LT . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (49) rel_exp -> exp GT . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
     LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
-    exp                            shift and go to state 47
-    bool                           shift and go to state 12
+    exp                            shift and go to state 49
+    bool                           shift and go to state 13
 
 state 30
 
-    (41) rel_exp -> exp EQUALEQUAL . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (50) rel_exp -> exp LE . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
     LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
-    exp                            shift and go to state 48
-    bool                           shift and go to state 12
+    exp                            shift and go to state 50
+    bool                           shift and go to state 13
 
 state 31
 
-    (42) rel_exp -> exp NOT . EQUAL exp
+    (51) rel_exp -> exp LT . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
-    EQUAL           shift and go to state 49
+    LPAREN          shift and go to state 9
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
+    exp                            shift and go to state 51
+    bool                           shift and go to state 13
 
 state 32
 
-    (30) exp -> MINUS exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (52) rel_exp -> exp EQUALEQUAL . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
-    TIMES           reduce using rule 30 (exp -> MINUS exp .)
-    DIVIDE          reduce using rule 30 (exp -> MINUS exp .)
-    PLUS            reduce using rule 30 (exp -> MINUS exp .)
-    MINUS           reduce using rule 30 (exp -> MINUS exp .)
-    MOD             reduce using rule 30 (exp -> MINUS exp .)
-    PLUSPLUS        reduce using rule 30 (exp -> MINUS exp .)
-    MINUSMINUS      reduce using rule 30 (exp -> MINUS exp .)
-    GE              reduce using rule 30 (exp -> MINUS exp .)
-    GT              reduce using rule 30 (exp -> MINUS exp .)
-    LE              reduce using rule 30 (exp -> MINUS exp .)
-    LT              reduce using rule 30 (exp -> MINUS exp .)
-    EQUALEQUAL      reduce using rule 30 (exp -> MINUS exp .)
-    NOT             reduce using rule 30 (exp -> MINUS exp .)
-    $end            reduce using rule 30 (exp -> MINUS exp .)
-    RPAREN          reduce using rule 30 (exp -> MINUS exp .)
+    LPAREN          shift and go to state 9
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
-  ! TIMES           [ shift and go to state 19 ]
-  ! DIVIDE          [ shift and go to state 20 ]
-  ! PLUS            [ shift and go to state 21 ]
-  ! MINUS           [ shift and go to state 22 ]
-  ! MOD             [ shift and go to state 23 ]
-  ! PLUSPLUS        [ shift and go to state 24 ]
-  ! MINUSMINUS      [ shift and go to state 25 ]
-
+    exp                            shift and go to state 52
+    bool                           shift and go to state 13
 
 state 33
 
-    (36) exp -> IDENTIFIER .
-
-    TIMES           reduce using rule 36 (exp -> IDENTIFIER .)
-    DIVIDE          reduce using rule 36 (exp -> IDENTIFIER .)
-    PLUS            reduce using rule 36 (exp -> IDENTIFIER .)
-    MINUS           reduce using rule 36 (exp -> IDENTIFIER .)
-    MOD             reduce using rule 36 (exp -> IDENTIFIER .)
-    PLUSPLUS        reduce using rule 36 (exp -> IDENTIFIER .)
-    MINUSMINUS      reduce using rule 36 (exp -> IDENTIFIER .)
-    GE              reduce using rule 36 (exp -> IDENTIFIER .)
-    GT              reduce using rule 36 (exp -> IDENTIFIER .)
-    LE              reduce using rule 36 (exp -> IDENTIFIER .)
-    LT              reduce using rule 36 (exp -> IDENTIFIER .)
-    EQUALEQUAL      reduce using rule 36 (exp -> IDENTIFIER .)
-    NOT             reduce using rule 36 (exp -> IDENTIFIER .)
-    $end            reduce using rule 36 (exp -> IDENTIFIER .)
-    RPAREN          reduce using rule 36 (exp -> IDENTIFIER .)
-
-
-state 34
-
-    (27) exp -> LPAREN exp . RPAREN
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
-
-    RPAREN          shift and go to state 50
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    MOD             shift and go to state 23
-    PLUSPLUS        shift and go to state 24
-    MINUSMINUS      shift and go to state 25
-
-
-state 35
-
-    (21) assign_identifier -> IDENTIFIER EQUAL . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
-
-    LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
-
-    exp                            shift and go to state 51
-    bool                           shift and go to state 12
-
-state 36
-
-    (20) assign_identifier -> SUPPOSE IDENTIFIER . EQUAL exp
-
-    EQUAL           shift and go to state 52
-
-
-state 37
-
-    (7) snake_list -> SNAKE IDENTIFIER . EQUAL num_snake
-    (8) snake_list -> SNAKE IDENTIFIER . EQUAL string_snake
-    (9) snake_list -> SNAKE IDENTIFIER . EQUAL bool_snake
+    (53) rel_exp -> exp NOT . EQUAL exp
 
     EQUAL           shift and go to state 53
 
 
+state 34
+
+    (16) exp -> LPAREN exp . RPAREN
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
+
+    RPAREN          shift and go to state 54
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
+
+
+state 35
+
+    (47) exp -> IDENTIFIER .
+
+    RPAREN          reduce using rule 47 (exp -> IDENTIFIER .)
+    TIMES           reduce using rule 47 (exp -> IDENTIFIER .)
+    DIVIDE          reduce using rule 47 (exp -> IDENTIFIER .)
+    PLUS            reduce using rule 47 (exp -> IDENTIFIER .)
+    MINUS           reduce using rule 47 (exp -> IDENTIFIER .)
+    MOD             reduce using rule 47 (exp -> IDENTIFIER .)
+    PLUSPLUS        reduce using rule 47 (exp -> IDENTIFIER .)
+    MINUSMINUS      reduce using rule 47 (exp -> IDENTIFIER .)
+    GE              reduce using rule 47 (exp -> IDENTIFIER .)
+    GT              reduce using rule 47 (exp -> IDENTIFIER .)
+    LE              reduce using rule 47 (exp -> IDENTIFIER .)
+    LT              reduce using rule 47 (exp -> IDENTIFIER .)
+    EQUALEQUAL      reduce using rule 47 (exp -> IDENTIFIER .)
+    NOT             reduce using rule 47 (exp -> IDENTIFIER .)
+    $end            reduce using rule 47 (exp -> IDENTIFIER .)
+    LPAREN          reduce using rule 47 (exp -> IDENTIFIER .)
+    NUMBER          reduce using rule 47 (exp -> IDENTIFIER .)
+    STRING          reduce using rule 47 (exp -> IDENTIFIER .)
+    IDENTIFIER      reduce using rule 47 (exp -> IDENTIFIER .)
+    SUPPOSE         reduce using rule 47 (exp -> IDENTIFIER .)
+    SNAKE           reduce using rule 47 (exp -> IDENTIFIER .)
+    ACCESS          reduce using rule 47 (exp -> IDENTIFIER .)
+    MAYBE           reduce using rule 47 (exp -> IDENTIFIER .)
+    TRUE            reduce using rule 47 (exp -> IDENTIFIER .)
+    FALSE           reduce using rule 47 (exp -> IDENTIFIER .)
+    OR              reduce using rule 47 (exp -> IDENTIFIER .)
+
+
+state 36
+
+    (41) exp -> MINUS exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
+
+    TIMES           reduce using rule 41 (exp -> MINUS exp .)
+    DIVIDE          reduce using rule 41 (exp -> MINUS exp .)
+    PLUS            reduce using rule 41 (exp -> MINUS exp .)
+    MINUS           reduce using rule 41 (exp -> MINUS exp .)
+    MOD             reduce using rule 41 (exp -> MINUS exp .)
+    PLUSPLUS        reduce using rule 41 (exp -> MINUS exp .)
+    MINUSMINUS      reduce using rule 41 (exp -> MINUS exp .)
+    GE              reduce using rule 41 (exp -> MINUS exp .)
+    GT              reduce using rule 41 (exp -> MINUS exp .)
+    LE              reduce using rule 41 (exp -> MINUS exp .)
+    LT              reduce using rule 41 (exp -> MINUS exp .)
+    EQUALEQUAL      reduce using rule 41 (exp -> MINUS exp .)
+    NOT             reduce using rule 41 (exp -> MINUS exp .)
+    $end            reduce using rule 41 (exp -> MINUS exp .)
+    RPAREN          reduce using rule 41 (exp -> MINUS exp .)
+    LPAREN          reduce using rule 41 (exp -> MINUS exp .)
+    NUMBER          reduce using rule 41 (exp -> MINUS exp .)
+    STRING          reduce using rule 41 (exp -> MINUS exp .)
+    IDENTIFIER      reduce using rule 41 (exp -> MINUS exp .)
+    SUPPOSE         reduce using rule 41 (exp -> MINUS exp .)
+    SNAKE           reduce using rule 41 (exp -> MINUS exp .)
+    ACCESS          reduce using rule 41 (exp -> MINUS exp .)
+    MAYBE           reduce using rule 41 (exp -> MINUS exp .)
+    TRUE            reduce using rule 41 (exp -> MINUS exp .)
+    FALSE           reduce using rule 41 (exp -> MINUS exp .)
+    OR              reduce using rule 41 (exp -> MINUS exp .)
+
+  ! TIMES           [ shift and go to state 21 ]
+  ! DIVIDE          [ shift and go to state 22 ]
+  ! PLUS            [ shift and go to state 23 ]
+  ! MINUS           [ shift and go to state 24 ]
+  ! MOD             [ shift and go to state 25 ]
+  ! PLUSPLUS        [ shift and go to state 26 ]
+  ! MINUSMINUS      [ shift and go to state 27 ]
+
+
+state 37
+
+    (33) assign_identifier -> IDENTIFIER EQUAL . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
+
+    LPAREN          shift and go to state 9
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
+
+    exp                            shift and go to state 55
+    bool                           shift and go to state 13
+
 state 38
 
-    (10) snake_list_access -> ACCESS IDENTIFIER . NUMBER
+    (32) assign_identifier -> SUPPOSE IDENTIFIER . EQUAL exp
 
-    NUMBER          shift and go to state 54
+    EQUAL           shift and go to state 56
 
 
 state 39
 
-    (22) exp -> exp TIMES exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (19) snake_list -> SNAKE IDENTIFIER . EQUAL num_snake
+    (20) snake_list -> SNAKE IDENTIFIER . EQUAL string_snake
+    (21) snake_list -> SNAKE IDENTIFIER . EQUAL bool_snake
 
-    TIMES           reduce using rule 22 (exp -> exp TIMES exp .)
-    DIVIDE          reduce using rule 22 (exp -> exp TIMES exp .)
-    PLUS            reduce using rule 22 (exp -> exp TIMES exp .)
-    MINUS           reduce using rule 22 (exp -> exp TIMES exp .)
-    MOD             reduce using rule 22 (exp -> exp TIMES exp .)
-    PLUSPLUS        reduce using rule 22 (exp -> exp TIMES exp .)
-    MINUSMINUS      reduce using rule 22 (exp -> exp TIMES exp .)
-    GE              reduce using rule 22 (exp -> exp TIMES exp .)
-    GT              reduce using rule 22 (exp -> exp TIMES exp .)
-    LE              reduce using rule 22 (exp -> exp TIMES exp .)
-    LT              reduce using rule 22 (exp -> exp TIMES exp .)
-    EQUALEQUAL      reduce using rule 22 (exp -> exp TIMES exp .)
-    NOT             reduce using rule 22 (exp -> exp TIMES exp .)
-    $end            reduce using rule 22 (exp -> exp TIMES exp .)
-    RPAREN          reduce using rule 22 (exp -> exp TIMES exp .)
-
-  ! TIMES           [ shift and go to state 19 ]
-  ! DIVIDE          [ shift and go to state 20 ]
-  ! PLUS            [ shift and go to state 21 ]
-  ! MINUS           [ shift and go to state 22 ]
-  ! MOD             [ shift and go to state 23 ]
-  ! PLUSPLUS        [ shift and go to state 24 ]
-  ! MINUSMINUS      [ shift and go to state 25 ]
+    EQUAL           shift and go to state 57
 
 
 state 40
 
-    (23) exp -> exp DIVIDE exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (22) snake_list_access -> ACCESS IDENTIFIER . NUMBER
 
-    TIMES           reduce using rule 23 (exp -> exp DIVIDE exp .)
-    DIVIDE          reduce using rule 23 (exp -> exp DIVIDE exp .)
-    PLUS            reduce using rule 23 (exp -> exp DIVIDE exp .)
-    MINUS           reduce using rule 23 (exp -> exp DIVIDE exp .)
-    MOD             reduce using rule 23 (exp -> exp DIVIDE exp .)
-    PLUSPLUS        reduce using rule 23 (exp -> exp DIVIDE exp .)
-    MINUSMINUS      reduce using rule 23 (exp -> exp DIVIDE exp .)
-    GE              reduce using rule 23 (exp -> exp DIVIDE exp .)
-    GT              reduce using rule 23 (exp -> exp DIVIDE exp .)
-    LE              reduce using rule 23 (exp -> exp DIVIDE exp .)
-    LT              reduce using rule 23 (exp -> exp DIVIDE exp .)
-    EQUALEQUAL      reduce using rule 23 (exp -> exp DIVIDE exp .)
-    NOT             reduce using rule 23 (exp -> exp DIVIDE exp .)
-    $end            reduce using rule 23 (exp -> exp DIVIDE exp .)
-    RPAREN          reduce using rule 23 (exp -> exp DIVIDE exp .)
-
-  ! TIMES           [ shift and go to state 19 ]
-  ! DIVIDE          [ shift and go to state 20 ]
-  ! PLUS            [ shift and go to state 21 ]
-  ! MINUS           [ shift and go to state 22 ]
-  ! MOD             [ shift and go to state 23 ]
-  ! PLUSPLUS        [ shift and go to state 24 ]
-  ! MINUSMINUS      [ shift and go to state 25 ]
+    NUMBER          shift and go to state 58
 
 
 state 41
 
-    (24) exp -> exp PLUS exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (17) conditional -> MAYBE rel_exp . statement
+    (18) conditional -> MAYBE rel_exp . statement OR statement
+    (8) statement -> . exp
+    (9) statement -> . assign_identifier
+    (10) statement -> . snake_list
+    (11) statement -> . snake_list_access
+    (12) statement -> . rel_exp
+    (13) statement -> . conditional
+    (14) statement -> . statement
+    (15) statement -> . empty
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (32) assign_identifier -> . SUPPOSE IDENTIFIER EQUAL exp
+    (33) assign_identifier -> . IDENTIFIER EQUAL exp
+    (19) snake_list -> . SNAKE IDENTIFIER EQUAL num_snake
+    (20) snake_list -> . SNAKE IDENTIFIER EQUAL string_snake
+    (21) snake_list -> . SNAKE IDENTIFIER EQUAL bool_snake
+    (22) snake_list_access -> . ACCESS IDENTIFIER NUMBER
+    (48) rel_exp -> . exp GE exp
+    (49) rel_exp -> . exp GT exp
+    (50) rel_exp -> . exp LE exp
+    (51) rel_exp -> . exp LT exp
+    (52) rel_exp -> . exp EQUALEQUAL exp
+    (53) rel_exp -> . exp NOT EQUAL exp
+    (17) conditional -> . MAYBE rel_exp statement
+    (18) conditional -> . MAYBE rel_exp statement OR statement
+    (31) empty -> .
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
-    PLUS            reduce using rule 24 (exp -> exp PLUS exp .)
-    MINUS           reduce using rule 24 (exp -> exp PLUS exp .)
-    PLUSPLUS        reduce using rule 24 (exp -> exp PLUS exp .)
-    MINUSMINUS      reduce using rule 24 (exp -> exp PLUS exp .)
-    GE              reduce using rule 24 (exp -> exp PLUS exp .)
-    GT              reduce using rule 24 (exp -> exp PLUS exp .)
-    LE              reduce using rule 24 (exp -> exp PLUS exp .)
-    LT              reduce using rule 24 (exp -> exp PLUS exp .)
-    EQUALEQUAL      reduce using rule 24 (exp -> exp PLUS exp .)
-    NOT             reduce using rule 24 (exp -> exp PLUS exp .)
-    $end            reduce using rule 24 (exp -> exp PLUS exp .)
-    RPAREN          reduce using rule 24 (exp -> exp PLUS exp .)
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    MOD             shift and go to state 23
+    LPAREN          shift and go to state 9
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 14
+    SUPPOSE         shift and go to state 15
+    SNAKE           shift and go to state 16
+    ACCESS          shift and go to state 17
+    MAYBE           shift and go to state 18
+    OR              reduce using rule 31 (empty -> .)
+    $end            reduce using rule 31 (empty -> .)
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
-  ! TIMES           [ reduce using rule 24 (exp -> exp PLUS exp .) ]
-  ! DIVIDE          [ reduce using rule 24 (exp -> exp PLUS exp .) ]
-  ! MOD             [ reduce using rule 24 (exp -> exp PLUS exp .) ]
-  ! PLUS            [ shift and go to state 21 ]
-  ! MINUS           [ shift and go to state 22 ]
-  ! PLUSPLUS        [ shift and go to state 24 ]
-  ! MINUSMINUS      [ shift and go to state 25 ]
-
+    rel_exp                        shift and go to state 59
+    statement                      shift and go to state 60
+    exp                            shift and go to state 61
+    assign_identifier              shift and go to state 62
+    snake_list                     shift and go to state 63
+    snake_list_access              shift and go to state 64
+    conditional                    shift and go to state 65
+    empty                          shift and go to state 66
+    bool                           shift and go to state 13
 
 state 42
 
-    (25) exp -> exp MINUS exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (48) rel_exp -> exp . GE exp
+    (49) rel_exp -> exp . GT exp
+    (50) rel_exp -> exp . LE exp
+    (51) rel_exp -> exp . LT exp
+    (52) rel_exp -> exp . EQUALEQUAL exp
+    (53) rel_exp -> exp . NOT EQUAL exp
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    PLUS            reduce using rule 25 (exp -> exp MINUS exp .)
-    MINUS           reduce using rule 25 (exp -> exp MINUS exp .)
-    PLUSPLUS        reduce using rule 25 (exp -> exp MINUS exp .)
-    MINUSMINUS      reduce using rule 25 (exp -> exp MINUS exp .)
-    GE              reduce using rule 25 (exp -> exp MINUS exp .)
-    GT              reduce using rule 25 (exp -> exp MINUS exp .)
-    LE              reduce using rule 25 (exp -> exp MINUS exp .)
-    LT              reduce using rule 25 (exp -> exp MINUS exp .)
-    EQUALEQUAL      reduce using rule 25 (exp -> exp MINUS exp .)
-    NOT             reduce using rule 25 (exp -> exp MINUS exp .)
-    $end            reduce using rule 25 (exp -> exp MINUS exp .)
-    RPAREN          reduce using rule 25 (exp -> exp MINUS exp .)
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    MOD             shift and go to state 23
-
-  ! TIMES           [ reduce using rule 25 (exp -> exp MINUS exp .) ]
-  ! DIVIDE          [ reduce using rule 25 (exp -> exp MINUS exp .) ]
-  ! MOD             [ reduce using rule 25 (exp -> exp MINUS exp .) ]
-  ! PLUS            [ shift and go to state 21 ]
-  ! MINUS           [ shift and go to state 22 ]
-  ! PLUSPLUS        [ shift and go to state 24 ]
-  ! MINUSMINUS      [ shift and go to state 25 ]
+    GE              shift and go to state 28
+    GT              shift and go to state 29
+    LE              shift and go to state 30
+    LT              shift and go to state 31
+    EQUALEQUAL      shift and go to state 32
+    NOT             shift and go to state 33
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
 
 
 state 43
 
-    (26) exp -> exp MOD exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (34) exp -> exp TIMES exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    TIMES           reduce using rule 26 (exp -> exp MOD exp .)
-    DIVIDE          reduce using rule 26 (exp -> exp MOD exp .)
-    PLUS            reduce using rule 26 (exp -> exp MOD exp .)
-    MINUS           reduce using rule 26 (exp -> exp MOD exp .)
-    MOD             reduce using rule 26 (exp -> exp MOD exp .)
-    PLUSPLUS        reduce using rule 26 (exp -> exp MOD exp .)
-    MINUSMINUS      reduce using rule 26 (exp -> exp MOD exp .)
-    GE              reduce using rule 26 (exp -> exp MOD exp .)
-    GT              reduce using rule 26 (exp -> exp MOD exp .)
-    LE              reduce using rule 26 (exp -> exp MOD exp .)
-    LT              reduce using rule 26 (exp -> exp MOD exp .)
-    EQUALEQUAL      reduce using rule 26 (exp -> exp MOD exp .)
-    NOT             reduce using rule 26 (exp -> exp MOD exp .)
-    $end            reduce using rule 26 (exp -> exp MOD exp .)
-    RPAREN          reduce using rule 26 (exp -> exp MOD exp .)
+    TIMES           reduce using rule 34 (exp -> exp TIMES exp .)
+    DIVIDE          reduce using rule 34 (exp -> exp TIMES exp .)
+    PLUS            reduce using rule 34 (exp -> exp TIMES exp .)
+    MINUS           reduce using rule 34 (exp -> exp TIMES exp .)
+    MOD             reduce using rule 34 (exp -> exp TIMES exp .)
+    PLUSPLUS        reduce using rule 34 (exp -> exp TIMES exp .)
+    MINUSMINUS      reduce using rule 34 (exp -> exp TIMES exp .)
+    GE              reduce using rule 34 (exp -> exp TIMES exp .)
+    GT              reduce using rule 34 (exp -> exp TIMES exp .)
+    LE              reduce using rule 34 (exp -> exp TIMES exp .)
+    LT              reduce using rule 34 (exp -> exp TIMES exp .)
+    EQUALEQUAL      reduce using rule 34 (exp -> exp TIMES exp .)
+    NOT             reduce using rule 34 (exp -> exp TIMES exp .)
+    $end            reduce using rule 34 (exp -> exp TIMES exp .)
+    RPAREN          reduce using rule 34 (exp -> exp TIMES exp .)
+    LPAREN          reduce using rule 34 (exp -> exp TIMES exp .)
+    NUMBER          reduce using rule 34 (exp -> exp TIMES exp .)
+    STRING          reduce using rule 34 (exp -> exp TIMES exp .)
+    IDENTIFIER      reduce using rule 34 (exp -> exp TIMES exp .)
+    SUPPOSE         reduce using rule 34 (exp -> exp TIMES exp .)
+    SNAKE           reduce using rule 34 (exp -> exp TIMES exp .)
+    ACCESS          reduce using rule 34 (exp -> exp TIMES exp .)
+    MAYBE           reduce using rule 34 (exp -> exp TIMES exp .)
+    TRUE            reduce using rule 34 (exp -> exp TIMES exp .)
+    FALSE           reduce using rule 34 (exp -> exp TIMES exp .)
+    OR              reduce using rule 34 (exp -> exp TIMES exp .)
 
-  ! TIMES           [ shift and go to state 19 ]
-  ! DIVIDE          [ shift and go to state 20 ]
-  ! PLUS            [ shift and go to state 21 ]
-  ! MINUS           [ shift and go to state 22 ]
-  ! MOD             [ shift and go to state 23 ]
-  ! PLUSPLUS        [ shift and go to state 24 ]
-  ! MINUSMINUS      [ shift and go to state 25 ]
+  ! TIMES           [ shift and go to state 21 ]
+  ! DIVIDE          [ shift and go to state 22 ]
+  ! PLUS            [ shift and go to state 23 ]
+  ! MINUS           [ shift and go to state 24 ]
+  ! MOD             [ shift and go to state 25 ]
+  ! PLUSPLUS        [ shift and go to state 26 ]
+  ! MINUSMINUS      [ shift and go to state 27 ]
 
 
 state 44
 
-    (37) rel_exp -> exp GE exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (35) exp -> exp DIVIDE exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    $end            reduce using rule 37 (rel_exp -> exp GE exp .)
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    MOD             shift and go to state 23
-    PLUSPLUS        shift and go to state 24
-    MINUSMINUS      shift and go to state 25
+    TIMES           reduce using rule 35 (exp -> exp DIVIDE exp .)
+    DIVIDE          reduce using rule 35 (exp -> exp DIVIDE exp .)
+    PLUS            reduce using rule 35 (exp -> exp DIVIDE exp .)
+    MINUS           reduce using rule 35 (exp -> exp DIVIDE exp .)
+    MOD             reduce using rule 35 (exp -> exp DIVIDE exp .)
+    PLUSPLUS        reduce using rule 35 (exp -> exp DIVIDE exp .)
+    MINUSMINUS      reduce using rule 35 (exp -> exp DIVIDE exp .)
+    GE              reduce using rule 35 (exp -> exp DIVIDE exp .)
+    GT              reduce using rule 35 (exp -> exp DIVIDE exp .)
+    LE              reduce using rule 35 (exp -> exp DIVIDE exp .)
+    LT              reduce using rule 35 (exp -> exp DIVIDE exp .)
+    EQUALEQUAL      reduce using rule 35 (exp -> exp DIVIDE exp .)
+    NOT             reduce using rule 35 (exp -> exp DIVIDE exp .)
+    $end            reduce using rule 35 (exp -> exp DIVIDE exp .)
+    RPAREN          reduce using rule 35 (exp -> exp DIVIDE exp .)
+    LPAREN          reduce using rule 35 (exp -> exp DIVIDE exp .)
+    NUMBER          reduce using rule 35 (exp -> exp DIVIDE exp .)
+    STRING          reduce using rule 35 (exp -> exp DIVIDE exp .)
+    IDENTIFIER      reduce using rule 35 (exp -> exp DIVIDE exp .)
+    SUPPOSE         reduce using rule 35 (exp -> exp DIVIDE exp .)
+    SNAKE           reduce using rule 35 (exp -> exp DIVIDE exp .)
+    ACCESS          reduce using rule 35 (exp -> exp DIVIDE exp .)
+    MAYBE           reduce using rule 35 (exp -> exp DIVIDE exp .)
+    TRUE            reduce using rule 35 (exp -> exp DIVIDE exp .)
+    FALSE           reduce using rule 35 (exp -> exp DIVIDE exp .)
+    OR              reduce using rule 35 (exp -> exp DIVIDE exp .)
+
+  ! TIMES           [ shift and go to state 21 ]
+  ! DIVIDE          [ shift and go to state 22 ]
+  ! PLUS            [ shift and go to state 23 ]
+  ! MINUS           [ shift and go to state 24 ]
+  ! MOD             [ shift and go to state 25 ]
+  ! PLUSPLUS        [ shift and go to state 26 ]
+  ! MINUSMINUS      [ shift and go to state 27 ]
 
 
 state 45
 
-    (38) rel_exp -> exp GT exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (36) exp -> exp PLUS exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    $end            reduce using rule 38 (rel_exp -> exp GT exp .)
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    MOD             shift and go to state 23
-    PLUSPLUS        shift and go to state 24
-    MINUSMINUS      shift and go to state 25
+    PLUS            reduce using rule 36 (exp -> exp PLUS exp .)
+    MINUS           reduce using rule 36 (exp -> exp PLUS exp .)
+    PLUSPLUS        reduce using rule 36 (exp -> exp PLUS exp .)
+    MINUSMINUS      reduce using rule 36 (exp -> exp PLUS exp .)
+    GE              reduce using rule 36 (exp -> exp PLUS exp .)
+    GT              reduce using rule 36 (exp -> exp PLUS exp .)
+    LE              reduce using rule 36 (exp -> exp PLUS exp .)
+    LT              reduce using rule 36 (exp -> exp PLUS exp .)
+    EQUALEQUAL      reduce using rule 36 (exp -> exp PLUS exp .)
+    NOT             reduce using rule 36 (exp -> exp PLUS exp .)
+    $end            reduce using rule 36 (exp -> exp PLUS exp .)
+    RPAREN          reduce using rule 36 (exp -> exp PLUS exp .)
+    LPAREN          reduce using rule 36 (exp -> exp PLUS exp .)
+    NUMBER          reduce using rule 36 (exp -> exp PLUS exp .)
+    STRING          reduce using rule 36 (exp -> exp PLUS exp .)
+    IDENTIFIER      reduce using rule 36 (exp -> exp PLUS exp .)
+    SUPPOSE         reduce using rule 36 (exp -> exp PLUS exp .)
+    SNAKE           reduce using rule 36 (exp -> exp PLUS exp .)
+    ACCESS          reduce using rule 36 (exp -> exp PLUS exp .)
+    MAYBE           reduce using rule 36 (exp -> exp PLUS exp .)
+    TRUE            reduce using rule 36 (exp -> exp PLUS exp .)
+    FALSE           reduce using rule 36 (exp -> exp PLUS exp .)
+    OR              reduce using rule 36 (exp -> exp PLUS exp .)
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    MOD             shift and go to state 25
+
+  ! TIMES           [ reduce using rule 36 (exp -> exp PLUS exp .) ]
+  ! DIVIDE          [ reduce using rule 36 (exp -> exp PLUS exp .) ]
+  ! MOD             [ reduce using rule 36 (exp -> exp PLUS exp .) ]
+  ! PLUS            [ shift and go to state 23 ]
+  ! MINUS           [ shift and go to state 24 ]
+  ! PLUSPLUS        [ shift and go to state 26 ]
+  ! MINUSMINUS      [ shift and go to state 27 ]
 
 
 state 46
 
-    (39) rel_exp -> exp LE exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (37) exp -> exp MINUS exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    $end            reduce using rule 39 (rel_exp -> exp LE exp .)
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    MOD             shift and go to state 23
-    PLUSPLUS        shift and go to state 24
-    MINUSMINUS      shift and go to state 25
+    PLUS            reduce using rule 37 (exp -> exp MINUS exp .)
+    MINUS           reduce using rule 37 (exp -> exp MINUS exp .)
+    PLUSPLUS        reduce using rule 37 (exp -> exp MINUS exp .)
+    MINUSMINUS      reduce using rule 37 (exp -> exp MINUS exp .)
+    GE              reduce using rule 37 (exp -> exp MINUS exp .)
+    GT              reduce using rule 37 (exp -> exp MINUS exp .)
+    LE              reduce using rule 37 (exp -> exp MINUS exp .)
+    LT              reduce using rule 37 (exp -> exp MINUS exp .)
+    EQUALEQUAL      reduce using rule 37 (exp -> exp MINUS exp .)
+    NOT             reduce using rule 37 (exp -> exp MINUS exp .)
+    $end            reduce using rule 37 (exp -> exp MINUS exp .)
+    RPAREN          reduce using rule 37 (exp -> exp MINUS exp .)
+    LPAREN          reduce using rule 37 (exp -> exp MINUS exp .)
+    NUMBER          reduce using rule 37 (exp -> exp MINUS exp .)
+    STRING          reduce using rule 37 (exp -> exp MINUS exp .)
+    IDENTIFIER      reduce using rule 37 (exp -> exp MINUS exp .)
+    SUPPOSE         reduce using rule 37 (exp -> exp MINUS exp .)
+    SNAKE           reduce using rule 37 (exp -> exp MINUS exp .)
+    ACCESS          reduce using rule 37 (exp -> exp MINUS exp .)
+    MAYBE           reduce using rule 37 (exp -> exp MINUS exp .)
+    TRUE            reduce using rule 37 (exp -> exp MINUS exp .)
+    FALSE           reduce using rule 37 (exp -> exp MINUS exp .)
+    OR              reduce using rule 37 (exp -> exp MINUS exp .)
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    MOD             shift and go to state 25
+
+  ! TIMES           [ reduce using rule 37 (exp -> exp MINUS exp .) ]
+  ! DIVIDE          [ reduce using rule 37 (exp -> exp MINUS exp .) ]
+  ! MOD             [ reduce using rule 37 (exp -> exp MINUS exp .) ]
+  ! PLUS            [ shift and go to state 23 ]
+  ! MINUS           [ shift and go to state 24 ]
+  ! PLUSPLUS        [ shift and go to state 26 ]
+  ! MINUSMINUS      [ shift and go to state 27 ]
 
 
 state 47
 
-    (40) rel_exp -> exp LT exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (38) exp -> exp MOD exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    $end            reduce using rule 40 (rel_exp -> exp LT exp .)
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    MOD             shift and go to state 23
-    PLUSPLUS        shift and go to state 24
-    MINUSMINUS      shift and go to state 25
+    TIMES           reduce using rule 38 (exp -> exp MOD exp .)
+    DIVIDE          reduce using rule 38 (exp -> exp MOD exp .)
+    PLUS            reduce using rule 38 (exp -> exp MOD exp .)
+    MINUS           reduce using rule 38 (exp -> exp MOD exp .)
+    MOD             reduce using rule 38 (exp -> exp MOD exp .)
+    PLUSPLUS        reduce using rule 38 (exp -> exp MOD exp .)
+    MINUSMINUS      reduce using rule 38 (exp -> exp MOD exp .)
+    GE              reduce using rule 38 (exp -> exp MOD exp .)
+    GT              reduce using rule 38 (exp -> exp MOD exp .)
+    LE              reduce using rule 38 (exp -> exp MOD exp .)
+    LT              reduce using rule 38 (exp -> exp MOD exp .)
+    EQUALEQUAL      reduce using rule 38 (exp -> exp MOD exp .)
+    NOT             reduce using rule 38 (exp -> exp MOD exp .)
+    $end            reduce using rule 38 (exp -> exp MOD exp .)
+    RPAREN          reduce using rule 38 (exp -> exp MOD exp .)
+    LPAREN          reduce using rule 38 (exp -> exp MOD exp .)
+    NUMBER          reduce using rule 38 (exp -> exp MOD exp .)
+    STRING          reduce using rule 38 (exp -> exp MOD exp .)
+    IDENTIFIER      reduce using rule 38 (exp -> exp MOD exp .)
+    SUPPOSE         reduce using rule 38 (exp -> exp MOD exp .)
+    SNAKE           reduce using rule 38 (exp -> exp MOD exp .)
+    ACCESS          reduce using rule 38 (exp -> exp MOD exp .)
+    MAYBE           reduce using rule 38 (exp -> exp MOD exp .)
+    TRUE            reduce using rule 38 (exp -> exp MOD exp .)
+    FALSE           reduce using rule 38 (exp -> exp MOD exp .)
+    OR              reduce using rule 38 (exp -> exp MOD exp .)
+
+  ! TIMES           [ shift and go to state 21 ]
+  ! DIVIDE          [ shift and go to state 22 ]
+  ! PLUS            [ shift and go to state 23 ]
+  ! MINUS           [ shift and go to state 24 ]
+  ! MOD             [ shift and go to state 25 ]
+  ! PLUSPLUS        [ shift and go to state 26 ]
+  ! MINUSMINUS      [ shift and go to state 27 ]
 
 
 state 48
 
-    (41) rel_exp -> exp EQUALEQUAL exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (48) rel_exp -> exp GE exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    $end            reduce using rule 41 (rel_exp -> exp EQUALEQUAL exp .)
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    MOD             shift and go to state 23
-    PLUSPLUS        shift and go to state 24
-    MINUSMINUS      shift and go to state 25
+    $end            reduce using rule 48 (rel_exp -> exp GE exp .)
+    LPAREN          reduce using rule 48 (rel_exp -> exp GE exp .)
+    NUMBER          reduce using rule 48 (rel_exp -> exp GE exp .)
+    STRING          reduce using rule 48 (rel_exp -> exp GE exp .)
+    IDENTIFIER      reduce using rule 48 (rel_exp -> exp GE exp .)
+    SUPPOSE         reduce using rule 48 (rel_exp -> exp GE exp .)
+    SNAKE           reduce using rule 48 (rel_exp -> exp GE exp .)
+    ACCESS          reduce using rule 48 (rel_exp -> exp GE exp .)
+    MAYBE           reduce using rule 48 (rel_exp -> exp GE exp .)
+    TRUE            reduce using rule 48 (rel_exp -> exp GE exp .)
+    FALSE           reduce using rule 48 (rel_exp -> exp GE exp .)
+    OR              reduce using rule 48 (rel_exp -> exp GE exp .)
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
+
+  ! MINUS           [ reduce using rule 48 (rel_exp -> exp GE exp .) ]
 
 
 state 49
 
-    (42) rel_exp -> exp NOT EQUAL . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (49) rel_exp -> exp GT exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    $end            reduce using rule 49 (rel_exp -> exp GT exp .)
+    LPAREN          reduce using rule 49 (rel_exp -> exp GT exp .)
+    NUMBER          reduce using rule 49 (rel_exp -> exp GT exp .)
+    STRING          reduce using rule 49 (rel_exp -> exp GT exp .)
+    IDENTIFIER      reduce using rule 49 (rel_exp -> exp GT exp .)
+    SUPPOSE         reduce using rule 49 (rel_exp -> exp GT exp .)
+    SNAKE           reduce using rule 49 (rel_exp -> exp GT exp .)
+    ACCESS          reduce using rule 49 (rel_exp -> exp GT exp .)
+    MAYBE           reduce using rule 49 (rel_exp -> exp GT exp .)
+    TRUE            reduce using rule 49 (rel_exp -> exp GT exp .)
+    FALSE           reduce using rule 49 (rel_exp -> exp GT exp .)
+    OR              reduce using rule 49 (rel_exp -> exp GT exp .)
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
 
-    exp                            shift and go to state 55
-    bool                           shift and go to state 12
+  ! MINUS           [ reduce using rule 49 (rel_exp -> exp GT exp .) ]
+
 
 state 50
 
-    (27) exp -> LPAREN exp RPAREN .
+    (50) rel_exp -> exp LE exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    TIMES           reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    DIVIDE          reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    PLUS            reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    MINUS           reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    MOD             reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    PLUSPLUS        reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    MINUSMINUS      reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    GE              reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    GT              reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    LE              reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    LT              reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    EQUALEQUAL      reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    NOT             reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    $end            reduce using rule 27 (exp -> LPAREN exp RPAREN .)
-    RPAREN          reduce using rule 27 (exp -> LPAREN exp RPAREN .)
+    $end            reduce using rule 50 (rel_exp -> exp LE exp .)
+    LPAREN          reduce using rule 50 (rel_exp -> exp LE exp .)
+    NUMBER          reduce using rule 50 (rel_exp -> exp LE exp .)
+    STRING          reduce using rule 50 (rel_exp -> exp LE exp .)
+    IDENTIFIER      reduce using rule 50 (rel_exp -> exp LE exp .)
+    SUPPOSE         reduce using rule 50 (rel_exp -> exp LE exp .)
+    SNAKE           reduce using rule 50 (rel_exp -> exp LE exp .)
+    ACCESS          reduce using rule 50 (rel_exp -> exp LE exp .)
+    MAYBE           reduce using rule 50 (rel_exp -> exp LE exp .)
+    TRUE            reduce using rule 50 (rel_exp -> exp LE exp .)
+    FALSE           reduce using rule 50 (rel_exp -> exp LE exp .)
+    OR              reduce using rule 50 (rel_exp -> exp LE exp .)
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
+
+  ! MINUS           [ reduce using rule 50 (rel_exp -> exp LE exp .) ]
 
 
 state 51
 
-    (21) assign_identifier -> IDENTIFIER EQUAL exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (51) rel_exp -> exp LT exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    $end            reduce using rule 21 (assign_identifier -> IDENTIFIER EQUAL exp .)
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    MOD             shift and go to state 23
-    PLUSPLUS        shift and go to state 24
-    MINUSMINUS      shift and go to state 25
+    $end            reduce using rule 51 (rel_exp -> exp LT exp .)
+    LPAREN          reduce using rule 51 (rel_exp -> exp LT exp .)
+    NUMBER          reduce using rule 51 (rel_exp -> exp LT exp .)
+    STRING          reduce using rule 51 (rel_exp -> exp LT exp .)
+    IDENTIFIER      reduce using rule 51 (rel_exp -> exp LT exp .)
+    SUPPOSE         reduce using rule 51 (rel_exp -> exp LT exp .)
+    SNAKE           reduce using rule 51 (rel_exp -> exp LT exp .)
+    ACCESS          reduce using rule 51 (rel_exp -> exp LT exp .)
+    MAYBE           reduce using rule 51 (rel_exp -> exp LT exp .)
+    TRUE            reduce using rule 51 (rel_exp -> exp LT exp .)
+    FALSE           reduce using rule 51 (rel_exp -> exp LT exp .)
+    OR              reduce using rule 51 (rel_exp -> exp LT exp .)
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
+
+  ! MINUS           [ reduce using rule 51 (rel_exp -> exp LT exp .) ]
 
 
 state 52
 
-    (20) assign_identifier -> SUPPOSE IDENTIFIER EQUAL . exp
-    (22) exp -> . exp TIMES exp
-    (23) exp -> . exp DIVIDE exp
-    (24) exp -> . exp PLUS exp
-    (25) exp -> . exp MINUS exp
-    (26) exp -> . exp MOD exp
-    (27) exp -> . LPAREN exp RPAREN
-    (28) exp -> . exp PLUSPLUS
-    (29) exp -> . exp MINUSMINUS
-    (30) exp -> . MINUS exp
-    (31) exp -> . NUMBER
-    (32) exp -> . STRING
-    (33) exp -> . bool
-    (36) exp -> . IDENTIFIER
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (52) rel_exp -> exp EQUALEQUAL exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    LPAREN          shift and go to state 9
-    MINUS           shift and go to state 8
-    NUMBER          shift and go to state 10
-    STRING          shift and go to state 11
-    IDENTIFIER      shift and go to state 33
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    $end            reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    LPAREN          reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    NUMBER          reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    STRING          reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    IDENTIFIER      reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    SUPPOSE         reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    SNAKE           reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    ACCESS          reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    MAYBE           reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    TRUE            reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    FALSE           reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    OR              reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .)
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
 
-    exp                            shift and go to state 56
-    bool                           shift and go to state 12
+  ! MINUS           [ reduce using rule 52 (rel_exp -> exp EQUALEQUAL exp .) ]
+
 
 state 53
 
-    (7) snake_list -> SNAKE IDENTIFIER EQUAL . num_snake
-    (8) snake_list -> SNAKE IDENTIFIER EQUAL . string_snake
-    (9) snake_list -> SNAKE IDENTIFIER EQUAL . bool_snake
-    (11) num_snake -> . num_snake COMMA NUMBER
-    (12) num_snake -> . NUMBER
-    (13) num_snake -> . empty
-    (14) string_snake -> . string_snake COMMA STRING
-    (15) string_snake -> . STRING
-    (16) string_snake -> . empty
-    (17) bool_snake -> . bool_snake COMMA bool
-    (18) bool_snake -> . bool
-    (19) empty -> .
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (53) rel_exp -> exp NOT EQUAL . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
-    NUMBER          shift and go to state 60
-    STRING          shift and go to state 62
-    COMMA           reduce using rule 19 (empty -> .)
-    $end            reduce using rule 19 (empty -> .)
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    LPAREN          shift and go to state 9
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
-    num_snake                      shift and go to state 57
-    string_snake                   shift and go to state 58
-    bool_snake                     shift and go to state 59
-    empty                          shift and go to state 61
-    bool                           shift and go to state 63
+    exp                            shift and go to state 67
+    bool                           shift and go to state 13
 
 state 54
 
-    (10) snake_list_access -> ACCESS IDENTIFIER NUMBER .
+    (16) exp -> LPAREN exp RPAREN .
 
-    $end            reduce using rule 10 (snake_list_access -> ACCESS IDENTIFIER NUMBER .)
+    TIMES           reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    DIVIDE          reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    PLUS            reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    MINUS           reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    MOD             reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    PLUSPLUS        reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    MINUSMINUS      reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    GE              reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    GT              reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    LE              reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    LT              reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    EQUALEQUAL      reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    NOT             reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    $end            reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    RPAREN          reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    LPAREN          reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    NUMBER          reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    STRING          reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    IDENTIFIER      reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    SUPPOSE         reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    SNAKE           reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    ACCESS          reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    MAYBE           reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    TRUE            reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    FALSE           reduce using rule 16 (exp -> LPAREN exp RPAREN .)
+    OR              reduce using rule 16 (exp -> LPAREN exp RPAREN .)
 
 
 state 55
 
-    (42) rel_exp -> exp NOT EQUAL exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (33) assign_identifier -> IDENTIFIER EQUAL exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    $end            reduce using rule 42 (rel_exp -> exp NOT EQUAL exp .)
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    MOD             shift and go to state 23
-    PLUSPLUS        shift and go to state 24
-    MINUSMINUS      shift and go to state 25
+    $end            reduce using rule 33 (assign_identifier -> IDENTIFIER EQUAL exp .)
+    OR              reduce using rule 33 (assign_identifier -> IDENTIFIER EQUAL exp .)
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
 
 
 state 56
 
-    (20) assign_identifier -> SUPPOSE IDENTIFIER EQUAL exp .
-    (22) exp -> exp . TIMES exp
-    (23) exp -> exp . DIVIDE exp
-    (24) exp -> exp . PLUS exp
-    (25) exp -> exp . MINUS exp
-    (26) exp -> exp . MOD exp
-    (28) exp -> exp . PLUSPLUS
-    (29) exp -> exp . MINUSMINUS
+    (32) assign_identifier -> SUPPOSE IDENTIFIER EQUAL . exp
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
-    $end            reduce using rule 20 (assign_identifier -> SUPPOSE IDENTIFIER EQUAL exp .)
-    TIMES           shift and go to state 19
-    DIVIDE          shift and go to state 20
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    MOD             shift and go to state 23
-    PLUSPLUS        shift and go to state 24
-    MINUSMINUS      shift and go to state 25
+    LPAREN          shift and go to state 9
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 35
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
+    exp                            shift and go to state 68
+    bool                           shift and go to state 13
 
 state 57
 
-    (7) snake_list -> SNAKE IDENTIFIER EQUAL num_snake .
-    (11) num_snake -> num_snake . COMMA NUMBER
+    (19) snake_list -> SNAKE IDENTIFIER EQUAL . num_snake
+    (20) snake_list -> SNAKE IDENTIFIER EQUAL . string_snake
+    (21) snake_list -> SNAKE IDENTIFIER EQUAL . bool_snake
+    (23) num_snake -> . num_snake COMMA NUMBER
+    (24) num_snake -> . NUMBER
+    (25) num_snake -> . empty
+    (26) string_snake -> . string_snake COMMA STRING
+    (27) string_snake -> . STRING
+    (28) string_snake -> . empty
+    (29) bool_snake -> . bool_snake COMMA bool
+    (30) bool_snake -> . bool
+    (31) empty -> .
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
 
-    $end            reduce using rule 7 (snake_list -> SNAKE IDENTIFIER EQUAL num_snake .)
-    COMMA           shift and go to state 64
+    NUMBER          shift and go to state 72
+    STRING          shift and go to state 74
+    COMMA           reduce using rule 31 (empty -> .)
+    $end            reduce using rule 31 (empty -> .)
+    OR              reduce using rule 31 (empty -> .)
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
 
+    num_snake                      shift and go to state 69
+    string_snake                   shift and go to state 70
+    bool_snake                     shift and go to state 71
+    empty                          shift and go to state 73
+    bool                           shift and go to state 75
 
 state 58
 
-    (8) snake_list -> SNAKE IDENTIFIER EQUAL string_snake .
-    (14) string_snake -> string_snake . COMMA STRING
+    (22) snake_list_access -> ACCESS IDENTIFIER NUMBER .
 
-    $end            reduce using rule 8 (snake_list -> SNAKE IDENTIFIER EQUAL string_snake .)
-    COMMA           shift and go to state 65
+    $end            reduce using rule 22 (snake_list_access -> ACCESS IDENTIFIER NUMBER .)
+    OR              reduce using rule 22 (snake_list_access -> ACCESS IDENTIFIER NUMBER .)
 
 
 state 59
 
-    (9) snake_list -> SNAKE IDENTIFIER EQUAL bool_snake .
-    (17) bool_snake -> bool_snake . COMMA bool
+    (12) statement -> rel_exp .
 
-    $end            reduce using rule 9 (snake_list -> SNAKE IDENTIFIER EQUAL bool_snake .)
-    COMMA           shift and go to state 66
+    OR              reduce using rule 12 (statement -> rel_exp .)
+    $end            reduce using rule 12 (statement -> rel_exp .)
 
 
 state 60
 
-    (12) num_snake -> NUMBER .
+    (17) conditional -> MAYBE rel_exp statement .
+    (18) conditional -> MAYBE rel_exp statement . OR statement
+    (14) statement -> statement .
 
-    COMMA           reduce using rule 12 (num_snake -> NUMBER .)
-    $end            reduce using rule 12 (num_snake -> NUMBER .)
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! reduce/reduce conflict for $end resolved using rule 14 (statement -> statement .)
+    OR              shift and go to state 76
+    $end            reduce using rule 14 (statement -> statement .)
+
+  ! $end            [ reduce using rule 17 (conditional -> MAYBE rel_exp statement .) ]
+  ! OR              [ reduce using rule 17 (conditional -> MAYBE rel_exp statement .) ]
+  ! OR              [ reduce using rule 14 (statement -> statement .) ]
 
 
 state 61
 
-    (13) num_snake -> empty .
-    (16) string_snake -> empty .
+    (8) statement -> exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
+    (48) rel_exp -> exp . GE exp
+    (49) rel_exp -> exp . GT exp
+    (50) rel_exp -> exp . LE exp
+    (51) rel_exp -> exp . LT exp
+    (52) rel_exp -> exp . EQUALEQUAL exp
+    (53) rel_exp -> exp . NOT EQUAL exp
 
-  ! reduce/reduce conflict for COMMA resolved using rule 13 (num_snake -> empty .)
-  ! reduce/reduce conflict for $end resolved using rule 13 (num_snake -> empty .)
-    COMMA           reduce using rule 13 (num_snake -> empty .)
-    $end            reduce using rule 13 (num_snake -> empty .)
-
-  ! COMMA           [ reduce using rule 16 (string_snake -> empty .) ]
-  ! $end            [ reduce using rule 16 (string_snake -> empty .) ]
+    OR              reduce using rule 8 (statement -> exp .)
+    $end            reduce using rule 8 (statement -> exp .)
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
+    GE              shift and go to state 28
+    GT              shift and go to state 29
+    LE              shift and go to state 30
+    LT              shift and go to state 31
+    EQUALEQUAL      shift and go to state 32
+    NOT             shift and go to state 33
 
 
 state 62
 
-    (15) string_snake -> STRING .
+    (9) statement -> assign_identifier .
 
-    COMMA           reduce using rule 15 (string_snake -> STRING .)
-    $end            reduce using rule 15 (string_snake -> STRING .)
+    OR              reduce using rule 9 (statement -> assign_identifier .)
+    $end            reduce using rule 9 (statement -> assign_identifier .)
 
 
 state 63
 
-    (18) bool_snake -> bool .
+    (10) statement -> snake_list .
 
-    COMMA           reduce using rule 18 (bool_snake -> bool .)
-    $end            reduce using rule 18 (bool_snake -> bool .)
+    OR              reduce using rule 10 (statement -> snake_list .)
+    $end            reduce using rule 10 (statement -> snake_list .)
 
 
 state 64
 
-    (11) num_snake -> num_snake COMMA . NUMBER
+    (11) statement -> snake_list_access .
 
-    NUMBER          shift and go to state 67
+    OR              reduce using rule 11 (statement -> snake_list_access .)
+    $end            reduce using rule 11 (statement -> snake_list_access .)
 
 
 state 65
 
-    (14) string_snake -> string_snake COMMA . STRING
+    (13) statement -> conditional .
 
-    STRING          shift and go to state 68
+    OR              reduce using rule 13 (statement -> conditional .)
+    $end            reduce using rule 13 (statement -> conditional .)
 
 
 state 66
 
-    (17) bool_snake -> bool_snake COMMA . bool
-    (34) bool -> . TRUE
-    (35) bool -> . FALSE
+    (15) statement -> empty .
 
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
+    OR              reduce using rule 15 (statement -> empty .)
+    $end            reduce using rule 15 (statement -> empty .)
 
-    bool                           shift and go to state 69
 
 state 67
 
-    (11) num_snake -> num_snake COMMA NUMBER .
+    (53) rel_exp -> exp NOT EQUAL exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    COMMA           reduce using rule 11 (num_snake -> num_snake COMMA NUMBER .)
-    $end            reduce using rule 11 (num_snake -> num_snake COMMA NUMBER .)
+  ! shift/reduce conflict for MINUS resolved as shift
+    $end            reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    LPAREN          reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    NUMBER          reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    STRING          reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    IDENTIFIER      reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    SUPPOSE         reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    SNAKE           reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    ACCESS          reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    MAYBE           reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    TRUE            reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    FALSE           reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    OR              reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .)
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
+
+  ! MINUS           [ reduce using rule 53 (rel_exp -> exp NOT EQUAL exp .) ]
 
 
 state 68
 
-    (14) string_snake -> string_snake COMMA STRING .
+    (32) assign_identifier -> SUPPOSE IDENTIFIER EQUAL exp .
+    (34) exp -> exp . TIMES exp
+    (35) exp -> exp . DIVIDE exp
+    (36) exp -> exp . PLUS exp
+    (37) exp -> exp . MINUS exp
+    (38) exp -> exp . MOD exp
+    (39) exp -> exp . PLUSPLUS
+    (40) exp -> exp . MINUSMINUS
 
-    COMMA           reduce using rule 14 (string_snake -> string_snake COMMA STRING .)
-    $end            reduce using rule 14 (string_snake -> string_snake COMMA STRING .)
+    $end            reduce using rule 32 (assign_identifier -> SUPPOSE IDENTIFIER EQUAL exp .)
+    OR              reduce using rule 32 (assign_identifier -> SUPPOSE IDENTIFIER EQUAL exp .)
+    TIMES           shift and go to state 21
+    DIVIDE          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    MOD             shift and go to state 25
+    PLUSPLUS        shift and go to state 26
+    MINUSMINUS      shift and go to state 27
 
 
 state 69
 
-    (17) bool_snake -> bool_snake COMMA bool .
+    (19) snake_list -> SNAKE IDENTIFIER EQUAL num_snake .
+    (23) num_snake -> num_snake . COMMA NUMBER
 
-    COMMA           reduce using rule 17 (bool_snake -> bool_snake COMMA bool .)
-    $end            reduce using rule 17 (bool_snake -> bool_snake COMMA bool .)
+    $end            reduce using rule 19 (snake_list -> SNAKE IDENTIFIER EQUAL num_snake .)
+    OR              reduce using rule 19 (snake_list -> SNAKE IDENTIFIER EQUAL num_snake .)
+    COMMA           shift and go to state 77
+
+
+state 70
+
+    (20) snake_list -> SNAKE IDENTIFIER EQUAL string_snake .
+    (26) string_snake -> string_snake . COMMA STRING
+
+    $end            reduce using rule 20 (snake_list -> SNAKE IDENTIFIER EQUAL string_snake .)
+    OR              reduce using rule 20 (snake_list -> SNAKE IDENTIFIER EQUAL string_snake .)
+    COMMA           shift and go to state 78
+
+
+state 71
+
+    (21) snake_list -> SNAKE IDENTIFIER EQUAL bool_snake .
+    (29) bool_snake -> bool_snake . COMMA bool
+
+    $end            reduce using rule 21 (snake_list -> SNAKE IDENTIFIER EQUAL bool_snake .)
+    OR              reduce using rule 21 (snake_list -> SNAKE IDENTIFIER EQUAL bool_snake .)
+    COMMA           shift and go to state 79
+
+
+state 72
+
+    (24) num_snake -> NUMBER .
+
+    COMMA           reduce using rule 24 (num_snake -> NUMBER .)
+    $end            reduce using rule 24 (num_snake -> NUMBER .)
+    OR              reduce using rule 24 (num_snake -> NUMBER .)
+
+
+state 73
+
+    (25) num_snake -> empty .
+    (28) string_snake -> empty .
+
+  ! reduce/reduce conflict for COMMA resolved using rule 25 (num_snake -> empty .)
+  ! reduce/reduce conflict for $end resolved using rule 25 (num_snake -> empty .)
+  ! reduce/reduce conflict for OR resolved using rule 25 (num_snake -> empty .)
+    COMMA           reduce using rule 25 (num_snake -> empty .)
+    $end            reduce using rule 25 (num_snake -> empty .)
+    OR              reduce using rule 25 (num_snake -> empty .)
+
+  ! COMMA           [ reduce using rule 28 (string_snake -> empty .) ]
+  ! $end            [ reduce using rule 28 (string_snake -> empty .) ]
+  ! OR              [ reduce using rule 28 (string_snake -> empty .) ]
+
+
+state 74
+
+    (27) string_snake -> STRING .
+
+    COMMA           reduce using rule 27 (string_snake -> STRING .)
+    $end            reduce using rule 27 (string_snake -> STRING .)
+    OR              reduce using rule 27 (string_snake -> STRING .)
+
+
+state 75
+
+    (30) bool_snake -> bool .
+
+    COMMA           reduce using rule 30 (bool_snake -> bool .)
+    $end            reduce using rule 30 (bool_snake -> bool .)
+    OR              reduce using rule 30 (bool_snake -> bool .)
+
+
+state 76
+
+    (18) conditional -> MAYBE rel_exp statement OR . statement
+    (8) statement -> . exp
+    (9) statement -> . assign_identifier
+    (10) statement -> . snake_list
+    (11) statement -> . snake_list_access
+    (12) statement -> . rel_exp
+    (13) statement -> . conditional
+    (14) statement -> . statement
+    (15) statement -> . empty
+    (16) exp -> . LPAREN exp RPAREN
+    (34) exp -> . exp TIMES exp
+    (35) exp -> . exp DIVIDE exp
+    (36) exp -> . exp PLUS exp
+    (37) exp -> . exp MINUS exp
+    (38) exp -> . exp MOD exp
+    (39) exp -> . exp PLUSPLUS
+    (40) exp -> . exp MINUSMINUS
+    (41) exp -> . MINUS exp
+    (42) exp -> . NUMBER
+    (43) exp -> . STRING
+    (44) exp -> . bool
+    (47) exp -> . IDENTIFIER
+    (32) assign_identifier -> . SUPPOSE IDENTIFIER EQUAL exp
+    (33) assign_identifier -> . IDENTIFIER EQUAL exp
+    (19) snake_list -> . SNAKE IDENTIFIER EQUAL num_snake
+    (20) snake_list -> . SNAKE IDENTIFIER EQUAL string_snake
+    (21) snake_list -> . SNAKE IDENTIFIER EQUAL bool_snake
+    (22) snake_list_access -> . ACCESS IDENTIFIER NUMBER
+    (48) rel_exp -> . exp GE exp
+    (49) rel_exp -> . exp GT exp
+    (50) rel_exp -> . exp LE exp
+    (51) rel_exp -> . exp LT exp
+    (52) rel_exp -> . exp EQUALEQUAL exp
+    (53) rel_exp -> . exp NOT EQUAL exp
+    (17) conditional -> . MAYBE rel_exp statement
+    (18) conditional -> . MAYBE rel_exp statement OR statement
+    (31) empty -> .
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
+
+    LPAREN          shift and go to state 9
+    MINUS           shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    IDENTIFIER      shift and go to state 14
+    SUPPOSE         shift and go to state 15
+    SNAKE           shift and go to state 16
+    ACCESS          shift and go to state 17
+    MAYBE           shift and go to state 18
+    OR              reduce using rule 31 (empty -> .)
+    $end            reduce using rule 31 (empty -> .)
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
+
+    rel_exp                        shift and go to state 59
+    statement                      shift and go to state 80
+    exp                            shift and go to state 61
+    assign_identifier              shift and go to state 62
+    snake_list                     shift and go to state 63
+    snake_list_access              shift and go to state 64
+    conditional                    shift and go to state 65
+    empty                          shift and go to state 66
+    bool                           shift and go to state 13
+
+state 77
+
+    (23) num_snake -> num_snake COMMA . NUMBER
+
+    NUMBER          shift and go to state 81
+
+
+state 78
+
+    (26) string_snake -> string_snake COMMA . STRING
+
+    STRING          shift and go to state 82
+
+
+state 79
+
+    (29) bool_snake -> bool_snake COMMA . bool
+    (45) bool -> . TRUE
+    (46) bool -> . FALSE
+
+    TRUE            shift and go to state 19
+    FALSE           shift and go to state 20
+
+    bool                           shift and go to state 83
+
+state 80
+
+    (18) conditional -> MAYBE rel_exp statement OR statement .
+    (14) statement -> statement .
+
+  ! reduce/reduce conflict for OR resolved using rule 14 (statement -> statement .)
+  ! reduce/reduce conflict for $end resolved using rule 14 (statement -> statement .)
+    OR              reduce using rule 14 (statement -> statement .)
+    $end            reduce using rule 14 (statement -> statement .)
+
+  ! $end            [ reduce using rule 18 (conditional -> MAYBE rel_exp statement OR statement .) ]
+  ! OR              [ reduce using rule 18 (conditional -> MAYBE rel_exp statement OR statement .) ]
+
+
+state 81
+
+    (23) num_snake -> num_snake COMMA NUMBER .
+
+    COMMA           reduce using rule 23 (num_snake -> num_snake COMMA NUMBER .)
+    $end            reduce using rule 23 (num_snake -> num_snake COMMA NUMBER .)
+    OR              reduce using rule 23 (num_snake -> num_snake COMMA NUMBER .)
+
+
+state 82
+
+    (26) string_snake -> string_snake COMMA STRING .
+
+    COMMA           reduce using rule 26 (string_snake -> string_snake COMMA STRING .)
+    $end            reduce using rule 26 (string_snake -> string_snake COMMA STRING .)
+    OR              reduce using rule 26 (string_snake -> string_snake COMMA STRING .)
+
+
+state 83
+
+    (29) bool_snake -> bool_snake COMMA bool .
+
+    COMMA           reduce using rule 29 (bool_snake -> bool_snake COMMA bool .)
+    $end            reduce using rule 29 (bool_snake -> bool_snake COMMA bool .)
+    OR              reduce using rule 29 (bool_snake -> bool_snake COMMA bool .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: reduce/reduce conflict in state 61 resolved using rule (num_snake -> empty)
-WARNING: rejected rule (string_snake -> empty) in state 61
+WARNING: shift/reduce conflict for OR in state 60 resolved as shift
+WARNING: shift/reduce conflict for OR in state 60 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 67 resolved as shift
+WARNING: reduce/reduce conflict in state 60 resolved using rule (statement -> statement)
+WARNING: rejected rule (conditional -> MAYBE rel_exp statement) in state 60
+WARNING: reduce/reduce conflict in state 73 resolved using rule (num_snake -> empty)
+WARNING: rejected rule (string_snake -> empty) in state 73
+WARNING: reduce/reduce conflict in state 80 resolved using rule (statement -> statement)
+WARNING: rejected rule (conditional -> MAYBE rel_exp statement OR statement) in state 80
+WARNING: Rule (conditional -> MAYBE rel_exp statement) is never reduced
 WARNING: Rule (string_snake -> empty) is never reduced
+WARNING: Rule (conditional -> MAYBE rel_exp statement OR statement) is never reduced

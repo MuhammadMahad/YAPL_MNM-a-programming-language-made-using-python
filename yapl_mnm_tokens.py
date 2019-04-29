@@ -9,12 +9,10 @@ tokens = (
     'EQUAL',  # =
     'IDENTIFIER',  #
     'LBRACE',  # {
-    'LPAREN',  # (
     'MINUS',  # -
     'NUMBER',  #
     'PLUS',  # +
     'RBRACE',  # }
-    'RPAREN',  # )
     'SEMICOLON',  # ;
     'STRING',  #### Not used in this problem.
     'TIMES',  # *
@@ -31,6 +29,8 @@ tokens = (
     'EQUALEQUAL',  # ==
     'OROR',  # ||
     'ANDAND',  # &&
+    'LPAREN',  # (
+    'RPAREN',  # )
 
 )
 
@@ -49,6 +49,9 @@ reserved = {
     'True': 'TRUE',
     'False': 'FALSE',
     'access': 'ACCESS',
+    'g1' : 'G1',
+    'perform': 'PERFORM',
+    'end': 'END'
 
 }
 
@@ -100,14 +103,12 @@ t_GE = r'>='
 t_GT = r'>'
 t_LBRACE = r'\{'
 t_LE = r'<='
-t_LPAREN = r'\('
 t_LT = r'<'
 t_MINUS = r'-'
 t_NOT = r'!'
 t_OROR = r'\|\|'
 t_PLUS = r'\+'
 t_RBRACE = r'\}'
-t_RPAREN = r'\)'
 t_SEMICOLON = r';'
 t_TIMES = r'\*'
 t_MOD = r'%'
@@ -115,6 +116,8 @@ t_PLUSPLUS = r'\+\+'
 t_MINUSMINUS = r'--'
 t_LSQUAREPAREN = r'\['
 t_RSQUAREPAREN = r'\]'
+t_LPAREN = r'\('
+t_RPAREN = r'\)'
 
 def t_IDENTIFIER(token):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
