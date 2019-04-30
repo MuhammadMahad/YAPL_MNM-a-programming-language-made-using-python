@@ -82,10 +82,37 @@ def p_yapl_mnm(p):
              | snake_list
              | snake_list_access
              | rel_exp
-             | conditional
              | empty
+
     '''
     print(interpret(p[1]))
+
+
+def p_stmt_maybe_then(p):
+    'yapl_mnm : MAYBE rel_exp compoundstmt'
+    p[0] = ('maybe-then', p[2], p[3])
+
+
+def p_stmt_maybe_then_or(p):
+    'yapl_mnm : MAYBE rel_exp compoundstmt OR compoundstmt'
+    p[0] = ('maybe-then-or', p[2], p[3], p[5])
+
+
+def p_compoundstmt(p):
+    'compoundstmt : LBRACE statements RBRACE'
+    p[0] = p[2]
+
+
+def p_statements(p):
+    'statements : yapl_mnm SEMICOLON statements'
+    p[0] = [p[1]] + p[3]
+
+
+def p_statements_empty(p):
+    'statements : '
+    p[0] = []
+
+
 
 # def p_exp_rel_exp(p):
 #     '''
@@ -94,53 +121,53 @@ def p_yapl_mnm(p):
 #     p[0] = (p[1])
 
 
-def p_statement(p):
-        '''
-    statement : exp
-              | assign_identifier
-              | snake_list
-              | snake_list_access
-              | rel_exp
-              | conditional
-              | statement
-              | empty
-        '''
-        p[0] = (p[1])
-
-# def p_statements(p):
-#     '''
-#     statements : LBRACE statement statements RBRACE
-#                | empty
+# def p_statement(p):
+#         '''
+#     statement : exp
+#               | assign_identifier
+#               | snake_list
+#               | snake_list_access
+#               | rel_exp
+#               | conditional
+#               | statement
+#               | empty
+#         '''
+#         p[0] = (p[1])
 #
+# # def p_statements(p):
+# #     '''
+# #     statements : LBRACE statement statements RBRACE
+# #                | empty
+# #
+# #     '''
+# #     p[0] = (p[1], p[2])
+#
+# def p_nested_parentheses(p):
 #     '''
-#     p[0] = (p[1], p[2])
-
-def p_nested_parentheses(p):
-    '''
-    exp : LPAREN exp RPAREN
-    '''
-    p[0] = (p[1], p[3], p[2])
-
-def p_maybe(p):
-    '''
-    maybe_statement : MAYBE rel_exp perform_statement or_statement END
-    '''
-    p[0] = (p[1], p[2], p[3])
-
-def p_perform(p):
-    '''
-    perform_statement : PERFORM maybe_statement
-                      | PERFORM statement
-    '''
-
-def p_or(p):
-    '''
-    or_statement : OR statement
-                 | OR maybe_statement
-                 | empty
-    '''
-    p[0] = (p[1], p[2], p[3], p[4], p[5])
-
+#     exp : LPAREN exp RPAREN
+#     '''
+#     p[0] = (p[1], p[3], p[2])
+#
+# def p_maybe(p):
+#     '''
+#     maybe_statement : MAYBE rel_exp perform_statement or_statement END
+#     '''
+#     p[0] = (p[1], p[2], p[3])
+#
+# def p_perform(p):
+#     '''
+#     perform_statement : PERFORM maybe_statement
+#                       | PERFORM statement
+#     '''
+#
+# def p_or(p):
+#     '''
+#     or_statement : OR statement
+#                  | OR maybe_statement
+#                  | empty
+#     '''
+#     p[0] = (p[1], p[2], p[3], p[4], p[5])
+#
 
 # def p_maybe(p):
 #     '''
@@ -360,13 +387,13 @@ def interpret(p):
             return interpret(p[1]) != interpret(p[2])
         elif p[0] == '(' and p[1] == ')':
             return interpret(p[2])
-        elif p[0] == 'maybe':
-               exp = interpret(p[2])
-               if p[1] == True:
-                   return exp
+        elif p[0] == 'maybe-then':
 
-        elif p[0] == 'maybe' and p[3] == 'or':
-            pass
+               if p[1] == True:
+                   return interpret(p[2])
+
+        # elif p[0] == 'maybe' and p[3] == 'or':
+        #     pass
         # elif p[0] == 'exps':
         #     interpret(p[1])
         # elif p[0] == 'maybe':
