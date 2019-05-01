@@ -377,13 +377,13 @@ def env_update(vname,value,env):
         env_update(vname,value,env[0])
 
 
-def interpret(p, env):
+def interpret(p, env_tuple):
     #print(p)
 
     if type(p) == list:
         result = []
         for stm in p:
-            _result = interpret(stm, env)
+            _result = interpret(stm,env_tuple)
             if _result == 'leave':
                 return 'leave'
             result.append(_result)
@@ -391,18 +391,19 @@ def interpret(p, env):
 
     if type(p) == tuple:
         if p[0] == '+':
-            return interpret(p[1], env) + interpret(p[2], env)
+            return interpret(p[1],env_tuple) + interpret(p[2],env_tuple)
         elif p[0] == '-':
-            return interpret(p[1], env) - interpret(p[2], env)
+            return interpret(p[1],env_tuple) - interpret(p[2],env_tuple)
         elif p[0] == '*':
-            return interpret(p[1], env) * interpret(p[2], env)
+            return interpret(p[1],env_tuple) * interpret(p[2],env_tuple)
         elif p[0] == '/':
-            return interpret(p[1], env) / interpret(p[2], env)
+            return interpret(p[1],env_tuple) / interpret(p[2],env_tuple)
         elif p[0] == '%':
-            return interpret(p[1], env) % interpret(p[2], env)
+            return interpret(p[1], env_tuple) % interpret(p[2],env_tuple)
         elif p[0] == '++' and p[1] and p[1][0] == 'identifier':
             if p[1][1] not in env:
                 print('Undefined variable {0}'.format(p[1][1]))
+                #get value from lookup, +1 it and then
                 exit()
             value = env[p[1][1]]
             env[p[1][1]] += 1
@@ -415,19 +416,19 @@ def interpret(p, env):
             env[p[1][1]] -= 1
             return value
         elif p[0] == '>=':
-            return interpret(p[1], env) >= interpret(p[2], env)
+            return interpret(p[1],env_tuple) >= interpret(p[2],env_tuple)
         elif p[0] == '>':
-            return interpret(p[1], env) > interpret(p[2], env)
+            return interpret(p[1],env_tuple) > interpret(p[2],env_tuple)
         elif p[0] == '<=':
-            return interpret(p[1], env) <= interpret(p[2], env)
+            return interpret(p[1],env_tuple) <= interpret(p[2],env_tuple)
         elif p[0] == '<':
-            return interpret(p[1], env) < interpret(p[2], env)
+            return interpret(p[1],env_tuple) < interpret(p[2],env_tuple)
         elif p[0] == '==':
-            return interpret(p[1], env) == interpret(p[2], env)
+            return interpret(p[1],env_tuple) == interpret(p[2],env_tuple)
         elif p[0] == '!' and p[1] == '=':
-            return interpret(p[1], env) != interpret(p[2], env)
+            return interpret(p[1],env_tuple) != interpret(p[2],env_tuple)
         elif p[0] == '(' and p[1] == ')':
-            return interpret(p[2], env)
+            return interpret(p[2],env_tuple)
         elif p[0] == 'disp_var':
             if p[1] not in env:
                 print('undeclared variable!')
@@ -442,56 +443,56 @@ def interpret(p, env):
             for item in env[p[1]]:
                 print(item)
         elif p[0] == 'if-then':
-            if interpret(p[1], env) == True:
-                return interpret(p[2], env)
+            if interpret(p[1],env_tuple) == True:
+                return interpret(p[2],env_tuple)
         elif p[0] == 'if-then-else':
-            if interpret(p[1], env) == True:
-                return interpret(p[2], env)
+            if interpret(p[1],env_tuple) == True:
+                return interpret(p[2],env_tuple)
             else:
-                return interpret(p[3], env)
+                return interpret(p[3],env_tuple)
         elif p[0] == 'pop':
             if p[1] not in env:
                 return 'undeclared variable!'
-            if interpret(p[2],env) == 0:
+            if interpret(p[2],env_tuple) == 0:
                 return env[p[1]].pop(0)
-            elif interpret(p[2], env) == 1:
+            elif interpret(p[2],env_tuple) == 1:
                 return env[p[1]].pop(-1)
         elif p[0] == 'push':
             if p[1] not in env:
                 return 'undeclared variable!'
-            number_to_push = interpret(p[2],env)
+            number_to_push = interpret(p[2],env_tuple)
             env[p[1]].append(number_to_push)
         elif p[0] == 'slice':
             if p[1] not in env:
                 return 'undeclared variable!'
-            start = interpret(p[2],env)
-            end = interpret(p[3],env)
+            start = interpret(p[2],env_tuple)
+            end = interpret(p[3],env_tuple)
             return env[p[1]][int(start):int(end)]
         elif p[0] == 'slice_copy':
             if p[1] not in env:
                 return 'undeclared variable!'
             if p[1] in env:
-                start = interpret(p[3], env)
-                end = interpret(p[4], env)
+                start = interpret(p[3],env_tuple)
+                end = interpret(p[4],env_tuple)
                 env[p[1]] = env[p[2]][int(start):int(end)+1]
 
         elif p[0] == 'leave':
             return p[0]
         elif p[0] == 'til':
-            interpret(p[1], env)
+            interpret(p[1],env_tuple)
             _results = []
-            while(interpret(p[2], env)):
-                _result = interpret(p[4], env)
+            while(interpret(p[2],env_tuple)):
+                _result = interpret(p[4],env_tuple)
                 if _result == "leave":
                     break
                 _results.append(_result)
-                interpret(p[3], env)
+                interpret(p[3],env_tuple)
             return _results
         elif p[0] == 'work':
             _results = []
-            _results.append(interpret(p[1], env))
-            while (interpret(p[2], env)):
-                _result = interpret(p[1], env)
+            _results.append(interpret(p[1],env_tuple))
+            while (interpret(p[2],env_tuple)):
+                _result = interpret(p[1],env_tuple)
                 if _result == "leave":
                     break
                 _results.append(_result)
@@ -501,7 +502,7 @@ def interpret(p, env):
                 print('duplicate identifier detected')
                 exit()
                 return ''
-            env[p[1]] = interpret(p[2], env)
+            env[p[1]] = interpret(p[2],env_tuple)
             return ''
         elif p[0] == 'snake':
             if p[1] in env:
@@ -510,21 +511,22 @@ def interpret(p, env):
                 #return ''
             result = []
             for item in p[2]:
-                part = interpret(item, env)
+                part = interpret(item,env_tuple)
                 result.append(part)
             env[p[1]] = result
             #return ''
         elif p[0] == 'access':
             if p[1] in env:
-                 index = interpret(p[2], env)
+                 index = interpret(p[2],env_tuple)
                  if index > len(env[p[1]]):
                      print("list index out of range")
                      exit()
                      return ''
+                 print(env[p[1]][int(index)])
                  return env[p[1]][int(index)]
         elif p[0] == '=':
             if p[1] in env:
-                env[p[1]] = interpret(p[2], env)
+                env[p[1]] = interpret(p[2],env_tuple)
             else:
                 print('cannot assign undeclared variable')
                 exit()
@@ -541,7 +543,10 @@ def interpret(p, env):
 yapl_mnm_lexer = lex.lex(module=yapl_mnm_tokens)
 yapl_mnm_parser = yacc.yacc()
 
-env = {}
+
+
+env_tuple = (None, {})
+
 
 
 # test = open("test.txt", "r")
@@ -567,7 +572,7 @@ env = {}
 #input_string = input('>> ')
 
 yapl_mnm_ast = yapl_mnm_parser.parse(input_string, lexer=yapl_mnm_lexer)
-interpret(yapl_mnm_ast, env)
+interpret(yapl_mnm_ast,env_tuple)
 #print(yapl_mnm_ast)
 
 
