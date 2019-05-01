@@ -1,0 +1,21 @@
+suppose i = 0;
+maybe i++ >= 2 {
+
+til(suppose j=3 j > 0 j--)
+
+{
+
+	i++;
+	maybe i > 4 {
+	leave;
+};
+
+};
+
+
+
+} or {
+
+disp "tough luck";
+
+};

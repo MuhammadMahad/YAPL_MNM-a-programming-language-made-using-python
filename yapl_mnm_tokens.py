@@ -53,6 +53,11 @@ reserved = {
     'perform': 'PERFORM',
     'end': 'END',
     'disp': 'DISP',
+    'pop': 'POP',
+    'push': 'PUSH',
+    'slice': 'SLICE',
+    'leave':'LEAVE',
+    'displ': 'DISPL',
 
 }
 

@@ -1,0 +1,9 @@
+complex temp_name {
+
+suppose a = 0;
+
+};
+
+temp_name a_struct;
+a_struct.a = 5;
+disp a_struct.a

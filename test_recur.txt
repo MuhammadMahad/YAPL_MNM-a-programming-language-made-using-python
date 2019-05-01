@@ -1,0 +1,14 @@
+machine fun(a,b)
+{
+
+	maybe b == 0
+		fire 0;
+	maybe b % 2 == 0
+		fire fun(a+a, b/2);
+
+	fire fun(a+a,b/2) + a;
+
+
+};
+
+fun(a,b);

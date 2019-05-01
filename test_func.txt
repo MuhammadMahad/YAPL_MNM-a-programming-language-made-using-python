@@ -1,0 +1,24 @@
+machine plus (a , b) {
+
+	fire a + b;
+
+
+};
+
+machine plusPlus (a,b,c) {
+
+	fire a + b + c;
+
+};
+
+machine main() {
+
+suppose res = plus(1,2);
+disp "1+2=";
+disp res;
+res = plusPlus(1,2,3);
+disp "1+2+3 =";
+disp res;
+
+
+};

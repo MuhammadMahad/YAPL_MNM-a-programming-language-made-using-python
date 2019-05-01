@@ -70,6 +70,11 @@ reserved = {
     'perform': 'PERFORM',
     'end': 'END',
     'disp': 'DISP',
+    'pop': 'POP',
+    'push': 'PUSH',
+    'slice': 'SLICE',
+    'leave':'LEAVE',
+    'displ': 'DISPL',
 
 }
 
@@ -77,16 +82,18 @@ tokens = list(tokens) + list(reserved.values())
 
 def p_yapl_mnm(p):
     '''
-    yapl_mnm : exp
-             | til
-             | assign_identifier
-             | snake_list
-             | snake_list_access
-             | rel_exp
-             | disp_var
-             | empty
+    yapl_mnm : main_statement
     '''
     # print (interpret(p[1]))
+    p[0] = p[1]
+
+def p_stmt_break(p):
+    '''stmt : LEAVE '''
+    p[0] = p[1]
+
+
+def p_main_statement(p):
+    'main_statement :  statements '
     p[0] = p[1]
 
 def p_til_loop(p):
@@ -94,15 +101,22 @@ def p_til_loop(p):
     # while interpret(p[4]):
     p[0] = ('til', p[3], p[4], p[5], p[7])
 
+def p_work_until_loop(p):
+    'until : WORK compoundstmt UNTIL LPAREN rel_exp RPAREN'
+    p[0] = ('work', p[2], p[5])
+
 def p_stmt(p):
     '''
-    stmt : exp
+    stmt :     exp
              | til
+             | until
              | assign_identifier
              | snake_list
              | snake_list_access
              | rel_exp
              | disp_var
+             | disp_string
+             | disp_list
              | empty
     '''
     p[0] = p[1]
@@ -114,6 +128,11 @@ def p_intialize_snake(p):
                | SNAKE IDENTIFIER EQUAL bool_snake
     '''
     p[0] = ('snake', p[2], p[4])
+
+
+def p_assign_snake(p):
+    pass
+
 
 def p_access_snake(p):
     '''
@@ -161,13 +180,11 @@ def p_empty(p):
     'empty :'
     p[0] = None
 
-
 def p_initialize_identifier(p):
     '''
     assign_identifier : SUPPOSE IDENTIFIER EQUAL exp
     '''
     p[0] = ('suppose', p[2], p[4])
-
 
 def p_assign_identifier(p):
     '''
@@ -179,7 +196,19 @@ def p_disp_var(p):
     '''
     disp_var : DISP IDENTIFIER
     '''
-    p[0] = ('disp', p[2])
+    p[0] = ('disp_var', p[2])
+
+def p_disp_string(p):
+    '''
+    disp_string : DISP STRING
+    '''
+    p[0] = ('disp_string', p[2])
+
+def p_disp_list(p):
+    '''
+    disp_list : DISPL IDENTIFIER
+    '''
+    p[0] = ('disp_list', p[2])
 
 def p_exp(p):
     '''
@@ -273,17 +302,79 @@ def p_statements_empty(p):
     p[0] = p[1]
 
 def p_yapl_if_then(p):
-    'yapl_mnm : MAYBE rel_exp compoundstmt'
+    'main_statement : MAYBE rel_exp compoundstmt'
     p[0] = ('if-then', p[2], p[3])
 
 def p_yapl_if_then_else(p):
-    'yapl_mnm : MAYBE rel_exp compoundstmt OR compoundstmt'
+    'main_statement : MAYBE rel_exp compoundstmt OR compoundstmt'
     p[0] = ('if-then-else', p[2], p[3], p[5])
+
+def p_yapl_pop_list(p):
+    'main_statement : POP IDENTIFIER NUMBER'
+    p[0] = ('pop', p[2], p[3])
+
+def p_stmt_pop_list(p):
+    'stmt : POP IDENTIFIER NUMBER'
+    p[0] = ('pop', p[2], p[3])
+
+def p_yapl_push_list(p):
+    'main_statement : IDENTIFIER PUSH NUMBER'
+    p[0] = (p[2], p[1], p[3])
+
+def p_stmt_push_list(p):
+    'stmt : IDENTIFIER PUSH NUMBER'
+    p[0] = (p[2], p[1], p[3])
+
+def p_yapl_slice_list(p):
+    'main_statement : IDENTIFIER SLICE NUMBER NUMBER'
+    p[0] = (p[2], p[1], p[3],p[4])
+
+def p_stmt_slice_list(p):
+    'stmt : IDENTIFIER SLICE NUMBER NUMBER'
+    p[0] = (p[2], p[1], p[3],p[4])
+
+def p_stmt_slice_list_eq(p):
+    'stmt : IDENTIFIER EQUAL IDENTIFIER SLICE NUMBER NUMBER'
+    p[0] = ('slice_copy', p[1],p[3],p[5],p[6])
+
+def p_func_definition(p):
+    'stmt : MACHINE IDENTIFIER LPAREN optparams RPAREN compoundstmt'
+    p[0] = ('machine', p[2], p[4], p[6])
+
+def p_optparams(p):
+    'optparams : params'
+    p[0] = p[1]
+
+def p_optparams_empty(p):
+    'optparams : empty'
+    p[0] = []
+
+def p_params(p):
+    'params : IDENTIFIER COMMA params'
+    p[0] = [ p[1] ] + p[3]
+
+def p_params_last(p):
+    'params : IDENTIFIER'
+    p[0] = [ p[1] ]
 
 def p_error(p):
 
     print('Syntax Error found in input!')
 
+def env_lookup(vname, env):
+    # (parent, dictionary)
+    if vname in env[1]:
+        return env[1][vname]
+    elif env[0] == None:
+        return None
+    else:
+        return env_lookup(vname,env[0])
+
+def env_update(vname,value,env):
+    if vname in env[1]:
+        env[1][vname] = value
+    elif not env[0] == None:
+        env_update(vname,value,env[0])
 
 
 def interpret(p, env):
@@ -292,7 +383,10 @@ def interpret(p, env):
     if type(p) == list:
         result = []
         for stm in p:
-            result.append(interpret(stm, env))
+            _result = interpret(stm, env)
+            if _result == 'leave':
+                return 'leave'
+            result.append(_result)
         return result
 
     if type(p) == tuple:
@@ -313,8 +407,13 @@ def interpret(p, env):
             value = env[p[1][1]]
             env[p[1][1]] += 1
             return value
-        elif p[0] == '--':
-            return interpret(p[1], env) - 1
+        elif p[0] == '--' and p[1] and p[1][0] == 'identifier':
+            if p[1][1] not in env:
+                print('Undefined variable {0}'.format(p[1][1]))
+                exit()
+            value = env[p[1][1]]
+            env[p[1][1]] -= 1
+            return value
         elif p[0] == '>=':
             return interpret(p[1], env) >= interpret(p[2], env)
         elif p[0] == '>':
@@ -329,11 +428,19 @@ def interpret(p, env):
             return interpret(p[1], env) != interpret(p[2], env)
         elif p[0] == '(' and p[1] == ')':
             return interpret(p[2], env)
-        elif p[0] == 'disp':
+        elif p[0] == 'disp_var':
             if p[1] not in env:
                 print('undeclared variable!')
                 exit()
             print(env[p[1]])
+        elif p[0] == 'disp_string':
+            print(p[1])
+        elif p[0] == 'disp_list':
+            if p[1] not in env:
+                print('undeclared variable!')
+                exit()
+            for item in env[p[1]]:
+                print(item)
         elif p[0] == 'if-then':
             if interpret(p[1], env) == True:
                 return interpret(p[2], env)
@@ -342,12 +449,52 @@ def interpret(p, env):
                 return interpret(p[2], env)
             else:
                 return interpret(p[3], env)
+        elif p[0] == 'pop':
+            if p[1] not in env:
+                return 'undeclared variable!'
+            if interpret(p[2],env) == 0:
+                return env[p[1]].pop(0)
+            elif interpret(p[2], env) == 1:
+                return env[p[1]].pop(-1)
+        elif p[0] == 'push':
+            if p[1] not in env:
+                return 'undeclared variable!'
+            number_to_push = interpret(p[2],env)
+            env[p[1]].append(number_to_push)
+        elif p[0] == 'slice':
+            if p[1] not in env:
+                return 'undeclared variable!'
+            start = interpret(p[2],env)
+            end = interpret(p[3],env)
+            return env[p[1]][int(start):int(end)]
+        elif p[0] == 'slice_copy':
+            if p[1] not in env:
+                return 'undeclared variable!'
+            if p[1] in env:
+                start = interpret(p[3], env)
+                end = interpret(p[4], env)
+                env[p[1]] = env[p[2]][int(start):int(end)+1]
+
+        elif p[0] == 'leave':
+            return p[0]
         elif p[0] == 'til':
             interpret(p[1], env)
             _results = []
             while(interpret(p[2], env)):
-                _results.append(interpret(p[4], env))
+                _result = interpret(p[4], env)
+                if _result == "leave":
+                    break
+                _results.append(_result)
                 interpret(p[3], env)
+            return _results
+        elif p[0] == 'work':
+            _results = []
+            _results.append(interpret(p[1], env))
+            while (interpret(p[2], env)):
+                _result = interpret(p[1], env)
+                if _result == "leave":
+                    break
+                _results.append(_result)
             return _results
         elif p[0] == 'suppose':
             if p[1] in env:
@@ -360,9 +507,13 @@ def interpret(p, env):
             if p[1] in env:
                 print('duplicate identifier detected')
                 exit()
-                return ''
-            env[p[1]] = interpret(p[2], env)
-            return ''
+                #return ''
+            result = []
+            for item in p[2]:
+                part = interpret(item, env)
+                result.append(part)
+            env[p[1]] = result
+            #return ''
         elif p[0] == 'access':
             if p[1] in env:
                  index = interpret(p[2], env)
@@ -392,19 +543,53 @@ yapl_mnm_parser = yacc.yacc()
 
 env = {}
 
-while True:
 
-    # Testing
+# test = open("test.txt", "r")
+# test_list_methods = open("test_list_methods.txt", "r")
+# test_list = open("test_list", "r")
+# test_var_dec =open("test_var_dec.txt", "r")
+# test_do_while = open("test_do_while.txt", "r")
+# test_if_for = open("test_if_for.txt", "r")
+# test_func= open("test_func_test.txt", "r")
+# test_recur = open("test_recur.txt", "r")
+# test_struct = open("test_struct.txt", "r")
 
-    try:
-        input_string = input('>> ')
-    except EOFError:
-        break
-    if not input_string:
-        continue
-    yapl_mnm_ast = yapl_mnm_parser.parse(input_string, lexer=yapl_mnm_lexer)
-    interpret(yapl_mnm_ast, env)
+# input_string = test.read()
+# input_string = test_list_methods.read()
+# input_string = test_list.read()
+# input_string = test_var_dec.read()
+# input_string = test_do_while.read()
+# input_string = test_if_for.read()
+# input_string = test_func.read()
+# input_string = test_recur.read()
+# input_string = test_struct.read()
+
+#input_string = input('>> ')
+
+yapl_mnm_ast = yapl_mnm_parser.parse(input_string, lexer=yapl_mnm_lexer)
+interpret(yapl_mnm_ast, env)
+#print(yapl_mnm_ast)
+
+
+
+# while True:
+#
+#     # Testing
+#
+#     try:
+#         # input_string = input('>> ')
+#           input_string = test_var_dec
+#     except EOFError:
+#         break
+#     if not input_string:
+#         continue
+#     yapl_mnm_ast = yapl_mnm_parser.parse(input_string, lexer=yapl_mnm_lexer)
+#     interpret(yapl_mnm_ast, env)
     #print(yapl_mnm_ast)
+
+
+
+
 
 # while True:
 #     try:
@@ -417,3 +602,4 @@ while True:
 #if else statements
 #make relation expressions
 #look at BASIC example for if and for
+

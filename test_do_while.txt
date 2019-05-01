@@ -1,0 +1,19 @@
+suppose i = 5;
+
+work {
+
+disp i;
+i--;	
+
+}
+until (i > 0);
+
+suppose index = 0;
+
+work {
+
+disp index;
+index++;
+
+}
+until (index < 5);
