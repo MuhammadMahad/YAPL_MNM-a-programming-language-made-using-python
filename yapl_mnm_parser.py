@@ -75,60 +75,6 @@ reserved = {
 
 tokens = list(tokens) + list(reserved.values())
 
-
-
-# def p_yapl_mnm(p):
-#     'yapl_mnm : element yapl_mnm'
-#     p[0] = [p[1]] + p[2]
-#
-# def p_yapl_mnm_empty(p):
-#     'yapl_mnm : '
-#     p[0] = [ ]
-#
-# def p_element_statement(p):
-#     'element : stmt SEMICOLON'
-#     p[0] = ('stmt', p[1])
-#
-# def p_stmt(p):
-#     '''
-#     stmt     : exp
-#              | assign_identifier
-#              | snake_list
-#              | snake_list_access
-#              | rel_exp
-#              | empty
-#
-#     '''
-#     p[0] = p[1]
-#     #print(interpret(p[1]))
-
-# def p_yapl_mnm(p):
-#     '''yapl_mnm : element yapl_mnm
-#                 | empty
-#
-#     '''
-#
-#
-#     print(interpret(p[1]))
-#
-# def p_element_statement(p):
-#     'element : stmt SEMICOLON'
-#     p[0] = ('stmt', p[1])
-#
-# def p_stmt(p):
-#     '''
-#     stmt     : exp
-#              | assign_identifier
-#              | snake_list
-#              | snake_list_access
-#              | rel_exp
-#              | empty
-#
-#     '''
-#     p[0] = p[1]
-    #print(interpret(p[1]))
-
-
 def p_yapl_mnm(p):
     '''
     yapl_mnm : exp
@@ -143,161 +89,10 @@ def p_yapl_mnm(p):
     # print (interpret(p[1]))
     p[0] = p[1]
 
-                            # def p_conditional(p):
-                            #     '''conditional : '''
-
-                            # def p_stmt(p):
-                            #         '''
-                            # stmt         : exp statements
-                            #              | assign_identifier statements
-                            #              | snake_list statements statements
-                            #              | snake_list_access statements
-                            #              | rel_exp statements
-                            #              | conditional statements
-                            #              | til statements
-                            #              | empty statements
-                            #     '''
-                            #         p[0] = p[1]
-                            # def p_statements(p):
-                            #     '''statements : stmt
-                            #                   | empty
-                            #
-                            #     '''
-                            #     #p[0] = [p[1]] + p[3]
-                            #     p[0] = p[1]
-                            #
-                            # def p_stmt_maybe_then(p):
-                            #     'conditional : MAYBE rel_exp LBRACE statements RBRACE'
-                            #     if interpret(p[2]):
-                            #         p[0] = p[4]
-                            #
-                            # def p_stmt_maybe_then_or(p):
-                            #     'conditional : MAYBE rel_exp LBRACE statements RBRACE OR LBRACE statements RBRACE'
-                            #     if interpret(p[2]):
-                            #         p[0] = p[4]
-                            #     else:
-                            #         p[0] = p[8]
-                            #
 def p_til_loop(p):
     'til : TIL LPAREN assign_identifier rel_exp exp RPAREN compoundstmt'
     # while interpret(p[4]):
     p[0] = ('til', p[3], p[4], p[5], p[7])
-
-
-
-# def p_stmt_maybe_then(p):
-#     'conditional : MAYBE rel_exp compoundstmt'
-#     p[0] = ('maybe-then', p[2], p[3])
-
-
-# def p_stmt_maybe_then_or(p):
-#     'conditional : MAYBE rel_exp compoundstmt OR compoundstmt'
-#     p[0] = ('maybe-then-or', p[2], p[3], p[5])
-
-#
-# def p_compoundstmt(p):
-#     'compoundstmt : LBRACE statements RBRACE'
-#     p[0] = p[2]
-#
-#
-# def p_statements(p):
-#     'statements : yapl_mnm SEMICOLON statements'
-#     #p[0] = [p[1]] + p[3]
-#     p[0] = (p[1], p[3])
-#
-# def p_statements_empty(p):
-#     'statements : empty'
-#     p[0] = p[1]
-
-
-
-# def p_exp_rel_exp(p):
-#     '''
-#     exp : rel_exp
-#     '''
-#     p[0] = (p[1])
-
-
-# def p_statement(p):
-#         '''
-#     statement : exp
-#               | assign_identifier
-#               | snake_list
-#               | snake_list_access
-#               | rel_exp
-#               | conditional
-#               | statement
-#               | empty
-#         '''
-#         p[0] = (p[1])
-#
-# # def p_statements(p):
-# #     '''
-# #     statements : LBRACE statement statements RBRACE
-# #                | empty
-# #
-# #     '''
-# #     p[0] = (p[1], p[2])
-#
-# def p_nested_parentheses(p):
-#     '''
-#     exp : LPAREN exp RPAREN
-#     '''
-#     p[0] = (p[1], p[3], p[2])
-#
-# def p_maybe(p):
-#     '''
-#     maybe_statement : MAYBE rel_exp perform_statement or_statement END
-#     '''
-#     p[0] = (p[1], p[2], p[3])
-#
-# def p_perform(p):
-#     '''
-#     perform_statement : PERFORM maybe_statement
-#                       | PERFORM statement
-#     '''
-#
-# def p_or(p):
-#     '''
-#     or_statement : OR statement
-#                  | OR maybe_statement
-#                  | empty
-#     '''
-#     p[0] = (p[1], p[2], p[3], p[4], p[5])
-#
-
-# def p_maybe(p):
-#     '''
-#     conditional : MAYBE rel_exp statements
-#
-#     '''
-#     p[0] = (p[1], p[2], p[3])
-#
-# def p_or_maybe(p):
-#     '''
-#     conditional : MAYBE rel_exp statements OR statements
-#
-#     '''
-#     p[0] = (p[1], p[4], p[2], p[3], p[5])
-#
-# def p_statements(p):
-#     '''
-#     statements :  LBRACE exps RBRACE
-#     '''
-#     p[0] = (p[2])
-#
-# def p_exps(p):
-#     '''
-#     exps : EXPS exp exps
-#          | EXPS assign_identifier exps
-#          | EXPS snake_list exps
-#          | EXPS snake_list_access exps
-#          | EXPS rel_exp exps
-#          | EXPS conditional exps
-#          | EXPS empty exps
-#          | EXPS empty
-#     '''
-#     p[0] = ('exps', p[1], p[2])
 
 def p_stmt(p):
     '''
@@ -380,22 +175,11 @@ def p_assign_identifier(p):
     '''
     p[0] = ('=', p[1], p[3])
 
-
-# def p_assign_identifier_error(p):
-#     print('duplicate identifier detected')
-
 def p_disp_var(p):
     '''
     disp_var : DISP IDENTIFIER
     '''
     p[0] = ('disp', p[2])
-
-# def p_disp_list(p):
-#     '''
-#     disp_list : DISP IDENTIFIER
-#     '''
-#     p[0] = ('disp_list', p[2])
-
 
 def p_exp(p):
     '''
@@ -466,10 +250,6 @@ def p_rel_exp_not_equal(p):
     '''
     p[0] = (p[2],p[3],p[1],p[4])
 
-# def p_if_then(p):
-#     'stmt : MAYBE rel_exp compoundstmt'
-#     p[0] = ('if-then', p[2], p[3])
-
 def p_stmt_if_then(p):
     'stmt : MAYBE rel_exp compoundstmt'
     p[0] = ('if-then', p[2], p[3])
@@ -477,22 +257,25 @@ def p_stmt_if_then_else(p):
     'stmt : MAYBE rel_exp compoundstmt OR compoundstmt'
     p[0] = ('if-then-else', p[2], p[3], p[5])
 
-
 def p_compoundstmt(p):
     'compoundstmt : LBRACE statements RBRACE'
     p[0] = p[2]
+
 def p_statements(p):
     'statements : stmt SEMICOLON statements'
     if p[3] is not None:
         p[0] = [ p[1] ] + p[3]
     else:
         p[0] = [p[1]]
+
 def p_statements_empty(p):
     'statements : empty'
     p[0] = p[1]
+
 def p_yapl_if_then(p):
     'yapl_mnm : MAYBE rel_exp compoundstmt'
     p[0] = ('if-then', p[2], p[3])
+
 def p_yapl_if_then_else(p):
     'yapl_mnm : MAYBE rel_exp compoundstmt OR compoundstmt'
     p[0] = ('if-then-else', p[2], p[3], p[5])
@@ -500,6 +283,7 @@ def p_yapl_if_then_else(p):
 def p_error(p):
 
     print('Syntax Error found in input!')
+
 
 
 def interpret(p, env):
@@ -550,15 +334,6 @@ def interpret(p, env):
                 print('undeclared variable!')
                 exit()
             print(env[p[1]])
-        # elif p[0] == 'disp_list':
-        #     if p[1] not in env:
-        #         print('undeclared variable!')
-        #         exit()
-        #     for i in env[p[1]]:
-        #         print(env[i])
-
-        # elif p[0] == 'til':
-        #         return interpret(p[4])
         elif p[0] == 'if-then':
             if interpret(p[1], env) == True:
                 return interpret(p[2], env)
@@ -567,7 +342,6 @@ def interpret(p, env):
                 return interpret(p[2], env)
             else:
                 return interpret(p[3], env)
-
         elif p[0] == 'til':
             interpret(p[1], env)
             _results = []
@@ -575,30 +349,6 @@ def interpret(p, env):
                 _results.append(interpret(p[4], env))
                 interpret(p[3], env)
             return _results
-            # if interpret(p[1], env) == True:
-            #     return interpret(p[2], env)
-
-
-        # elif p[0] == 'maybe-then':
-        #
-        #        if p[1] == True:
-        #            return interpret(p[2], env)
-        #        else:
-        #            return
-        # elif p[0] == 'stmt':
-        #     return  interpret(p[1], env)
-
-        # elif p[0] == 'maybe' and p[3] == 'or':
-        #     pass
-        # elif p[0] == 'exps':
-        #     interpret(p[1], env)
-        # elif p[0] == 'maybe':
-        #     if(interpret(p[1], env) == True):
-        #         interpret(p[2], env)
-        #     else:
-        #         return ''
-        # elif p[0] == 'maybe' and p[1] == 'or':
-        #     pass
         elif p[0] == 'suppose':
             if p[1] in env:
                 print('duplicate identifier detected')
