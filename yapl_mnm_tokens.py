@@ -51,7 +51,8 @@ reserved = {
     'access': 'ACCESS',
     'g1' : 'G1',
     'perform': 'PERFORM',
-    'end': 'END'
+    'end': 'END',
+    'disp': 'DISP',
 
 }
 
