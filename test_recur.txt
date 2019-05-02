@@ -1,14 +1,26 @@
 machine fun(a,b)
 {
 
-	maybe b == 0
-		{fire 0;};
-	maybe b % 2 == 0
-		{fire fun(a+a, b/2);};
-
-	fire fun(a+a,b/2) + a;
+maybe b == 0 
+{fire 0;};
+suppose c = b % 2;
+maybe c == 0
+{
+suppose d = a+a;
+suppose e = b / 2;
+suppose s = fun(d,e);
+fire s;
 
 
 };
 
-fun(a,b);
+suppose f = a+a; 
+suppose g = b/2;
+suppose h = fun(f,g);
+suppose i = h + a;
+
+fire i;
+
+};
+
+fun(1,2);

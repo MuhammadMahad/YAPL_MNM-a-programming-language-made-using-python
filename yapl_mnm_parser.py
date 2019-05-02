@@ -48,7 +48,6 @@ tokens = (
     'LPAREN',  # (
     'RPAREN',  # )
 
-
 )
 
 reserved = {
@@ -104,12 +103,12 @@ def p_main_statement(p):
 def p_til_loop(p):
     'til : TIL LPAREN assign_identifier rel_exp exp RPAREN compoundstmt'
     # while interpret(p[4]):
-    p[0] = ('til', p[3], p[4], p[5], p[7])
+    p[0] = ('til', p[3], p[4], p[5], p[7],p.lineno(1))
 
 
 def p_work_until_loop(p):
     'until : WORK compoundstmt UNTIL LPAREN rel_exp RPAREN'
-    p[0] = ('work', p[2], p[5])
+    p[0] = ('work', p[2], p[5], p.lineno(1))
 
 
 def p_stmt(p):
@@ -135,7 +134,8 @@ def p_intialize_snake(p):
                | SNAKE IDENTIFIER EQUAL string_snake
                | SNAKE IDENTIFIER EQUAL bool_snake
     '''
-    p[0] = ('snake', p[2], p[4])
+    p[0] = ('snake', p[2], p[4],p.lineno(1))
+
 
 #
 # def p_assign_snake(p):
@@ -146,7 +146,7 @@ def p_access_snake(p):
     '''
     snake_list_access : ACCESS IDENTIFIER NUMBER
     '''
-    p[0] = ('access', p[2], p[3])
+    p[0] = ('access', p[2], p[3],p.lineno(1))
 
 
 def p_num_snake(p):
@@ -197,35 +197,35 @@ def p_initialize_identifier(p):
     '''
     assign_identifier : SUPPOSE IDENTIFIER EQUAL stmt
     '''
-    p[0] = ('suppose', p[2], p[4])
+    p[0] = ('suppose', p[2], p[4], p.lineno(1))
 
 
 def p_assign_identifier(p):
     '''
     assign_identifier : IDENTIFIER EQUAL stmt
     '''
-    p[0] = ('=', p[1], p[3])
+    p[0] = ('=', p[1], p[3],p.lineno(1))
 
 
 def p_disp_var(p):
     '''
     disp_var : DISP IDENTIFIER
     '''
-    p[0] = ('disp_var', p[2])
+    p[0] = ('disp_var', p[2],p.lineno(1))
 
 
 def p_disp_string(p):
     '''
     disp_string : DISP STRING
     '''
-    p[0] = ('disp_string', p[2])
+    p[0] = ('disp_string', p[2],p.lineno(1))
 
 
 def p_disp_list(p):
     '''
     disp_list : DISPL IDENTIFIER
     '''
-    p[0] = ('disp_list', p[2])
+    p[0] = ('disp_list', p[2],p.lineno(1))
 
 
 def p_exp(p):
@@ -236,7 +236,7 @@ def p_exp(p):
         | exp MINUS exp
         | exp MOD exp
     '''
-    p[0] = (p[2], p[1], p[3])
+    p[0] = (p[2], p[1], p[3], p.lineno(1))
 
 
 def p_exp_increment_decrement(p):
@@ -244,7 +244,7 @@ def p_exp_increment_decrement(p):
     exp : exp PLUSPLUS
         | exp MINUSMINUS
     '''
-    p[0] = (p[2], p[1])
+    p[0] = (p[2], p[1], p.lineno(1))
 
 
 def p_exp_uminus(p):
@@ -279,7 +279,7 @@ def p_exp_identifier(p):
     '''
     exp : IDENTIFIER
     '''
-    p[0] = ('identifier', p[1])
+    p[0] = ('identifier', p[1],p.lineno(1))
 
 
 def p_rel_exp(p):
@@ -293,24 +293,24 @@ def p_rel_exp(p):
 
     '''
 
-    p[0] = (p[2], p[1], p[3])
+    p[0] = (p[2], p[1], p[3], p.lineno(1))
 
 
 def p_rel_exp_not_equal(p):
     '''
     rel_exp : exp NOT EQUAL exp
     '''
-    p[0] = (p[2], p[3], p[1], p[4])
+    p[0] = (p[2], p[3], p[1], p[4], p.lineno(1))
 
 
 def p_stmt_if_then(p):
     'stmt : MAYBE rel_exp compoundstmt'
-    p[0] = ('if-then', p[2], p[3])
+    p[0] = ('if-then', p[2], p[3], p.lineno(1))
 
 
 def p_stmt_if_then_else(p):
     'stmt : MAYBE rel_exp compoundstmt OR compoundstmt'
-    p[0] = ('if-then-else', p[2], p[3], p[5])
+    p[0] = ('if-then-else', p[2], p[3], p[5], p.lineno(1))
 
 
 def p_compoundstmt(p):
@@ -333,52 +333,52 @@ def p_statements_empty(p):
 
 def p_yapl_if_then(p):
     'main_statement : MAYBE rel_exp compoundstmt'
-    p[0] = ('if-then', p[2], p[3])
+    p[0] = ('if-then', p[2], p[3], p.lineno(1))
 
 
 def p_yapl_if_then_else(p):
     'main_statement : MAYBE rel_exp compoundstmt OR compoundstmt'
-    p[0] = ('if-then-else', p[2], p[3], p[5])
+    p[0] = ('if-then-else', p[2], p[3], p[5], p.lineno(1))
 
 
 def p_yapl_pop_list(p):
     'main_statement : POP IDENTIFIER NUMBER'
-    p[0] = ('pop', p[2], p[3])
+    p[0] = ('pop', p[2], p[3],p.lineno(1))
 
 
 def p_stmt_pop_list(p):
     'stmt : POP IDENTIFIER NUMBER'
-    p[0] = ('pop', p[2], p[3])
+    p[0] = ('pop', p[2], p[3], p.lineno(1))
 
 
 def p_yapl_push_list(p):
     'main_statement : IDENTIFIER PUSH NUMBER'
-    p[0] = (p[2], p[1], p[3])
+    p[0] = (p[2], p[1], p[3], p.lineno(1))
 
 
 def p_stmt_push_list(p):
     'stmt : IDENTIFIER PUSH NUMBER'
-    p[0] = (p[2], p[1], p[3])
+    p[0] = (p[2], p[1], p[3], p.lineno(1))
 
 
 def p_yapl_slice_list(p):
     'main_statement : IDENTIFIER SLICE NUMBER NUMBER'
-    p[0] = (p[2], p[1], p[3], p[4])
+    p[0] = (p[2], p[1], p[3], p[4],p.lineno(1))
 
 
 def p_stmt_slice_list(p):
     'stmt : IDENTIFIER SLICE NUMBER NUMBER'
-    p[0] = (p[2], p[1], p[3], p[4])
+    p[0] = (p[2], p[1], p[3], p[4], p.lineno(1))
 
 
 def p_stmt_slice_list_eq(p):
     'stmt : IDENTIFIER EQUAL IDENTIFIER SLICE NUMBER NUMBER'
-    p[0] = ('slice_copy', p[1], p[3], p[5], p[6])
+    p[0] = ('slice_copy', p[1], p[3], p[5], p[6], p.lineno(1))
 
 
 def p_func_definition(p):
     'stmt : MACHINE IDENTIFIER LPAREN optparams RPAREN compoundstmt'
-    p[0] = ('machine', p[2], p[4], p[6])
+    p[0] = ('machine', p[2], p[4], p[6], p.lineno(1))
 
 
 def p_optparams(p):
@@ -403,7 +403,7 @@ def p_params_last(p):
 
 def p_func_call(p):
     "stmt : IDENTIFIER LPAREN optparams RPAREN"
-    p[0] = ('machine_run', p[1], p[3])
+    p[0] = ('machine_run', p[1], p[3], p.lineno(1))
 
 
 # def p_func_call_assign(p):
@@ -412,12 +412,12 @@ def p_func_call(p):
 
 def p_return(p):
     'stmt : FIRE stmt'
-    p[0] = ('fire', p[2])
+    p[0] = ('fire', p[2], p.lineno(1))
 
 
 def p_struct_define(p):
     'stmt : COMPLEX IDENTIFIER LBRACE attributes RBRACE'
-    p[0] = ('complex', p[2], p[4])
+    p[0] = ('complex', p[2], p[4], p.lineno(1))
 
 
 def p_attributes(p):
@@ -432,6 +432,7 @@ def p_attribute_last(p):
     'attributes : IDENTIFIER SEMICOLON'
     p[0] = [p[1]]
 
+
 def p_attributes_empty(p):
     'attributes : empty'
     p[0] = p[1]
@@ -439,19 +440,23 @@ def p_attributes_empty(p):
 
 def p_struct_make(p):
     'stmt : NEW IDENTIFIER IDENTIFIER'
-    p[0] = ('new', p[2], p[3])
+    p[0] = ('new', p[2], p[3], p.lineno(1))
+
 
 def p_struct_obj_set_attr(p):
     'stmt : IDENTIFIER ACCESS IDENTIFIER EQUAL exp'
-    p[0] = ('struct_set_attr', p[1], p[3], p[5])
+    p[0] = ('struct_set_attr', p[1], p[3], p[5], p.lineno(1))
+
 
 def p_disp_attr(p):
     'stmt : DISP IDENTIFIER ACCESS IDENTIFIER'
-    p[0] = ('disp_attr', p[2], p[4])
+    p[0] = ('disp_attr', p[2], p[4],p.lineno(1))
+
 
 def p_struct_obj_get_attr(p):
     'stmt : IDENTIFIER ACCESS IDENTIFIER'
-    p[0] = ('struct_obj_get_attr', p[1], p[3])
+    p[0] = ('struct_obj_get_attr', p[1], p[3], p.lineno(1))
+
 
 def p_error(p):
     if p != None:
@@ -508,7 +513,7 @@ def interpret(p, env_tuple):
         elif p[0] == '++' and p[1] and p[1][0] == 'identifier':
             stored_value = env_lookup(p[1][1], env_tuple)
             if stored_value == None:
-                print('Undefined variable {0}'.format(p[1][1]))
+                print('Undefined variable at {0}'.format(p[1][1])  )
                 # get value from lookup, +1 it and then update it
                 exit()
             incremented_value = stored_value + 1
@@ -670,7 +675,7 @@ def interpret(p, env_tuple):
             for attribute in struct_attrs:
                 obj_dict[attribute] = None
 
-            add_to_env(p[2],obj_dict,env_tuple)
+            add_to_env(p[2], obj_dict, env_tuple)
 
         elif p[0] == 'struct_set_attr':
             struct_attr_dict = env_lookup(p[1], env_tuple)
@@ -682,10 +687,10 @@ def interpret(p, env_tuple):
                 print('no such variable declared in structure definition')
                 exit()
 
-            value_to_set = interpret(p[3],env_tuple)
+            value_to_set = interpret(p[3], env_tuple)
             struct_attr_dict[p[2]] = value_to_set
 
-            env_update(p[1],struct_attr_dict,env_tuple)
+            env_update(p[1], struct_attr_dict, env_tuple)
 
         elif p[0] == 'struct_obj_get_attr':
             struct_attr_dict = env_lookup(p[1], env_tuple)
@@ -698,7 +703,7 @@ def interpret(p, env_tuple):
                 exit()
             value_to_get = struct_attr_dict[p[2]]
 
-            return  value_to_get
+            return value_to_get
 
         elif p[0] == 'disp_attr':
             struct_attr_dict = env_lookup(p[1], env_tuple)
@@ -709,7 +714,7 @@ def interpret(p, env_tuple):
             if p[2] not in struct_attr_dict:
                 print('no such variable declared in structure definition')
                 exit()
-            value_to_get =  struct_attr_dict[p[2]]
+            value_to_get = struct_attr_dict[p[2]]
 
             print(value_to_get)
 
@@ -732,7 +737,7 @@ def interpret(p, env_tuple):
         elif p[0] == 'suppose':
             stored_value = env_lookup(p[1], env_tuple)
             if stored_value != None:
-                print('duplicate identifier detected')
+                print('duplicate identifier detected on line ' + str(p[3]))
                 exit()
             value_to_store = interpret(p[2], env_tuple)
             add_to_env(p[1], value_to_store, env_tuple)
@@ -788,8 +793,8 @@ env_tuple = (None, {})
 # test_do_while = open("test_do_while.txt", "r")
 # test_if_for = open("test_if_for.txt", "r")
 # test_func= open("test_func.txt", "r")
-# test_recur = open("test_recur.txt", "r")
-test_struct = open("test_struct.txt", "r")
+test_recur = open("test_recur.txt", "r")
+# test_struct = open("test_struct.txt", "r")
 
 # input_string = test.read()
 # input_string = test_list_methods.read()
@@ -798,8 +803,8 @@ test_struct = open("test_struct.txt", "r")
 # input_string = test_do_while.read()
 # input_string = test_if_for.read()
 # input_string = test_func.read()
-# input_string = test_recur.read()
-input_string = test_struct.read()
+input_string = test_recur.read()
+# input_string = test_struct.read()
 
 # input_string = input('>> ')
 
