@@ -1,9 +1,31 @@
-complex temp_name {
+complex b{
 
-suppose a = 0;
+a;
+b;
+c;
 
 };
 
-temp_name a_struct;
-a_struct.a = 5;
-disp a_struct.a
+new b a_struct;
+a_struct access a = 5;
+disp a_struct access a;
+suppose f = a_struct access a;
+disp f;
+a_struct access b = 3;
+a_struct access c = 7;
+disp a_struct access b;
+disp a_struct access c;
+
+new b c_struct;
+
+c_struct access a = 19;
+c_struct access b = 17;
+c_struct access c = 20;
+disp c_struct access c ;
+disp c_struct access b ;
+disp c_struct access a ;
+disp c_struct access c ;
+
+
+
+

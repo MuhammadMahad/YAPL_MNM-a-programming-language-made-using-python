@@ -48,6 +48,7 @@ tokens = (
     'LPAREN',  # (
     'RPAREN',  # )
 
+
 )
 
 reserved = {
@@ -75,6 +76,7 @@ reserved = {
     'slice': 'SLICE',
     'leave': 'LEAVE',
     'displ': 'DISPL',
+    'new': 'NEW',
 
 }
 
@@ -135,9 +137,9 @@ def p_intialize_snake(p):
     '''
     p[0] = ('snake', p[2], p[4])
 
-
-def p_assign_snake(p):
-    pass
+#
+# def p_assign_snake(p):
+#     pass
 
 
 def p_access_snake(p):
@@ -378,9 +380,11 @@ def p_func_definition(p):
     'stmt : MACHINE IDENTIFIER LPAREN optparams RPAREN compoundstmt'
     p[0] = ('machine', p[2], p[4], p[6])
 
+
 def p_optparams(p):
     'optparams : params'
     p[0] = p[1]
+
 
 def p_optparams_empty(p):
     'optparams : empty'
@@ -396,9 +400,11 @@ def p_params_last(p):
     'params : stmt'
     p[0] = [p[1]]
 
+
 def p_func_call(p):
     "stmt : IDENTIFIER LPAREN optparams RPAREN"
-    p[0] = ('machine_run',p[1], p[3])
+    p[0] = ('machine_run', p[1], p[3])
+
 
 # def p_func_call_assign(p):
 #     'stmt : SUPPOSE IDENTIFIER EQUAL IDENTIFIER LPAREN optparams RPAREN'
@@ -406,14 +412,50 @@ def p_func_call(p):
 
 def p_return(p):
     'stmt : FIRE stmt'
-    p[0] = ('fire',p[2])
+    p[0] = ('fire', p[2])
 
 
+def p_struct_define(p):
+    'stmt : COMPLEX IDENTIFIER LBRACE attributes RBRACE'
+    p[0] = ('complex', p[2], p[4])
+
+
+def p_attributes(p):
+    'attributes : IDENTIFIER SEMICOLON attributes'
+    if p[3] == None:
+        p[0] = [p[1]]
+    else:
+        p[0] = [p[1]] + p[3]
+
+
+def p_attribute_last(p):
+    'attributes : IDENTIFIER SEMICOLON'
+    p[0] = [p[1]]
+
+def p_attributes_empty(p):
+    'attributes : empty'
+    p[0] = p[1]
+
+
+def p_struct_make(p):
+    'stmt : NEW IDENTIFIER IDENTIFIER'
+    p[0] = ('new', p[2], p[3])
+
+def p_struct_obj_set_attr(p):
+    'stmt : IDENTIFIER ACCESS IDENTIFIER EQUAL exp'
+    p[0] = ('struct_set_attr', p[1], p[3], p[5])
+
+def p_disp_attr(p):
+    'stmt : DISP IDENTIFIER ACCESS IDENTIFIER'
+    p[0] = ('disp_attr', p[2], p[4])
+
+def p_struct_obj_get_attr(p):
+    'stmt : IDENTIFIER ACCESS IDENTIFIER'
+    p[0] = ('struct_obj_get_attr', p[1], p[3])
 
 def p_error(p):
     if p != None:
         print("Syntax Error found in input on line " + str(p.lineno))
-
 
 
 def env_lookup(vname, env):
@@ -431,6 +473,7 @@ def env_update(vname, value, env):
         env[1][vname] = value
     elif not env[0] == None:
         env_update(vname, value, env[0])
+
 
 def add_to_env(vname, value, env):
     if vname in env[1]:
@@ -495,7 +538,7 @@ def interpret(p, env_tuple):
         elif p[0] == '(' and p[1] == ')':
             return interpret(p[2], env_tuple)
         elif p[0] == 'disp_var':
-            stored_value = env_lookup(p[1],env_tuple)
+            stored_value = env_lookup(p[1], env_tuple)
             if stored_value == None:
                 print('undeclared variable!')
                 exit()
@@ -503,7 +546,7 @@ def interpret(p, env_tuple):
         elif p[0] == 'disp_string':
             print(p[1])
         elif p[0] == 'disp_list':
-            stored_value = env_lookup(p[1],env_tuple)
+            stored_value = env_lookup(p[1], env_tuple)
             if stored_value == None:
                 print('undeclared variable!')
                 exit()
@@ -518,12 +561,12 @@ def interpret(p, env_tuple):
             else:
                 return interpret(p[3], env_tuple)
         elif p[0] == 'pop':
-            stored_value = env_lookup(p[1],env_tuple)
+            stored_value = env_lookup(p[1], env_tuple)
             if stored_value == None:
                 return 'undeclared variable!'
             if interpret(p[2], env_tuple) == 0:
                 poped_value = stored_value.pop(0)
-                env_update(p[1],poped_value,env_tuple)
+                env_update(p[1], poped_value, env_tuple)
                 return poped_value
             elif interpret(p[2], env_tuple) == 1:
                 poped_value = stored_value.pop(-1)
@@ -543,17 +586,17 @@ def interpret(p, env_tuple):
             start = interpret(p[2], env_tuple)
             end = interpret(p[3], env_tuple)
             sliced_value = stored_value[int(start):int(end)]
-            env_update(p[1],sliced_value,env_tuple)
+            env_update(p[1], sliced_value, env_tuple)
             return sliced_value
         elif p[0] == 'slice_copy':
-            stored_value = env_lookup(p[1],env_tuple)
+            stored_value = env_lookup(p[1], env_tuple)
             if stored_value == None:
                 return 'undeclared variable!'
             start = interpret(p[3], env_tuple)
             end = interpret(p[4], env_tuple)
-            stored_value_2 = env_lookup(p[2],env_tuple)
+            stored_value_2 = env_lookup(p[2], env_tuple)
             value_spliced_from_2 = stored_value_2[int(start):int(end) + 1]
-            env_update(p[1],value_spliced_from_2,env_tuple)
+            env_update(p[1], value_spliced_from_2, env_tuple)
 
         elif p[0] == 'leave':
             return p[0]
@@ -603,28 +646,74 @@ def interpret(p, env_tuple):
                     return return_value
             return return_value
 
-        # elif p[0] == 'suppose_machine_run':
-        #     func_name = p[2]
-        #     _function = env_lookup(func_name, env_tuple)
-        #     if not _function:
-        #         print('Undefined function call')
-        #         exit()
-        #
-        #     parameters = p[3]
-        #     function_env = {}
-        #
-        #     index = 0
-        #     for param in _function["parameters"]:
-        #         function_env[param] = parameters[index]
-        #         index += 1
-        #
-        #     return_value = None
-        #     for statement in _function["statements"]:
-        #         return_value = interpret(statement, (env_tuple, function_env))
-        #         if statement[0] and statement[0] == 'fire':
-        #             add_to_env(p[1],return_value,env_tuple)
-        #     add_to_env(p[1],return_value,env_tuple)
-        #
+        elif p[0] == 'complex':
+            stored_value = env_lookup(p[1], env_tuple)
+            if stored_value != None:
+                print('duplicate structure detected')
+                exit()
+
+            struct_dict = {"attributes": p[2]}
+            add_to_env(p[1], struct_dict, env_tuple)
+
+        elif p[0] == 'new':
+            stored_value = env_lookup(p[1], env_tuple)
+            if stored_value == None:
+                print('undeclared structure!')
+                exit()
+            stored_value_2 = env_lookup(p[2], env_tuple)
+            if stored_value_2 != None:
+                print('duplicate structure object of type ' + str(p[1]))
+                exit()
+
+            struct_attrs = stored_value["attributes"]
+            obj_dict = {}
+            for attribute in struct_attrs:
+                obj_dict[attribute] = None
+
+            add_to_env(p[2],obj_dict,env_tuple)
+
+        elif p[0] == 'struct_set_attr':
+            struct_attr_dict = env_lookup(p[1], env_tuple)
+            if struct_attr_dict == None:
+                print('undeclared structure object!')
+                exit()
+
+            if p[2] not in struct_attr_dict:
+                print('no such variable declared in structure definition')
+                exit()
+
+            value_to_set = interpret(p[3],env_tuple)
+            struct_attr_dict[p[2]] = value_to_set
+
+            env_update(p[1],struct_attr_dict,env_tuple)
+
+        elif p[0] == 'struct_obj_get_attr':
+            struct_attr_dict = env_lookup(p[1], env_tuple)
+            if struct_attr_dict == None:
+                print('undeclared structure object!')
+                exit()
+
+            if p[2] not in struct_attr_dict:
+                print('no such variable declared in structure definition')
+                exit()
+            value_to_get = struct_attr_dict[p[2]]
+
+            return  value_to_get
+
+        elif p[0] == 'disp_attr':
+            struct_attr_dict = env_lookup(p[1], env_tuple)
+            if struct_attr_dict == None:
+                print('undeclared structure object!')
+                exit()
+
+            if p[2] not in struct_attr_dict:
+                print('no such variable declared in structure definition')
+                exit()
+            value_to_get =  struct_attr_dict[p[2]]
+
+            print(value_to_get)
+
+
 
         elif p[0] == 'fire':
             return interpret(p[1], env_tuple)
@@ -641,12 +730,12 @@ def interpret(p, env_tuple):
                 _results.append(_result)
             return _results
         elif p[0] == 'suppose':
-            stored_value = env_lookup(p[1],env_tuple)
+            stored_value = env_lookup(p[1], env_tuple)
             if stored_value != None:
                 print('duplicate identifier detected')
                 exit()
             value_to_store = interpret(p[2], env_tuple)
-            add_to_env(p[1],value_to_store,env_tuple)
+            add_to_env(p[1], value_to_store, env_tuple)
             return ''
         elif p[0] == 'snake':
             stored_value = env_lookup(p[1], env_tuple)
@@ -657,7 +746,7 @@ def interpret(p, env_tuple):
             for item in p[2]:
                 part = interpret(item, env_tuple)
                 result.append(part)
-            add_to_env(p[1],result,env_tuple)
+            add_to_env(p[1], result, env_tuple)
             # return ''
         elif p[0] == 'access':
             stored_value = env_lookup(p[1], env_tuple)
@@ -672,8 +761,8 @@ def interpret(p, env_tuple):
         elif p[0] == '=':
             stored_value = env_lookup(p[1], env_tuple)
             if stored_value != None:
-                value_to_store =  interpret(p[2], env_tuple)
-                env_update(p[1],value_to_store,env_tuple)
+                value_to_store = interpret(p[2], env_tuple)
+                env_update(p[1], value_to_store, env_tuple)
             else:
                 print('cannot assign undeclared variable')
                 exit()

@@ -32,6 +32,7 @@ tokens = (
     'LPAREN',  # (
     'RPAREN',  # )
 
+
 )
 
 reserved = {
@@ -58,6 +59,7 @@ reserved = {
     'slice': 'SLICE',
     'leave':'LEAVE',
     'displ': 'DISPL',
+    'new': 'NEW',
 
 }
 
@@ -124,6 +126,8 @@ t_LSQUAREPAREN = r'\['
 t_RSQUAREPAREN = r'\]'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
+
+
 
 def t_IDENTIFIER(token):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
