@@ -1,6 +1,5 @@
-machine plus(a , b) {
-	fire a + b;
-};
-
-suppose c = plus(1,2);
-disp c;
+snake a = 2,3,4,5 ;
+suppose b = access a 0;
+disp b;
+b = 1 + b;
+disp b;

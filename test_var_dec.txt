@@ -2,7 +2,7 @@ suppose a = "initial";
 suppose b = 1;
 suppose c = 2;
 suppose d = True;
-suppose e = 0;
+suppose e;
 suppose f = "short";
 
 disp a;
@@ -11,3 +11,4 @@ disp c;
 disp d;
 disp e;
 disp f;
+
