@@ -41,10 +41,10 @@ tokens = (
     'STRING',  #### Not used in this problem.
     'TIMES',  # *
     'MOD',  # %
-    'PLUSPLUS', # ++
-    'MINUSMINUS', # --
-    'LSQUAREPAREN', # [
-    'RSQUAREPAREN', # ]
+    'PLUSPLUS',  # ++
+    'MINUSMINUS',  # --
+    'LSQUAREPAREN',  # [
+    'RSQUAREPAREN',  # ]
     'LPAREN',  # (
     'RPAREN',  # )
 
@@ -66,19 +66,20 @@ reserved = {
     'False': 'FALSE',
     'access': 'ACCESS',
     'exps': 'EXPS',
-    'g1' : 'G1',
+    'g1': 'G1',
     'perform': 'PERFORM',
     'end': 'END',
     'disp': 'DISP',
     'pop': 'POP',
     'push': 'PUSH',
     'slice': 'SLICE',
-    'leave':'LEAVE',
+    'leave': 'LEAVE',
     'displ': 'DISPL',
 
 }
 
 tokens = list(tokens) + list(reserved.values())
+
 
 def p_yapl_mnm(p):
     '''
@@ -86,6 +87,7 @@ def p_yapl_mnm(p):
     '''
     # print (interpret(p[1]))
     p[0] = p[1]
+
 
 def p_stmt_break(p):
     '''stmt : LEAVE '''
@@ -96,14 +98,17 @@ def p_main_statement(p):
     'main_statement :  statements '
     p[0] = p[1]
 
+
 def p_til_loop(p):
     'til : TIL LPAREN assign_identifier rel_exp exp RPAREN compoundstmt'
     # while interpret(p[4]):
     p[0] = ('til', p[3], p[4], p[5], p[7])
 
+
 def p_work_until_loop(p):
     'until : WORK compoundstmt UNTIL LPAREN rel_exp RPAREN'
     p[0] = ('work', p[2], p[5])
+
 
 def p_stmt(p):
     '''
@@ -120,6 +125,7 @@ def p_stmt(p):
              | empty
     '''
     p[0] = p[1]
+
 
 def p_intialize_snake(p):
     '''
@@ -140,6 +146,7 @@ def p_access_snake(p):
     '''
     p[0] = ('access', p[2], p[3])
 
+
 def p_num_snake(p):
     '''
     num_snake : num_snake COMMA exp
@@ -151,6 +158,7 @@ def p_num_snake(p):
         p[0].append(p[3])
     else:
         p[0] = [p[1]]
+
 
 # int string bool
 def p_string_snake(p):
@@ -165,6 +173,7 @@ def p_string_snake(p):
     else:
         p[0] = [p[1]]
 
+
 def p_bool_snake(p):
     '''
     bool_snake : bool_snake COMMA bool
@@ -176,21 +185,25 @@ def p_bool_snake(p):
     else:
         p[0] = [p[1]]
 
+
 def p_empty(p):
     'empty :'
     p[0] = None
 
+
 def p_initialize_identifier(p):
     '''
-    assign_identifier : SUPPOSE IDENTIFIER EQUAL exp
+    assign_identifier : SUPPOSE IDENTIFIER EQUAL stmt
     '''
     p[0] = ('suppose', p[2], p[4])
 
+
 def p_assign_identifier(p):
     '''
-    assign_identifier : IDENTIFIER EQUAL exp
+    assign_identifier : IDENTIFIER EQUAL stmt
     '''
     p[0] = ('=', p[1], p[3])
+
 
 def p_disp_var(p):
     '''
@@ -198,17 +211,20 @@ def p_disp_var(p):
     '''
     p[0] = ('disp_var', p[2])
 
+
 def p_disp_string(p):
     '''
     disp_string : DISP STRING
     '''
     p[0] = ('disp_string', p[2])
 
+
 def p_disp_list(p):
     '''
     disp_list : DISPL IDENTIFIER
     '''
     p[0] = ('disp_list', p[2])
+
 
 def p_exp(p):
     '''
@@ -220,12 +236,14 @@ def p_exp(p):
     '''
     p[0] = (p[2], p[1], p[3])
 
+
 def p_exp_increment_decrement(p):
     '''
     exp : exp PLUSPLUS
         | exp MINUSMINUS
     '''
     p[0] = (p[2], p[1])
+
 
 def p_exp_uminus(p):
     'exp : MINUS exp %prec UMINUS'
@@ -254,11 +272,13 @@ def p_exp_bool(p):
     '''
     p[0] = p[1]
 
+
 def p_exp_identifier(p):
     '''
     exp : IDENTIFIER
     '''
     p[0] = ('identifier', p[1])
+
 
 def p_rel_exp(p):
     '''
@@ -271,71 +291,88 @@ def p_rel_exp(p):
 
     '''
 
-    p[0] = (p[2],p[1],p[3])
+    p[0] = (p[2], p[1], p[3])
+
 
 def p_rel_exp_not_equal(p):
     '''
     rel_exp : exp NOT EQUAL exp
     '''
-    p[0] = (p[2],p[3],p[1],p[4])
+    p[0] = (p[2], p[3], p[1], p[4])
+
 
 def p_stmt_if_then(p):
     'stmt : MAYBE rel_exp compoundstmt'
     p[0] = ('if-then', p[2], p[3])
+
+
 def p_stmt_if_then_else(p):
     'stmt : MAYBE rel_exp compoundstmt OR compoundstmt'
     p[0] = ('if-then-else', p[2], p[3], p[5])
+
 
 def p_compoundstmt(p):
     'compoundstmt : LBRACE statements RBRACE'
     p[0] = p[2]
 
+
 def p_statements(p):
     'statements : stmt SEMICOLON statements'
     if p[3] is not None:
-        p[0] = [ p[1] ] + p[3]
+        p[0] = [p[1]] + p[3]
     else:
         p[0] = [p[1]]
+
 
 def p_statements_empty(p):
     'statements : empty'
     p[0] = p[1]
 
+
 def p_yapl_if_then(p):
     'main_statement : MAYBE rel_exp compoundstmt'
     p[0] = ('if-then', p[2], p[3])
+
 
 def p_yapl_if_then_else(p):
     'main_statement : MAYBE rel_exp compoundstmt OR compoundstmt'
     p[0] = ('if-then-else', p[2], p[3], p[5])
 
+
 def p_yapl_pop_list(p):
     'main_statement : POP IDENTIFIER NUMBER'
     p[0] = ('pop', p[2], p[3])
+
 
 def p_stmt_pop_list(p):
     'stmt : POP IDENTIFIER NUMBER'
     p[0] = ('pop', p[2], p[3])
 
+
 def p_yapl_push_list(p):
     'main_statement : IDENTIFIER PUSH NUMBER'
     p[0] = (p[2], p[1], p[3])
+
 
 def p_stmt_push_list(p):
     'stmt : IDENTIFIER PUSH NUMBER'
     p[0] = (p[2], p[1], p[3])
 
+
 def p_yapl_slice_list(p):
     'main_statement : IDENTIFIER SLICE NUMBER NUMBER'
-    p[0] = (p[2], p[1], p[3],p[4])
+    p[0] = (p[2], p[1], p[3], p[4])
+
 
 def p_stmt_slice_list(p):
     'stmt : IDENTIFIER SLICE NUMBER NUMBER'
-    p[0] = (p[2], p[1], p[3],p[4])
+    p[0] = (p[2], p[1], p[3], p[4])
+
 
 def p_stmt_slice_list_eq(p):
     'stmt : IDENTIFIER EQUAL IDENTIFIER SLICE NUMBER NUMBER'
-    p[0] = ('slice_copy', p[1],p[3],p[5],p[6])
+    p[0] = ('slice_copy', p[1], p[3], p[5], p[6])
+
 
 def p_func_definition(p):
     'stmt : MACHINE IDENTIFIER LPAREN optparams RPAREN compoundstmt'
@@ -349,17 +386,35 @@ def p_optparams_empty(p):
     'optparams : empty'
     p[0] = []
 
+
 def p_params(p):
-    'params : IDENTIFIER COMMA params'
-    p[0] = [ p[1] ] + p[3]
+    'params : stmt COMMA params'
+    p[0] = [p[1]] + p[3]
+
 
 def p_params_last(p):
-    'params : IDENTIFIER'
-    p[0] = [ p[1] ]
+    'params : stmt'
+    p[0] = [p[1]]
+
+def p_func_call(p):
+    "stmt : IDENTIFIER LPAREN optparams RPAREN"
+    p[0] = ('machine_run',p[1], p[3])
+
+# def p_func_call_assign(p):
+#     'stmt : SUPPOSE IDENTIFIER EQUAL IDENTIFIER LPAREN optparams RPAREN'
+#     p[0] = ('suppose_machine_run', p[2], p[4],p[6])
+
+def p_return(p):
+    'stmt : FIRE stmt'
+    p[0] = ('fire',p[2])
+
+
 
 def p_error(p):
+    if p != None:
+        print("Syntax Error found in input on line " + str(p.lineno))
 
-    print('Syntax Error found in input!')
+
 
 def env_lookup(vname, env):
     # (parent, dictionary)
@@ -368,174 +423,266 @@ def env_lookup(vname, env):
     elif env[0] == None:
         return None
     else:
-        return env_lookup(vname,env[0])
+        return env_lookup(vname, env[0])
 
-def env_update(vname,value,env):
+
+def env_update(vname, value, env):
     if vname in env[1]:
         env[1][vname] = value
     elif not env[0] == None:
-        env_update(vname,value,env[0])
+        env_update(vname, value, env[0])
+
+def add_to_env(vname, value, env):
+    if vname in env[1]:
+        print("duplicate variable!")
+        exit()
+    env[1][vname] = value
 
 
 def interpret(p, env_tuple):
-    #print(p)
+    # print(p)
 
     if type(p) == list:
         result = []
         for stm in p:
-            _result = interpret(stm,env_tuple)
-            if _result == 'leave':
-                return 'leave'
+            _result = interpret(stm, env_tuple)
+            if stm == 'leave':
+                return _result
             result.append(_result)
         return result
 
     if type(p) == tuple:
         if p[0] == '+':
-            return interpret(p[1],env_tuple) + interpret(p[2],env_tuple)
+            return interpret(p[1], env_tuple) + interpret(p[2], env_tuple)
         elif p[0] == '-':
-            return interpret(p[1],env_tuple) - interpret(p[2],env_tuple)
+            return interpret(p[1], env_tuple) - interpret(p[2], env_tuple)
         elif p[0] == '*':
-            return interpret(p[1],env_tuple) * interpret(p[2],env_tuple)
+            return interpret(p[1], env_tuple) * interpret(p[2], env_tuple)
         elif p[0] == '/':
-            return interpret(p[1],env_tuple) / interpret(p[2],env_tuple)
+            return interpret(p[1], env_tuple) / interpret(p[2], env_tuple)
         elif p[0] == '%':
-            return interpret(p[1], env_tuple) % interpret(p[2],env_tuple)
+            return interpret(p[1], env_tuple) % interpret(p[2], env_tuple)
         elif p[0] == '++' and p[1] and p[1][0] == 'identifier':
-            if p[1][1] not in env:
+            stored_value = env_lookup(p[1][1], env_tuple)
+            if stored_value == None:
                 print('Undefined variable {0}'.format(p[1][1]))
-                #get value from lookup, +1 it and then
+                # get value from lookup, +1 it and then update it
                 exit()
-            value = env[p[1][1]]
-            env[p[1][1]] += 1
-            return value
+            incremented_value = stored_value + 1
+            env_update(p[1][1], incremented_value, env_tuple)
+            return stored_value
         elif p[0] == '--' and p[1] and p[1][0] == 'identifier':
-            if p[1][1] not in env:
+            stored_value = env_lookup(p[1][1], env_tuple)
+            if stored_value == None:
                 print('Undefined variable {0}'.format(p[1][1]))
+                # get value from lookup, +1 it and then update it
                 exit()
-            value = env[p[1][1]]
-            env[p[1][1]] -= 1
-            return value
+            decremented_value = stored_value - 1
+            env_update(p[1][1], decremented_value, env_tuple)
+            return stored_value
         elif p[0] == '>=':
-            return interpret(p[1],env_tuple) >= interpret(p[2],env_tuple)
+            return interpret(p[1], env_tuple) >= interpret(p[2], env_tuple)
         elif p[0] == '>':
-            return interpret(p[1],env_tuple) > interpret(p[2],env_tuple)
+            return interpret(p[1], env_tuple) > interpret(p[2], env_tuple)
         elif p[0] == '<=':
-            return interpret(p[1],env_tuple) <= interpret(p[2],env_tuple)
+            return interpret(p[1], env_tuple) <= interpret(p[2], env_tuple)
         elif p[0] == '<':
-            return interpret(p[1],env_tuple) < interpret(p[2],env_tuple)
+            return interpret(p[1], env_tuple) < interpret(p[2], env_tuple)
         elif p[0] == '==':
-            return interpret(p[1],env_tuple) == interpret(p[2],env_tuple)
+            return interpret(p[1], env_tuple) == interpret(p[2], env_tuple)
         elif p[0] == '!' and p[1] == '=':
-            return interpret(p[1],env_tuple) != interpret(p[2],env_tuple)
+            return interpret(p[1], env_tuple) != interpret(p[2], env_tuple)
         elif p[0] == '(' and p[1] == ')':
-            return interpret(p[2],env_tuple)
+            return interpret(p[2], env_tuple)
         elif p[0] == 'disp_var':
-            if p[1] not in env:
+            stored_value = env_lookup(p[1],env_tuple)
+            if stored_value == None:
                 print('undeclared variable!')
                 exit()
-            print(env[p[1]])
+            print(stored_value)
         elif p[0] == 'disp_string':
             print(p[1])
         elif p[0] == 'disp_list':
-            if p[1] not in env:
+            stored_value = env_lookup(p[1],env_tuple)
+            if stored_value == None:
                 print('undeclared variable!')
                 exit()
-            for item in env[p[1]]:
+            for item in stored_value:
                 print(item)
         elif p[0] == 'if-then':
-            if interpret(p[1],env_tuple) == True:
-                return interpret(p[2],env_tuple)
+            if interpret(p[1], env_tuple) == True:
+                return interpret(p[2], env_tuple)
         elif p[0] == 'if-then-else':
-            if interpret(p[1],env_tuple) == True:
-                return interpret(p[2],env_tuple)
+            if interpret(p[1], env_tuple) == True:
+                return interpret(p[2], env_tuple)
             else:
-                return interpret(p[3],env_tuple)
+                return interpret(p[3], env_tuple)
         elif p[0] == 'pop':
-            if p[1] not in env:
+            stored_value = env_lookup(p[1],env_tuple)
+            if stored_value == None:
                 return 'undeclared variable!'
-            if interpret(p[2],env_tuple) == 0:
-                return env[p[1]].pop(0)
-            elif interpret(p[2],env_tuple) == 1:
-                return env[p[1]].pop(-1)
+            if interpret(p[2], env_tuple) == 0:
+                poped_value = stored_value.pop(0)
+                env_update(p[1],poped_value,env_tuple)
+                return poped_value
+            elif interpret(p[2], env_tuple) == 1:
+                poped_value = stored_value.pop(-1)
+                env_update(p[1], poped_value, env_tuple)
+                return poped_value
         elif p[0] == 'push':
-            if p[1] not in env:
+            stored_value = env_lookup(p[1])
+            if stored_value == None:
                 return 'undeclared variable!'
-            number_to_push = interpret(p[2],env_tuple)
-            env[p[1]].append(number_to_push)
+            number_to_push = interpret(p[2], env_tuple)
+            pushed_value = stored_value.append(number_to_push)
+            env_update(p[1], pushed_value, env_tuple)
         elif p[0] == 'slice':
-            if p[1] not in env:
+            stored_value = env_lookup(p[1])
+            if stored_value == None:
                 return 'undeclared variable!'
-            start = interpret(p[2],env_tuple)
-            end = interpret(p[3],env_tuple)
-            return env[p[1]][int(start):int(end)]
+            start = interpret(p[2], env_tuple)
+            end = interpret(p[3], env_tuple)
+            sliced_value = stored_value[int(start):int(end)]
+            env_update(p[1],sliced_value,env_tuple)
+            return sliced_value
         elif p[0] == 'slice_copy':
-            if p[1] not in env:
+            stored_value = env_lookup(p[1],env_tuple)
+            if stored_value == None:
                 return 'undeclared variable!'
-            if p[1] in env:
-                start = interpret(p[3],env_tuple)
-                end = interpret(p[4],env_tuple)
-                env[p[1]] = env[p[2]][int(start):int(end)+1]
+            start = interpret(p[3], env_tuple)
+            end = interpret(p[4], env_tuple)
+            stored_value_2 = env_lookup(p[2],env_tuple)
+            value_spliced_from_2 = stored_value_2[int(start):int(end) + 1]
+            env_update(p[1],value_spliced_from_2,env_tuple)
 
         elif p[0] == 'leave':
             return p[0]
         elif p[0] == 'til':
-            interpret(p[1],env_tuple)
+            interpret(p[1], env_tuple)
             _results = []
-            while(interpret(p[2],env_tuple)):
-                _result = interpret(p[4],env_tuple)
+            while (interpret(p[2], env_tuple)):
+                _result = interpret(p[4], env_tuple)
                 if _result == "leave":
                     break
                 _results.append(_result)
-                interpret(p[3],env_tuple)
+                interpret(p[3], env_tuple)
             return _results
+        elif p[0] == 'machine':
+
+            if p[2] is None:
+                return add_to_env(p[1], {
+                    "statements": p[3],
+                    "parameters": []
+                }, env_tuple)
+            else:
+                return add_to_env(p[1], {
+                    "statements": p[3],
+                    "parameters": p[2]
+                }, env_tuple)
+
+        elif p[0] == 'machine_run':
+            func_name = p[1]
+            _function = env_lookup(func_name, env_tuple)
+            if not _function:
+                print('Undefined function call')
+                exit()
+
+            parameters = p[2]
+            function_env = {}
+
+            index = 0
+            for param in _function["parameters"]:
+                if param is not None:
+                    function_env[param[1]] = parameters[index]
+                index += 1
+
+            return_value = None
+            for statement in _function["statements"]:
+                return_value = interpret(statement, (env_tuple, function_env))
+                if statement[0] and statement[0] == 'fire':
+                    return return_value
+            return return_value
+
+        # elif p[0] == 'suppose_machine_run':
+        #     func_name = p[2]
+        #     _function = env_lookup(func_name, env_tuple)
+        #     if not _function:
+        #         print('Undefined function call')
+        #         exit()
+        #
+        #     parameters = p[3]
+        #     function_env = {}
+        #
+        #     index = 0
+        #     for param in _function["parameters"]:
+        #         function_env[param] = parameters[index]
+        #         index += 1
+        #
+        #     return_value = None
+        #     for statement in _function["statements"]:
+        #         return_value = interpret(statement, (env_tuple, function_env))
+        #         if statement[0] and statement[0] == 'fire':
+        #             add_to_env(p[1],return_value,env_tuple)
+        #     add_to_env(p[1],return_value,env_tuple)
+        #
+
+        elif p[0] == 'fire':
+            return interpret(p[1], env_tuple)
+
+
+
         elif p[0] == 'work':
             _results = []
-            _results.append(interpret(p[1],env_tuple))
-            while (interpret(p[2],env_tuple)):
-                _result = interpret(p[1],env_tuple)
+            _results.append(interpret(p[1], env_tuple))
+            while (interpret(p[2], env_tuple)):
+                _result = interpret(p[1], env_tuple)
                 if _result == "leave":
                     break
                 _results.append(_result)
             return _results
         elif p[0] == 'suppose':
-            if p[1] in env:
+            stored_value = env_lookup(p[1],env_tuple)
+            if stored_value != None:
                 print('duplicate identifier detected')
                 exit()
-                return ''
-            env[p[1]] = interpret(p[2],env_tuple)
+            value_to_store = interpret(p[2], env_tuple)
+            add_to_env(p[1],value_to_store,env_tuple)
             return ''
         elif p[0] == 'snake':
-            if p[1] in env:
+            stored_value = env_lookup(p[1], env_tuple)
+            if stored_value != None:
                 print('duplicate identifier detected')
                 exit()
-                #return ''
             result = []
             for item in p[2]:
-                part = interpret(item,env_tuple)
+                part = interpret(item, env_tuple)
                 result.append(part)
-            env[p[1]] = result
-            #return ''
+            add_to_env(p[1],result,env_tuple)
+            # return ''
         elif p[0] == 'access':
-            if p[1] in env:
-                 index = interpret(p[2],env_tuple)
-                 if index > len(env[p[1]]):
-                     print("list index out of range")
-                     exit()
-                     return ''
-                 print(env[p[1]][int(index)])
-                 return env[p[1]][int(index)]
+            stored_value = env_lookup(p[1], env_tuple)
+            if stored_value != None:
+                index = interpret(p[2], env_tuple)
+                if index > len(stored_value):
+                    print("list index out of range")
+                    exit()
+                    return ''
+                print(stored_value[int(index)])
+                return stored_value[int(index)]
         elif p[0] == '=':
-            if p[1] in env:
-                env[p[1]] = interpret(p[2],env_tuple)
+            stored_value = env_lookup(p[1], env_tuple)
+            if stored_value != None:
+                value_to_store =  interpret(p[2], env_tuple)
+                env_update(p[1],value_to_store,env_tuple)
             else:
                 print('cannot assign undeclared variable')
                 exit()
-            return ''
         elif p[0] == 'identifier':
-            if p[1] not in env:
+            stored_value = env_lookup(p[1], env_tuple)
+            if stored_value == None:
                 return 'undeclared variable!'
             else:
-                return env[p[1]]
+                return stored_value
     else:
         return p
 
@@ -543,21 +690,17 @@ def interpret(p, env_tuple):
 yapl_mnm_lexer = lex.lex(module=yapl_mnm_tokens)
 yapl_mnm_parser = yacc.yacc()
 
-
-
 env_tuple = (None, {})
-
-
 
 # test = open("test.txt", "r")
 # test_list_methods = open("test_list_methods.txt", "r")
-# test_list = open("test_list", "r")
+# test_list = open("test_list.txt", "r")
 # test_var_dec =open("test_var_dec.txt", "r")
 # test_do_while = open("test_do_while.txt", "r")
 # test_if_for = open("test_if_for.txt", "r")
-# test_func= open("test_func_test.txt", "r")
+# test_func= open("test_func.txt", "r")
 # test_recur = open("test_recur.txt", "r")
-# test_struct = open("test_struct.txt", "r")
+test_struct = open("test_struct.txt", "r")
 
 # input_string = test.read()
 # input_string = test_list_methods.read()
@@ -567,14 +710,13 @@ env_tuple = (None, {})
 # input_string = test_if_for.read()
 # input_string = test_func.read()
 # input_string = test_recur.read()
-# input_string = test_struct.read()
+input_string = test_struct.read()
 
-#input_string = input('>> ')
+# input_string = input('>> ')
 
 yapl_mnm_ast = yapl_mnm_parser.parse(input_string, lexer=yapl_mnm_lexer)
-interpret(yapl_mnm_ast,env_tuple)
-#print(yapl_mnm_ast)
-
+interpret(yapl_mnm_ast, env_tuple)
+# print(yapl_mnm_ast)
 
 
 # while True:
@@ -590,10 +732,7 @@ interpret(yapl_mnm_ast,env_tuple)
 #         continue
 #     yapl_mnm_ast = yapl_mnm_parser.parse(input_string, lexer=yapl_mnm_lexer)
 #     interpret(yapl_mnm_ast, env)
-    #print(yapl_mnm_ast)
-
-
-
+# print(yapl_mnm_ast)
 
 
 # while True:
@@ -604,7 +743,6 @@ interpret(yapl_mnm_ast,env_tuple)
 #     yapl_mnm_ast = yapl_mnm_parser.parse(input_string,lexer=yapl_mnm_lexer)
 #     print(yapl_mnm_ast)
 
-#if else statements
-#make relation expressions
-#look at BASIC example for if and for
-
+# if else statements
+# make relation expressions
+# look at BASIC example for if and for

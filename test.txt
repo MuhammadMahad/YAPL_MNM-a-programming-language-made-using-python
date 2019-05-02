@@ -1,3 +1,6 @@
-snake a = 2,3,4,5;
+machine plus(a , b) {
+	fire a + b;
+};
 
-displ a; 
+suppose c = plus(1,2);
+disp c;
